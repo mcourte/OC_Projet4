@@ -84,8 +84,3 @@ class Player :
         return self.score
 
 
-player1=Player()
-player1.CreatePlayer()
-
-player2=Player()
-player2.CreatePlayer()
