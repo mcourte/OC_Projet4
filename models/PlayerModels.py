@@ -28,8 +28,6 @@ class Player :
         ID = ''.join(ID_list)  
         return ID  
 
-
-
     def PlayerLastName(self) :
         self.name = input("Quel est le nom de famille du joueur?")
         if self.name == "" :
@@ -60,8 +58,6 @@ class Player :
         self.age= td.year - dob.year - ((td.month, td.day) < (dob.month, dob.day))
         
         return self.age
-
-
 
     def CreatePlayer(self) :
         self.name= self.PlayerLastName()
