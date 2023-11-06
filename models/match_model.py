@@ -1,13 +1,13 @@
 """Define the Match."""
 
-import PlayerModels
+import models.player_model as player_model
 
 
 
 class Match :
     def __init__(self, player1,player2) :
-        player1=PlayerModels.Player().CreatePlayer()
-        player2=PlayerModels.Player().CreatePlayer()
+        player1=player_model.Player().CreatePlayer()
+        player2=player_model.Player().CreatePlayer()
         self.player1=player1
         self.player2=player2
     
