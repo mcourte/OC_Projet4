@@ -18,21 +18,18 @@ class PlayerView():
         return self.surname
 
     def PlayerDateOfBirth(self):
-        self.dateofbirth = input ("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
-        separator = self.dateofbirth.find("-")
+        self.date_of_birth = input ("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
+        separator = self.date_of_birth.find("-")
         td = datetime.date.today()
         if separator == -1: 
             print("Erreur, le format de la date n'est pas le bon jj-mm-aaaa")
-            self.dateofbirth=input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
-        dob = datetime.datetime.strptime(self.dateofbirth, '%d-%m-%Y')
+            self.date_of_birth=input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
+        dob = datetime.datetime.strptime(self.date_of_birth, '%d-%m-%Y')
         if dob.year >= td.year:
             print("Erreur, la date de naissance ne peut pas être postérieure à la date du jour")
-            self.dateofbirth = input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
-            dob = datetime.datetime.strptime(self.dateofbirth, '%d-%m-%Y')
-
-        self.age = td.year-dob.year-((td.month,td.day)<(dob.month,dob.day))
-        self.dob = dob
-
-        return self.age, dob
+            self.date_of_birth = input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
+            dob = datetime.datetime.strptime(self.date_of_birth, '%d-%m-%Y')
+        self.date_of_birth = dob
+        return self.date_of_birth
     
 
