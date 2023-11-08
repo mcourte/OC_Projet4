@@ -1,0 +1,65 @@
+[
+    
+    {
+        "Nom du tournoi: ": "Test-13",
+        "Lieu: ": "Rennes",
+        "Nombre de round: ": 4,
+        "Description: ": "blablablabla"
+    },
+    {
+        "Liste des joueurs inscrits: ": [
+            [
+                {
+                    "Nom: ": "Le Grand",
+                    "Prénom: ": "Pauline",
+                    "Date de naissance: ": "1989-08-21 00:00:00",
+                    "Identifiant National d'Echecs: ": "ZX59048"
+                }
+            ],
+            [
+                {
+                    "Nom: ": "Rolland",
+                    "Prénom: ": "Gaëlle",
+                    "Date de naissance: ": "1991-05-12 00:00:00",
+                    "Identifiant National d'Echecs: ": "RO55516"
+                }
+            ],
+            [
+                {
+                    "Nom: ": "Blattner",
+                    "Prénom: ": "Marion",
+                    "Date de naissance: ": "1991-03-01 00:00:00",
+                    "Identifiant National d'Echecs: ": "IH64074"
+                }
+            ],
+            [
+                {
+                    "Nom: ": "Le Grand",
+                    "Prénom: ": "Pauline",
+                    "Date de naissance: ": "1989-08-21 00:00:00",
+                    "Identifiant National d'Echecs: ": "ZX59048"
+                }
+            ],
+            [
+                {
+                    "Nom: ": "Rolland",
+                    "Prénom: ": "Gaëlle",
+                    "Date de naissance: ": "1991-05-12 00:00:00",
+                    "Identifiant National d'Echecs: ": "RO55516"
+                }
+            ],
+            [
+                {
+                    "Nom: ": "Samuel",
+                    "Prénom: ": "Arnaud",
+                    "Date de naissance: ": "1978-07-27 00:00:00",
+                    "Identifiant National d'Echecs: ": "TH04428"
+                }
+            ]
+        ],
+        "Date de début: ": "08-11-2023"
+    },
+    {
+        "Date de fin: ": "08-11-2023"
+    }
+]

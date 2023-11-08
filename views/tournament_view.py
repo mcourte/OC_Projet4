@@ -21,11 +21,10 @@ class TournamentView:
         else :
             self.number_of_round = nb_round
 
+        number_of_players=input("Combien y aura-t-il de joueurs dans le tournoi ? : ")
+        self.number_of_players=number_of_players
         self.description = input("Entrez les remarques générales du tournoi : ")
-
-        number_of_players=input("Combien y aura-t-il de joueurs dans le tournois? : ")
-        self.number_of_players=int(number_of_players)
-
+                
         self.tournament_data_view=[
             {
                         "Nom du tournoi: " : self.name,
