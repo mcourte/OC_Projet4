@@ -7,6 +7,7 @@ import json
 
 
 from models import tournament_model
+from views import tournament_view
 
 class TournamentController:
 
@@ -14,9 +15,10 @@ class TournamentController:
         pass
 
     def start_tournament(self):  
-        # Opening JSON file
-        f = open(os.path.join("data","players_data.json"))
-        players = json.load(f)
+        players=tournament_view.TournamentView().start_tournament_view()
+        
+        file_path = open(os.path.join("data","players_data.json"))
+        players = json.load(file_path)
         player1 = players[0]
         player2 = players[1]
         self.list_of_players = [player1,player2]
@@ -31,10 +33,8 @@ class TournamentController:
             with open(file_path, "r") as file:
                 data = json.load(file)
         except FileNotFoundError:
-            # If the file doesn't exist, create an empty list
             data = []
         except json.JSONDecodeError:
-            # If the file is empty or contains invalid JSON, initialize data as an empty list
             data = []
         data.extend(self.tournament_data)
         with open(file_path,  "w") as file:
@@ -57,45 +57,3 @@ class TournamentController:
 tournament1=tournament_model.Tournament()
 tournament1=TournamentController()
 tournament1.start_tournament()
-
-
-# Step 1: Read the existing JSON data from the file
-file_path = 'data.json'
-
-# Check if the JSON file exists
-try:
-    with open(file_path, 'r') as file:
-        data = json.load(file)
-except FileNotFoundError:
-    # If the file doesn't exist, create an empty list
-    data = []
-except json.JSONDecodeError:
-    # If the file is empty or contains invalid JSON, initialize data as an empty list
-    data = []
-
-# Step 2: Modify the data (add new data without removing existing data)
-new_entries = [
-    {
-        'name': 'Magali',
-        'age': 25,
-        'city': 'France'
-    },
-    {
-        'name': 'Jane Smith',
-        'age': 25,
-        'city': 'Los Angeles'
-    },
-    {
-        'name': 'Addi',
-        'age': 32,
-        'city': 'Sweden'
-    }
-]
-
-data.extend(new_entries)
-
-# Step 3: Write the updated data back to the JSON file
-with open(file_path, 'w') as file:
-    json.dump(data, file, indent=4)
-
-print(f"New data added to {file_path} without removing existing data.")

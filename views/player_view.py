@@ -29,6 +29,7 @@ class PlayerView():
             print("Erreur, la date de naissance ne peut pas être postérieure à la date du jour")
             self.date_of_birth = input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
             dob = datetime.datetime.strptime(self.date_of_birth, '%d-%m-%Y')
+            
         self.date_of_birth = dob
         return self.date_of_birth
     

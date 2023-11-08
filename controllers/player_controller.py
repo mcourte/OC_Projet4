@@ -20,23 +20,16 @@ class PlayerController:
         self.name = name
         self.surname = surname
         self.ID = chess_ID
-        #Transformer la date de naissance en âge :
-        #td = datetime.date.today()
-        date_of_birth = datetime.datetime.strftime(date_of_birth, '%d-%m-%Y')
-        #self.age = td.year-date_of_birth.year-((td.month,td.day)<(date_of_birth.month,date_of_birth.day))
         self.date_of_birth = date_of_birth
-        #Création d'un dictionnaire pour stocker les informations du joueur :
-        #Enregistrement des informations dans un fichier JSON :   
-
         self.player_information=[
             {
                             "Nom: ": self.name, 
                             "Prénom: ": self.surname, 
-                            "Date de naissance: ": self.date_of_birth, 
-                            #"Age: ": self.age, 
+                            "Date de naissance: ": self.date_of_birth,  
                             "Identifiant National d'Echecs: ": self.ID
                             }
                             ]
+        #Enregistrement des informations dans un fichier JSON :   
         file_path=os.path.join("data","players_data.json")
         try:
             with open(file_path, "r") as file:
