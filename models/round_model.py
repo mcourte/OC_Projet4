@@ -8,4 +8,4 @@ class Round :
         self.end_date = end_date
         self.round_number = round_number
         self.couple_of_player = couple_of_player
-  
+        

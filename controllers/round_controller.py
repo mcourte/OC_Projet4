@@ -11,17 +11,18 @@ class RoundController :
     def __init__(self):
         pass
 
-
-
+    def first_round(self):
+        self.start_date = datetime.datetime.today()
+        self.round_number=1
+        return self.round_number
+        
     def start_round(self):
-        self.star_date = datetime.datetime.today()
-        self.round_number +=1
+        self.start_date = datetime.datetime.today()
+        self.round_number =self.round_number +1
+        return self.round_number
+        
 
     def end_round(self):
-        self.star_date = datetime.datetime()
+        self.end_date = datetime.datetime.today()
 
-round=round_model.Round()
-round=RoundController()
-round.duo_player()
-round.start_round()
-round.end_round()
+

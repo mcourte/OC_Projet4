@@ -13,7 +13,7 @@ class TournamentView:
 
     def start_tournament_view(self):  
         self.name = input("Quel est le nom du tournoi?")
-        self.location = input("Quelle est la location du tournoi?")
+        self.location = input("Quelle est la localisation du tournoi?")
         
         nb_round = input("Combien il y aura-t-il de round?(par défaut :4)")
         if nb_round == "" or "4":
@@ -21,8 +21,6 @@ class TournamentView:
         else :
             self.number_of_round = nb_round
 
-        number_of_players=input("Combien y aura-t-il de joueurs dans le tournoi ? : ")
-        self.number_of_players=number_of_players
         self.description = input("Entrez les remarques générales du tournoi : ")
                 
         self.tournament_data_view=[
@@ -45,8 +43,25 @@ class TournamentView:
         data.extend(self.tournament_data_view)
         with open(file_path,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-        return self.tournament_data_view, self.number_of_players
+        return self.tournament_data_view
     
+    def number_of_player(self):  
+
+        self.number_of_players = input("Combien y aura-t-il de joueurs dans le tournoi ? : ")
+
+        return  self.number_of_players
+
+    def choose_players(self):  
+        self.choose_player = input("Voulez-vous créer une liste aléatoire de joueurs ? Oui/Non ").lower()
+
+
+        return self.choose_player
+    
+    def choose_players_ID(self):  
+        self.choose_ID = input("Veuillez rentrer l'ID du joueur que vous souhaitez rajouter : ").upper()
+
+        return self.choose_ID
+
     def end_tournament_view(self):
         self.date_of_end = datetime.date.today()
         date_of_end={"Date de fin: ", self.date_of_end}

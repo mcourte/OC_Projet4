@@ -3,9 +3,9 @@ import os
 import json
 
 import datetime
+import random
 
-from models import round_model
-
+from controllers import tournament_controller
 
 class MatchController :
     def __init__(self):
@@ -13,7 +13,14 @@ class MatchController :
 
     def duo_player(self):  
         file_path=os.path.join("data","tournament_data.json")
-        data = json.load(file_path)
-        player1 = data["Liste des joueurs inscrits: "][0]
-        player2 = data["Liste des joueurs inscrits: "][1]
-        self.couple_of_player = [player1,player2]
+        with open(file_path, "r") as file:
+            data = json.load(file)
+        dict_of_player = data[1]
+        list_of_player=list(dict_of_player.values())
+        random_player=random.sample(data,2)
+
+
+
+
+match=MatchController()
+match.duo_player()
