@@ -5,7 +5,7 @@ import json
 import datetime
 import random
 
-from controllers import tournament_controller
+from views import match_view
 
 class MatchController :
     def __init__(self):
@@ -17,10 +17,15 @@ class MatchController :
             data = json.load(file)
         dict_of_player = data[1]
         list_of_player=list(dict_of_player.values())
-        random_player=random.sample(data,2)
+        random_player=random.sample(list_of_player,1)
+        print(random_player)
+
+    def winner(self):
+        winner_ID=match_view.MatchView().match_view()
+        
 
 
 
 
 match=MatchController()
-match.duo_player()
+match.winner()
