@@ -43,17 +43,9 @@ class TournamentView:
         data.extend(self.tournament_data_view)
         with open(file_path,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-        return self.tournament_data_view,self.number_of_round
-
+        return self.tournament_data_view
     def number_of_player(self):  
-        self.number_of_players=[]
-        number_of_players = input("Combien y aura-t-il de joueurs dans le tournoi ? (au moins 1 joueur de plus que le nombre de round): ")
-        self.number_of_round=TournamentView().start_tournament_view()
-        self.number_of_round=self.number_of_round[1]
-        if int(number_of_players) < self.number_of_round  :
-            number_of_players = input("Erreur : au moins 1 joueur de plus que le nombre de round: ")
-        else :
-            self.number_of_players.append(number_of_players)
+        self.number_of_players = input("Combien y aura-t-il de joueurs dans le tournoi ? (au moins 1 joueur de plus que le nombre de round): ")
         return  self.number_of_players
 
     def choose_players(self):  
@@ -85,5 +77,3 @@ class TournamentView:
         return self.tournament_data_view
 
 
-test=TournamentView()
-test.start_tournament_view()

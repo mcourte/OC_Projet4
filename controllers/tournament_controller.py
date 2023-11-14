@@ -7,7 +7,6 @@ import json
 
 import random
 
-from models import tournament_model
 from views import tournament_view
 
 class TournamentController:
@@ -82,7 +81,7 @@ class TournamentController:
         with open(file_path,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
-tournament1=tournament_model.Tournament()
+
 tournament1=TournamentController()
 tournament1.start_tournament()
 tournament1.end_tournament()

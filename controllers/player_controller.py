@@ -21,14 +21,14 @@ class PlayerController:
         self.surname = surname
         self.ID = chess_ID
         self.date_of_birth = date_of_birth
-        self.player_information={
+        self.player_information=[{
             
                             "Nom: ": self.name, 
                             "Prénom: ": self.surname, 
                             "Date de naissance: ": self.date_of_birth,  
                             "Identifiant National d'Echecs: ": self.ID
                             }
-                            
+        ]
         #Enregistrement des informations dans un fichier JSON :   
         file_path=os.path.join("data","players_data.json")
         try:
@@ -36,14 +36,13 @@ class PlayerController:
                 data = json.load(file)
         except FileNotFoundError:
             # If the file doesn't exist, create an empty list
-            data = {}
+            data = []
         except json.JSONDecodeError:
             # If the file is empty or contains invalid JSON, initialize data as an empty list
-            data = {}
-        data.update(self.player_information)
+            data = []
+        data.extend(self.player_information)
         with open(file_path,  "w") as file:
-            file.write(',\n' +json.dump(data, file, ensure_ascii=False, indent=4))
-
+            json.dump(data, file, ensure_ascii=False, indent=4)
 
     def MatchResult(self):
         pass
