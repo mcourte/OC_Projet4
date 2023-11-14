@@ -13,8 +13,8 @@ class PlayerController:
         pass
 
     def CreatePlayer(self):
-        name=PlayerView().PlayerLastName()
         surname=PlayerView().PlayerSurname()
+        name=PlayerView().PlayerLastName()
         date_of_birth=PlayerView().PlayerDateOfBirth()
         chess_ID=Player.random_ID()
         self.name = name
@@ -47,8 +47,20 @@ class PlayerController:
     def MatchResult(self):
         pass
 
+    def player_sorted_surname(self):
+        file_path=os.path.join("data","players_data.json")
+        with open(file_path, "r") as file:
+            data = json.load(file)       
+        print(data)
+        list_surname=data["Nom"]
+        print(list_surname)
+        sorted_list_surname=sorted(list_surname)
+        print(sorted_list_surname)
+
+
 player=PlayerView()
 player=PlayerController()
-player.CreatePlayer()
+player.player_sorted_surname()
+
 
 

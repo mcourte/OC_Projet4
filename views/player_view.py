@@ -4,17 +4,17 @@ import datetime
 class PlayerView():
 
     def PlayerLastName(self):
-        self.name = input("Quel est le nom de famille du joueur?")
+        self.name = input("Quel est le prénom du joueur?")
         if self.name == "":
-            print("Erreur, le nom ne doit pas être vide")
-            self.name=input("Quel est le nom de famille du joueur?")
+            print("Erreur, le prénom ne doit pas être vide")
+            self.name=input("Quel est le prénom du joueur?")
         return self.name
     
     def PlayerSurname(self):
-        self.surname = input ("Quel est le prénom du joueur?")
+        self.surname = input ("Quel est le nom de famille du joueur?")
         if self.surname == "":
             print("Erreur, le nom ne doit pas être vide")
-            self.surname = input("Quel est le prénom du joueur?")
+            self.surname = input("Quel est le nom de famille du joueur?")
         return self.surname
 
     def PlayerDateOfBirth(self):

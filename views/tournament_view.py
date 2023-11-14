@@ -11,6 +11,7 @@ class TournamentView:
     def __init__(self):
         pass
 
+
     def start_tournament_view(self):  
         self.name = input("Quel est le nom du tournoi?")
         self.location = input("Quelle est la localisation du tournoi?")
@@ -44,19 +45,17 @@ class TournamentView:
         with open(file_path,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
         return self.tournament_data_view
+    
     def number_of_player(self):  
         self.number_of_players = input("Combien y aura-t-il de joueurs dans le tournoi ? (au moins 1 joueur de plus que le nombre de round): ")
         return  self.number_of_players
 
     def choose_players(self):  
         self.choose_player = input("Voulez-vous créer une liste aléatoire de joueurs ? Oui/Non ").lower()
-
-
         return self.choose_player
     
     def choose_players_ID(self):  
         self.choose_ID = input("Veuillez rentrer l'ID du joueur que vous souhaitez rajouter : ").upper()
-
         return self.choose_ID
 
     def end_tournament_view(self):
@@ -76,4 +75,6 @@ class TournamentView:
             json.dump(data, file, ensure_ascii=False, indent=4)
         return self.tournament_data_view
 
-
+    def choose_tournament_print(self):
+        self.choose_tournament=input("Création rapport : choisir le tournoi: ")
+        return self.choose_tournament

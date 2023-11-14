@@ -3,12 +3,6 @@
         "Nom du tournoi: ": "Test-1",
         "Lieu: ": "Rennes",
         "Nombre de round: ": 4,
-        "Description: ": "aaaaa"
-    },
-    {
-        "Nom du tournoi: ": "Test-1",
-        "Lieu: ": "Rennes",
-        "Nombre de round: ": 4,
         "Description: ": "aaaaaaaa"
     },
     {
@@ -60,18 +54,6 @@
     ],
     {
         "Date de fin: ": "14-11-2023"
-    },
-    {
-        "Nom du tournoi: ": "Test-2",
-        "Lieu: ": "Rennes",
-        "Nombre de round: ": 4,
-        "Description: ": "aaaaa"
-    },
-    {
-        "Nom du tournoi: ": "Test-2",
-        "Lieu: ": "Rennes",
-        "Nombre de round: ": 4,
-        "Description: ": "aaaaa"
     },
     {
         "Nom du tournoi: ": "Test-3",

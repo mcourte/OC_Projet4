@@ -50,7 +50,6 @@ class TournamentController:
                         "Liste des joueurs inscrits: " : self.list_of_players,
                         }
                         ]
-        print(self.tournament_data)
         tournament_date=[{
                         "Date de début: " : self.date_of_begin,
                         }
@@ -80,6 +79,13 @@ class TournamentController:
         data.extend(tournament_end)
         with open(file_path,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
+
+    def print_rapport(self):
+        file_path=os.path.join("data","tournament_data.json")
+        with open(file_path, "r") as file:
+            data = json.load(file)
+        self.choose_tournament=tournament_view.TournamentView().choose_tournament_print()
+        
 
 
 tournament1=TournamentController()
