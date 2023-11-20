@@ -6,8 +6,11 @@ import json
 
 
 import random
+import pandas as pd
 
 from views import tournament_view
+from controllers import player_controller
+from views import player_view
 
 class TournamentController:
 
@@ -25,36 +28,35 @@ class TournamentController:
         file_path = open(os.path.join("data","players_data.json"))
         data_players = json.load(file_path)
 
-        list_of_ID=[]
+
         self.choose_player=tournament_view.TournamentView().choose_players()      
         if self.choose_player == "oui":
                 index=number_of_player+1
                 random_player=random.sample(data_players,index)
                 self.list_of_players.append(random_player)
  
-        #elif self.choose_player == "non":
-        #    for i in range(0, (number_of_player)):
-        #        self.choose_ID=tournament_view.TournamentView().choose_players_ID()
-        #        list_of_ID.append(self.choose_ID)
-        #        
+        elif self.choose_player == "non":
+            list_player=[]
+            player_list=player_controller.PlayerController().choose_player()
+            print(player_list)
+            for i in range(0, (number_of_player)):
+                choose_player=player_view.PlayerView().choose_player()
+                choice=int(choose_player)
+                choice_player=player_list.loc[choice]
+                choice_player=choice_player.to_dict()
+                list_player.append(choice_player) 
+            self.list_of_players=list_player
+                
         else :
                 self.choose_player=tournament_view.TournamentView().choose_players()         
+        
         date_of_begin = datetime.date.today()
-        if list_of_ID != [] :
-            for i in list_of_ID:
-                list_of_player=[["Nom: ", "Prénom: ", "Date de naissance: ", "Identifiant National d'Echecs: "] in data_players]
-                list_of_player.append(list_of_player)
-            self.list_of_players=list_of_player
-        self.date_of_begin = date_of_begin.strftime("%d-%m-%Y")
-        self.tournament_data=[{
+        self.date_of_begin= date_of_begin.strftime("%d-%m-%Y")
+        self.tournament_data=[{"Nombre de joueurs inscrits: " : self.number_of_player,
                         "Liste des joueurs inscrits: " : self.list_of_players,
-                        }
-                        ]
-        tournament_date=[{
                         "Date de début: " : self.date_of_begin,
-                        }
-                        ]
-        self.tournament_data.append(tournament_date)
+                        }]
+                        
         file_path=os.path.join("data","tournament_data.json")
         try:
             with open(file_path, "r") as file:

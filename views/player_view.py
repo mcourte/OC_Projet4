@@ -1,5 +1,9 @@
 
 import datetime
+import json
+import os
+import pandas as pd
+
 
 class PlayerView():
 
@@ -31,5 +35,11 @@ class PlayerView():
             dob = datetime.datetime.strptime(self.date_of_birth, '%d-%m-%Y')
         self.date_of_birth = str(dob)
         return self.date_of_birth
+    
+    
+
+    def choose_player(self):
+        self.choose_player_ID=input("Choississez le numéro des joueurs à ajouter :")
+        return self.choose_player_ID
     
 

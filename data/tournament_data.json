@@ -3,112 +3,66 @@
         "Nom du tournoi: ": "Test-1",
         "Lieu: ": "Rennes",
         "Nombre de round: ": 4,
-        "Description: ": "aaaaaaaa"
+        "Description: ": "blablabla"
     },
     {
-        "Liste des joueurs inscrits: ": [
-            [
-                {
-                    "Nom: ": "Morelle",
-                    "Prénom: ": "Mael",
-                    "Date de naissance: ": "1987-11-03 00:00:00",
-                    "Identifiant National d'Echecs: ": "KE02812"
-                },
-                {
-                    "Nom: ": "Le Grand",
-                    "Prénom: ": "Pauline",
-                    "Date de naissance: ": "1989-08-21 00:00:00",
-                    "Identifiant National d'Echecs: ": "VK30920"
-                },
-                {
-                    "Nom: ": "Courté",
-                    "Prénom: ": "Magali",
-                    "Date de naissance: ": "1991-10-26 00:00:00",
-                    "Identifiant National d'Echecs: ": "OV52489"
-                },
-                {
-                    "Nom: ": "Salomon",
-                    "Prénom: ": "Valentin",
-                    "Date de naissance: ": "1999-01-24 00:00:00",
-                    "Identifiant National d'Echecs: ": "NO81200"
-                },
-                {
-                    "Nom: ": "Celton",
-                    "Prénom: ": "Christine",
-                    "Date de naissance: ": "1960-07-25 00:00:00",
-                    "Identifiant National d'Echecs: ": "SR00878"
-                },
-                {
-                    "Nom: ": "Courant",
-                    "Prénom: ": "Pauline",
-                    "Date de naissance: ": "1980-12-25 00:00:00",
-                    "Identifiant National d'Echecs: ": "II26850"
-                }
-            ]
-        ]
-    },
-    [
-        {
-            "Date de début: ": "14-11-2023"
-        }
-    ],
-    {
-        "Date de fin: ": "14-11-2023"
-    },
-    {
-        "Nom du tournoi: ": "Test-3",
-        "Lieu: ": "Rennes",
-        "Nombre de round: ": 4,
-        "Description: ": "4"
-    },
-    {
+        "Nombre de joueurs inscrits: ": "6",
         "Liste des joueurs inscrits: ": [
             [
                 {
                     "Nom: ": "Rolland",
                     "Prénom: ": "Gaëlle",
                     "Date de naissance: ": "1991-05-12 00:00:00",
-                    "Identifiant National d'Echecs: ": "AA32720"
+                    "Identifiant National d'Echecs: ": "MG47102",
+                    "Score global du joueur: ": 0
                 },
                 {
-                    "Nom: ": "Salomon",
-                    "Prénom: ": "Valentin",
-                    "Date de naissance: ": "1999-01-24 00:00:00",
-                    "Identifiant National d'Echecs: ": "NO81200"
+                    "Nom: ": "Lanos",
+                    "Prénom: ": "Hélori",
+                    "Date de naissance: ": "1984-07-26 00:00:00",
+                    "Identifiant National d'Echecs: ": "XM41525",
+                    "Score global du joueur: ": 0
                 },
                 {
-                    "Nom: ": "Setrin",
-                    "Prénom: ": "Audrey",
-                    "Date de naissance: ": "1998-07-13 00:00:00",
-                    "Identifiant National d'Echecs: ": "LS19245"
+                    "Nom: ": "Morelle",
+                    "Prénom: ": "Mael",
+                    "Date de naissance: ": "1987-11-03 00:00:00",
+                    "Identifiant National d'Echecs: ": "SD67265",
+                    "Score global du joueur: ": 0
                 },
                 {
-                    "Nom: ": "Celton",
-                    "Prénom: ": "Christine",
-                    "Date de naissance: ": "1960-07-25 00:00:00",
-                    "Identifiant National d'Echecs: ": "SR00878"
+                    "Nom: ": "Le Feuvre",
+                    "Prénom: ": "Aurélien",
+                    "Date de naissance: ": "1991-06-05 00:00:00",
+                    "Identifiant National d'Echecs: ": "PF55169",
+                    "Score global du joueur: ": 0
                 },
                 {
                     "Nom: ": "Courté",
                     "Prénom: ": "Magali",
                     "Date de naissance: ": "1991-10-26 00:00:00",
-                    "Identifiant National d'Echecs: ": "OV52489"
+                    "Identifiant National d'Echecs: ": "CI99452",
+                    "Score global du joueur: ": 0
                 },
                 {
-                    "Nom: ": "Blattner",
-                    "Prénom: ": "Marion",
-                    "Date de naissance: ": "1991-03-01 00:00:00",
-                    "Identifiant National d'Echecs: ": "HW50883"
+                    "Nom: ": "Le Grand",
+                    "Prénom: ": "Pauline",
+                    "Date de naissance: ": "1989-08-21 00:00:00",
+                    "Identifiant National d'Echecs: ": "IZ30436",
+                    "Score global du joueur: ": 0
+                },
+                {
+                    "Nom: ": "Salomon",
+                    "Prénom: ": "Valentin",
+                    "Date de naissance: ": "1999-01-24 00:00:00",
+                    "Identifiant National d'Echecs: ": "HO67716",
+                    "Score global du joueur: ": 0
                 }
             ]
-        ]
+        ],
+        "Date de début: ": "20-11-2023"
     },
-    [
-        {
-            "Date de début: ": "14-11-2023"
-        }
-    ],
     {
-        "Date de fin: ": "14-11-2023"
+        "Date de fin: ": "20-11-2023"
     }
 ]
