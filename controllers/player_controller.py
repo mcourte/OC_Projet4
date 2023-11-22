@@ -17,7 +17,7 @@ class PlayerController:
         name=PlayerView().PlayerLastName()
         date_of_birth=PlayerView().PlayerDateOfBirth()
         chess_ID=Player.random_ID()
-        self.scoreglobal = 0
+        self.score_global = 0
         self.name = name
         self.surname = surname
         self.ID = chess_ID
@@ -28,7 +28,7 @@ class PlayerController:
                             "Prénom: ": self.name, 
                             "Date de naissance: ": self.date_of_birth,  
                             "Identifiant National d'Echecs: ": self.ID,
-                            "Score global du joueur: " : self.scoreglobal
+                            "Score global du joueur: " : self.score_global
                             }
         ]
         #Enregistrement des informations dans un fichier JSON :   

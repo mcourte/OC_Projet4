@@ -21,6 +21,7 @@ class TournamentController:
     def start_tournament(self):  
         self.tournament_data_view=tournament_view.TournamentView().start_tournament_view()
         self.number_of_player=tournament_view.TournamentView().number_of_player()
+        self.score_tournoi = 0
         for i in self.number_of_player:
             self.number_of_player=str(i)
         self.list_of_players = []
@@ -28,13 +29,12 @@ class TournamentController:
         file_path = open(os.path.join("data","players_data.json"))
         data_players = json.load(file_path)
 
-
         self.choose_player=tournament_view.TournamentView().choose_players()      
         if self.choose_player == "oui":
                 index=number_of_player+1
                 random_player=random.sample(data_players,index)
                 self.list_of_players.append(random_player)
- 
+
         elif self.choose_player == "non":
             list_player=[]
             player_list=player_controller.PlayerController().choose_player()
@@ -49,7 +49,6 @@ class TournamentController:
                 
         else :
                 self.choose_player=tournament_view.TournamentView().choose_players()         
-        
         date_of_begin = datetime.date.today()
         self.date_of_begin= date_of_begin.strftime("%d-%m-%Y")
         self.tournament_data=[{"Nombre de joueurs inscrits: " : self.number_of_player,

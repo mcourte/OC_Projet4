@@ -3,66 +3,73 @@
         "Nom du tournoi: ": "Test-1",
         "Lieu: ": "Rennes",
         "Nombre de round: ": 4,
-        "Description: ": "blablabla"
+        "Description: ": "sans objet"
     },
     {
         "Nombre de joueurs inscrits: ": "6",
         "Liste des joueurs inscrits: ": [
             [
                 {
-                    "Nom: ": "Rolland",
-                    "Prénom: ": "Gaëlle",
-                    "Date de naissance: ": "1991-05-12 00:00:00",
-                    "Identifiant National d'Echecs: ": "MG47102",
-                    "Score global du joueur: ": 0
-                },
-                {
                     "Nom: ": "Lanos",
                     "Prénom: ": "Hélori",
                     "Date de naissance: ": "1984-07-26 00:00:00",
                     "Identifiant National d'Echecs: ": "XM41525",
-                    "Score global du joueur: ": 0
-                },
-                {
-                    "Nom: ": "Morelle",
-                    "Prénom: ": "Mael",
-                    "Date de naissance: ": "1987-11-03 00:00:00",
-                    "Identifiant National d'Echecs: ": "SD67265",
-                    "Score global du joueur: ": 0
+                    "Score global du joueur: ": 0,
+                    "Score global du tournoi: ": 0
                 },
                 {
                     "Nom: ": "Le Feuvre",
                     "Prénom: ": "Aurélien",
                     "Date de naissance: ": "1991-06-05 00:00:00",
                     "Identifiant National d'Echecs: ": "PF55169",
-                    "Score global du joueur: ": 0
+                    "Score global du joueur: ": 0,
+                    "Score global du tournoi: ": 0
                 },
                 {
-                    "Nom: ": "Courté",
-                    "Prénom: ": "Magali",
-                    "Date de naissance: ": "1991-10-26 00:00:00",
-                    "Identifiant National d'Echecs: ": "CI99452",
-                    "Score global du joueur: ": 0
+                    "Nom: ": "Rolland",
+                    "Prénom: ": "Gaëlle",
+                    "Date de naissance: ": "1991-05-12 00:00:00",
+                    "Identifiant National d'Echecs: ": "MG47102",
+                    "Score global du joueur: ": 0,
+                    "Score global du tournoi: ": 0
                 },
                 {
-                    "Nom: ": "Le Grand",
-                    "Prénom: ": "Pauline",
-                    "Date de naissance: ": "1989-08-21 00:00:00",
-                    "Identifiant National d'Echecs: ": "IZ30436",
-                    "Score global du joueur: ": 0
+                    "Nom: ": "Sétrin",
+                    "Prénom: ": "Audrey",
+                    "Date de naissance: ": "1998-07-13 00:00:00",
+                    "Identifiant National d'Echecs: ": "DK78847",
+                    "Score global du joueur: ": 0,
+                    "Score global du tournoi: ": 0
+                },
+                {
+                    "Nom: ": "Celton",
+                    "Prénom: ": "Christine",
+                    "Date de naissance: ": "1960-07-25 00:00:00",
+                    "Identifiant National d'Echecs: ": "PK35054",
+                    "Score global du joueur: ": 0,
+                    "Score global du tournoi: ": 0
                 },
                 {
                     "Nom: ": "Salomon",
                     "Prénom: ": "Valentin",
                     "Date de naissance: ": "1999-01-24 00:00:00",
                     "Identifiant National d'Echecs: ": "HO67716",
-                    "Score global du joueur: ": 0
+                    "Score global du joueur: ": 0,
+                    "Score global du tournoi: ": 0
+                },
+                {
+                    "Nom: ": "Morelle",
+                    "Prénom: ": "Mael",
+                    "Date de naissance: ": "1987-11-03 00:00:00",
+                    "Identifiant National d'Echecs: ": "SD67265",
+                    "Score global du joueur: ": 0,
+                    "Score global du tournoi: ": 0
                 }
             ]
         ],
-        "Date de début: ": "20-11-2023"
+        "Date de début: ": "22-11-2023"
     },
     {
-        "Date de fin: ": "20-11-2023"
+        "Date de fin: ": "22-11-2023"
     }
 ]
