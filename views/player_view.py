@@ -7,6 +7,15 @@ import pandas as pd
 
 class PlayerView():
 
+    def display_player_menu():
+
+        print("\nMenu de Gestion des Joueurs :")
+        print("1. Ajouter un nouveau joueur")
+        print("2. Afficher tous les joueurs")
+        print("3. Revenir au menu principal")
+        user_choice = input("Choisissez une option: ")
+        return user_choice
+    
     def PlayerLastName(self):
         self.name = input("Quel est le prénom du joueur?")
         if self.name == "":

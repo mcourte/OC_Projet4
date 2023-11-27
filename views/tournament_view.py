@@ -75,6 +75,3 @@ class TournamentView:
             json.dump(data, file, ensure_ascii=False, indent=4)
         return self.tournament_data_view
 
-    def choose_tournament_print(self):
-        self.choose_tournament=input("Création rapport : choisir le tournoi: ")
-        return self.choose_tournament

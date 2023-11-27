@@ -31,11 +31,14 @@ class MatchController :
         with open(file_path, "r") as file:
             data = json.load(file)
         list_match = MatchController().match()
+        print(list_match)
         match_choice = match_view.MatchView().choose_match()
         match_choice = int(match_choice)
         duo_player = list_match[match_choice]
         player1 = duo_player[0]
         player2 = duo_player[1]
+        player1 = player1[0]
+        player2 = player2[0]
         ID_player1=player1.get("Identifiant National d'Echecs: ")
         ID_player2=player2.get("Identifiant National d'Echecs: ")
         player1_score = player1.get("Score global du joueur: ")

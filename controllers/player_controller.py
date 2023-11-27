@@ -5,18 +5,20 @@ import json
 import pandas as pd
 import os
 
-from views.player_view import PlayerView
-from models.player_model import Player
+from views import player_view
+from views import main_view
+from models import player_model
+
 
 class PlayerController:
     def __init__(self):
         pass
 
     def CreatePlayer(self):
-        surname=PlayerView().PlayerSurname()
-        name=PlayerView().PlayerLastName()
-        date_of_birth=PlayerView().PlayerDateOfBirth()
-        chess_ID=Player.random_ID()
+        surname=player_view.PlayerView().PlayerSurname()
+        name=player_view.PlayerView().PlayerLastName()
+        date_of_birth=player_view.PlayerView().PlayerDateOfBirth()
+        chess_ID=player_model.Player().random_ID()
         self.score_global = 0
         self.name = name
         self.surname = surname
@@ -46,8 +48,7 @@ class PlayerController:
         with open(file_path,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
-    def MatchResult(self):
-        pass
+
 
     def list_of_player_keys(self):
         list_keys=[]
@@ -87,3 +88,41 @@ class PlayerController:
         #return choose_players_ID
         #sorted_list_surname=sorted(list_surname)
         #print(sorted_list_surname)
+
+
+    def display_players(self):
+        list_dict_player = []
+        dict_player = {}
+        sorted_player = []
+        file_path = os.path.join("data","players_data.json")
+        with open(file_path, "r") as file:
+            data = json.load(file)
+        for i in range(0, len(data)):
+            dict_player = data[i]
+            list_dict_player.append(dict_player)
+        for i in list_dict_player :
+            dict_player.update(i)
+            a = list(dict_player.items())
+            sorted_player.append(a)
+        for i in range(0, len(sorted_player)):
+            sorted_name = sorted(sorted_player,
+                                    key=lambda x: (x[0], x[1])) 
+            sorted_name.append(sorted_name)
+        
+        return sorted_name
+
+
+    def player_menu(self):
+        while True:
+            choice = player_view.PlayerView().display_player_menu()
+            if choice == "1":
+                self.CreatePlayer()
+            elif choice == "2":
+                self.display_players()
+            elif choice == "3":
+                break
+            else:
+                error = main_view.MainView().display_invalid_option_message()
+
+test = PlayerController()
+test.display_players()

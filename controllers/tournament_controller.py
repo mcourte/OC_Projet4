@@ -6,10 +6,10 @@ import json
 
 
 import random
-import pandas as pd
 
-from views import tournament_view
 from controllers import player_controller
+from views import tournament_view
+from views import main_view
 from views import player_view
 
 class TournamentController:
@@ -76,19 +76,59 @@ class TournamentController:
             data = json.load(file)
         date_of_end = datetime.date.today()
         self.date_of_end = date_of_end.strftime("%d-%m-%Y")
-        tournament_end=[{"Date de fin: " : self.date_of_end}]
-        data.extend(tournament_end)
+        tournament_end={"Date de fin: " : self.date_of_end}
+        data.append(tournament_end)
         with open(file_path,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
-    def print_rapport(self):
-        file_path=os.path.join("data","tournament_data.json")
+    def display_tournament(self):
+        dict_tournament = {}
+        one_tournament = {}
+        sorted_tournament = []
+        list_dict_tournament = []
+        file_path = os.path.join("data","tournament_data.json")
         with open(file_path, "r") as file:
             data = json.load(file)
-        self.choose_tournament=tournament_view.TournamentView().choose_tournament_print()
+        for i in range(0, len(data)):
+            dict_tournament= data[i]
+            list_dict_tournament.append(dict_tournament)          
+        for i in range(0, len(list_dict_tournament)):
+            for dict in list_dict_tournament :
+                sorted_tournament = sorted(dict.items(),
+                                        key=lambda x: (x[0])) 
+                sorted_tournament.append(sorted_tournament)
+            print(sorted_tournament) 
+
+    def close_tournament(self):
+        close = {}
+        list_close = []
+        file_path = os.path.join("data","tournament_data.json")
+        with open(file_path, "r") as file:
+            data = json.load(file)
+        for i in range(0,len(data)):
+            close.update(data[i])
+            list_close.append(close)
+        print(list_close)
+
+      
+
+
+    def tournament_menu(self):
+        while True:
+            choice = player_view.PlayerView().display_player_menu()
+            if choice == "1":
+                self.start_tournament()
+            elif choice == "2":
+                self.display_tournament()
+            elif choice == "3":
+                break
+            else:
+                error = main_view.MainView().display_invalid_option_message()
         
 
 
 tournament1=TournamentController()
-tournament1.start_tournament()
-tournament1.end_tournament()
+#ournament1.start_tournament()
+#tournament1.end_tournament()
+tournament1.display_tournament()
+#tournament1.close_tournament()
