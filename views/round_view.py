@@ -19,12 +19,9 @@ class RoundView:
         print(test2)
             
         
-        name_of_tournoi=""
+       
 
         
 
        
     
-
-test=RoundView()
-test.start_round_view()

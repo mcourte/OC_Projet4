@@ -1,7 +1,7 @@
-from views.main_view import MainView
-from controllers.player_controller import PlayerController
-from controllers.report_controller import ReportController
-from controllers.tournament_controller import TournamentController
+from views import main_view
+from controllers import player_controller
+from controllers import tournament_controller
+from controllers import report_controller
 
 
 class MainController:
@@ -9,25 +9,22 @@ class MainController:
 
     def __init__(self):
         """Initialise le contrôleur principal."""
-        self.main_view = MainView()
-        self.player_controller = PlayerController()
-        self.tournament_controller = TournamentController()
-        self.report_controller = ReportController()
+        pass
                                                 
 
     def run(self):
 
-        while True:
-            choice = self.main_view.main_menu()
-
+        while True :
+            choice = main_view.MainView().main_menu()
+            
             if choice == "1":
-                self.player_controller.run_player_menu(self.main_view)
+                player_controller.PlayerController().player_menu()
             elif choice == "2":
-                pass
+                tournament_controller.TournamentController().tournament_menu()
             elif choice == "3":
-                self.report_controller.run_report_menu()
+                report_controller.ReportController().report_menu()
             elif choice == "4":
                 print("Au revoir !")
                 break
             else:
-                self.main_view.display_invalid_option_message()
+                print("Option invalide. Veuillez choisir une option valide.")

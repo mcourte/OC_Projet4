@@ -11,6 +11,15 @@ class TournamentView:
     def __init__(self):
         pass
 
+    def display_tournament_menu(self):
+
+        print("\nMenu de Gestion des Tournois :")
+        print("1. Ajouter un nouveau tournoi")
+        print("2. Terminer un tournoi")
+        print("3. Afficher tous les tournois")
+        print("4. Revenir au menu principal")
+        user_choice = input("Choisissez une option: ")
+        return user_choice
 
     def start_tournament_view(self):  
         self.name = input("Quel est le nom du tournoi?")
@@ -75,3 +84,7 @@ class TournamentView:
             json.dump(data, file, ensure_ascii=False, indent=4)
         return self.tournament_data_view
 
+
+    def choose_tournament(self):  
+        self.choice_tournament = input("Choisissez le nom du tournoi dont vous voulez les détails : ")
+        return self.choice_tournament

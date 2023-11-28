@@ -3,12 +3,7 @@ import os
 import json
 
 import datetime
-import random
-import pandas as pd 
 
-from views import match_view
-from controllers import player_controller
-from models import round_model
 
 class RoundController :
     def __init__(self):
@@ -31,7 +26,7 @@ class RoundController :
 
         return self.dict_player
 
-    def first_round(self):
+    def start_round(self):
         start_date = datetime.datetime.today()
         self.start_date= start_date.strftime("%d-%m-%Y")
         self.round_number = 1
@@ -53,19 +48,21 @@ class RoundController :
 
         
         
-    def start_round(self):
-        file_path = os.path.join("data","round_data.json")
-        with open(file_path, "r") as file:
-            data = json.load(file)
-        start_date = datetime.datetime.today()
-        self.start_date= start_date.strftime("%d-%m-%Y")
-        self.round_number =self.round_number +1
-        self.start = [{"Date de début du round : " : self.start_date,
-                "Numéro de round: " : self.round_number}]
-        data.extend(self.start)
-        with open(file_path,  "w") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
-        return self.round_number
+    #def start_round(self):
+    #    file_path = os.path.join("data","round_data.json")
+    #    with open(file_path, "r") as file:
+    #        data = json.load(file)
+    #    data = data[0]
+    #    round_number = data.get("Numéro de round: ")
+    #    start_date = datetime.datetime.today()
+    #    start_date= start_date.strftime("%d-%m-%Y")
+    #    self.new_round_number = round_number +1
+    #    data_round = [{"Date de début: " : start_date,
+    #                 "Numéro de round: " : self.new_round_number}]
+    #    data.update(data_round)
+    #    with open(file_path,  "w") as file:
+    #        json.dump(data, file, ensure_ascii=False, indent=4)
+    #    return self.new_round_number
         
 
     def end_round(self):
@@ -74,13 +71,24 @@ class RoundController :
             data = json.load(file)
         end_date = datetime.datetime.today()
         self.end_date= end_date.strftime("%d-%m-%Y")
-        self.end = [{"Date de fin du round : " : self.end_date}]
-        data.extend(self.end)
-        file_path=os.path.join("data","round_data.json")
-        with open(file_path,  "w") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
+        end = [{"Date de fin du round : " : self.end_date}]
+        data.append(end)
 
+        file_path2 = os.path.join("data","players_data.json")
+        with open(file_path2, "r") as file:
+            player_data = json.load(file)
+        for player_dict in player_data :
+            data_player = data[1]
+            player_information = data_player[-2]
+            ID_player = player_information.get("Identifiant National d'Echecs: ")
+            
+            for i in range(0,len(data_player)):
+                data_player = data_player[i]
+                print(data_player)
+                score = data_player[-1]
+                score = score["Score global du tournoi: "]
+                player_dict["Score global du joueur: "] = score
+                print(player_dict)
 
-
-test=RoundController()
-test.first_round()
+round = RoundController()
+round.end_round()

@@ -2,8 +2,7 @@
 import os
 import json
 
-import datetime
-import random
+
 import pandas as pd 
 
 from views import match_view
@@ -31,50 +30,36 @@ class MatchController :
         with open(file_path, "r") as file:
             data = json.load(file)
         list_match = MatchController().match()
-        print(list_match)
-        match_choice = match_view.MatchView().choose_match()
-        match_choice = int(match_choice)
-        duo_player = list_match[match_choice]
-        player1 = duo_player[0]
-        player2 = duo_player[1]
-        player1 = player1[0]
-        player2 = player2[0]
-        ID_player1=player1.get("Identifiant National d'Echecs: ")
-        ID_player2=player2.get("Identifiant National d'Echecs: ")
-        player1_score = player1.get("Score global du joueur: ")
-        player2_score = player2.get("Score global du joueur: ")
+        list_match = list_match[0]
+        for match in list_match :
+            player1 = match[0]
+            player2 = match[1]
+            ID_player1=player1.get("Identifiant National d'Echecs: ")
+            ID_player2=player2.get("Identifiant National d'Echecs: ")
+            player1_score = player1.get("Score global du joueur: ")
+            player2_score = player2.get("Score global du joueur: ")
+            print(player1, player2)
+            winner_ID = match_view.MatchView().match_view()
+            if str(winner_ID) == str(ID_player1) :
+                player1_score +=1 
+                match_result = [(player1, {"Score global du tournoi: " :player1_score}), (player2, {"Score global du tournoi: " :player2_score})]
 
-        print(ID_player1, ID_player2)
-        winner_ID = match_view.MatchView().match_view()
-        if str(winner_ID) == str(ID_player1) :
-            player1_score +=1 
-            match_result = [(player1, {"Score du joueur:" :player1_score}), (player2, {"Score du joueur:" :player2_score})]
+            if str(winner_ID) == str(ID_player2) :
+                player2_score +=1 
+                match_result = [(player1, {"Score global du tournoi: " :player1_score}), (player2, {"Score global du tournoi: " :player2_score})]
 
+            if str(winner_ID) == "nul" :
+                player1_score += 0.5 
+                player2_score += 0.5
+                match_result = [(player1, {"Score global du tournoi: " :player1_score}), (player2, {"Score global du tournoi: " :player2_score})]
 
-
-        if str(winner_ID) == str(ID_player2) :
-            player2_score +=1 
-            match_result = [(player1, {"Score du joueur:" :player1_score}), (player2, {"Score du joueur:" :player2_score})]
-
-
-        if str(winner_ID) == "nul" :
-            player1_score += 0.5 
-            player2_score += 0.5
-            match_result = [(player1, {"Score du joueur:" :player1_score}), (player2, {"Score du joueur:" :player2_score})]
-
-        data.extend(match_result)
-        with open(file_path,  "w") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
+            data.append(match_result)
+            with open(file_path,  "w") as file:
+                json.dump(data, file, ensure_ascii=False, indent=4)
 
 
 
         
-
-
-
-match=MatchController()
-match.winner()
-
 
 
 

@@ -7,7 +7,7 @@ import pandas as pd
 
 class PlayerView():
 
-    def display_player_menu():
+    def display_player_menu(self):
 
         print("\nMenu de Gestion des Joueurs :")
         print("1. Ajouter un nouveau joueur")
@@ -37,11 +37,11 @@ class PlayerView():
         if separator == -1: 
             print("Erreur, le format de la date n'est pas le bon jj-mm-aaaa")
             self.date_of_birth=input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
-        dob = datetime.datetime.strptime(self.date_of_birth, '%d-%m-%Y')
+        dob = datetime.datetime.strptime(self.date_of_birth, "%d-%m-%Y")
         if dob.year >= td.year:
             print("Erreur, la date de naissance ne peut pas être postérieure à la date du jour")
             self.date_of_birth = input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
-            dob = datetime.datetime.strptime(self.date_of_birth, '%d-%m-%Y')
+        dob = datetime.datetime.strptime(self.date_of_birth, "%d-%m-%Y")
         self.date_of_birth = str(dob)
         return self.date_of_birth
     

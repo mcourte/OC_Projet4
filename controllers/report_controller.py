@@ -1,6 +1,7 @@
 import os
 
 from controllers import player_controller
+from controllers import tournament_controller
 from views import report_view
 
 
@@ -11,29 +12,28 @@ class ReportController:
         des joueurs et de tournois en option."""
         pass
 
-    def run_report_menu(self):
+    def report_menu(self):
         """Exécute le menu de rapport en fonction du choix de l'utilisateur."""
         while True:
             choice = report_view.ReportView().display_report_menu()
 
             if choice == "1":
-                self.display_players_alphabetically()
+                ReportController().display_players_alphabetically()
             elif choice == "2":
-                self.display_all_tournaments()
+                ReportController().display_all_tournaments()
             elif choice == "3":
-                self.display_tournament_details()
+                pass
             elif choice == "4":
-                self.display_tournament_players_alphabetically()
+                ReportController().display_tournament_players_alphabetically()
             elif choice == "5":
-                self.display_all_tournament_rounds_and_matches()
+                pass
             elif choice == "6":
                 break
             else:
-                report_view.ReportView().display_invalid_option_message()
+                print("Option invalide. Veuillez choisir une option valide.")
     
     def save_report_to_file(self, report_text):
         report_text.pop()
-        print(report_text)
         save_report = report_view.ReportView().save_report()
         data_report = "reports"
         if save_report == "oui" :
@@ -41,37 +41,28 @@ class ReportController:
             file_name = name + ".txt"
             file_path = os.path.join(data_report, file_name)
             with open(file_path, 'w') as file:
-                    file.write(str(report_text))
+                    file.write(str(*report_text, sep='\n'))
             print(f"Rapport sauvegardé avec succès dans {file_path}")
 
     def display_players_alphabetically(self):
         """Affiche les joueurs par ordre alphabétique et permet de sauvegarder
         le rapport."""
         players_report = player_controller.PlayerController().display_players()
-        report_text = players_report
-        save = ReportController().save_report_to_file(report_text)
+        print(*players_report, sep='\n')
+        save = ReportController().save_report_to_file(players_report)
 
     
     def display_all_tournaments(self):
         """Affiche tous les tournois."""
-        tournament_report = self.player_controller.display_players()
-        report_text = tournament_report
-        save = ReportController().save_report_to_file(report_text)
+        tournament_report = tournament_controller.TournamentController().display_tournament()
+        print(*tournament_report, sep='\n')
+        save = ReportController().save_report_to_file(tournament_report)
 
-    def display_tournament_details(self):
-        """Affiche les détails d'un tournoi."""
-        tournament_data_report = self.player_controller.display_players()
-        report_text = tournament_data_report
-        save = ReportController().save_report_to_file(report_text)
 
     def display_tournament_players_alphabetically(self):
         """Affiche les joueurs d'un tournoi par ordre alphabétique."""
-        tournament_alpha_report = ""
-        report_text = tournament_alpha_report
-        save = ReportController().save_report_to_file(report_text)
+        tournament_player_alpha_report = tournament_controller.TournamentController().display_tournament_alphabetically()
+        print(*tournament_player_alpha_report, sep='\n')
+        save = ReportController().save_report_to_file(tournament_player_alpha_report)
 
 
-
-
-test = ReportController()
-test.display_players_alphabetically()

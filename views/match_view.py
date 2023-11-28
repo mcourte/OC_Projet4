@@ -1,10 +1,5 @@
-"""Define the Tournament."""
+"""Define the Match."""
 
-import datetime
-import json
-import os
-
-from controllers import round_controller
 
 
 class MatchView:

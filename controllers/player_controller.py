@@ -108,7 +108,6 @@ class PlayerController:
             sorted_name = sorted(sorted_player,
                                     key=lambda x: (x[0], x[1])) 
             sorted_name.append(sorted_name)
-        
         return sorted_name
 
 
@@ -122,7 +121,5 @@ class PlayerController:
             elif choice == "3":
                 break
             else:
-                error = main_view.MainView().display_invalid_option_message()
+                print("Option invalide. Veuillez choisir une option valide.")
 
-test = PlayerController()
-test.display_players()
