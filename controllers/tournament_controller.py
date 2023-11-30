@@ -9,7 +9,6 @@ import random
 
 from controllers import player_controller
 from views import tournament_view
-from views import main_view
 from views import player_view
 from views import report_view
 
@@ -20,6 +19,7 @@ class TournamentController:
         pass
 
     def start_tournament(self):  
+        '''Crée un tournoi : infos + liste joueurs +  date de début'''
         self.tournament_data_view=tournament_view.TournamentView().start_tournament_view()
         self.number_of_player=tournament_view.TournamentView().number_of_player()
         self.score_tournoi = 0
@@ -72,6 +72,7 @@ class TournamentController:
         return self.tournament_data, self.number_of_player
     
     def end_tournament(self):
+        '''Permet de terminer un tournoi et de l'enregistrer dans le fichier tournament_closed'''
         file_path=os.path.join("data","tournament_data.json")
         with open(file_path, "r") as file:
             data = json.load(file)
@@ -81,12 +82,16 @@ class TournamentController:
         data.append(tournament_end)
         with open(file_path,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
+        file_path2=os.path.join("data","tournament_closed.json")
+        with open(file_path2,  "w") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
 
 
     def close_tournament(self):
+        '''Permet de lister les tournois terminés'''
         close = {}
         list_close = []
-        file_path = os.path.join("data","tournament_data.json")
+        file_path = os.path.join("data","tournament_closed.json")
         with open(file_path, "r") as file:
             data = json.load(file)
         for i in range(0,len(data)):
@@ -95,6 +100,7 @@ class TournamentController:
         print(list_close)
       
     def display_tournament(self):
+        ''' Permet d'afficher la liste des tournois'''
         list_tournament = []
         file_path = os.path.join("data","tournament_data.json")
         with open(file_path, "r") as file:
@@ -102,12 +108,14 @@ class TournamentController:
         for i in range(0,len(data),3):
             tournament = data[i]
             list_tournament.append(tournament)
-        
+        return list_tournament
 
-    def display_tournament_detail(self):
+    def choose_tournament_detail(self):
+        '''Permet de choisir le tournoi dont on veut les détails'''
         list_tournament = []
         data_tournament = []
-        tournament_data = {}
+        tournament_data = []
+        tournament_name = []
         file_path = os.path.join("data","tournament_data.json")
         with open(file_path, "r") as file:
             data = json.load(file)
@@ -117,21 +125,42 @@ class TournamentController:
             tournament_name = tournament.get("Nom du tournoi: ")
             if tournament_name != None : 
                 list_tournament.append(tournament_name)
-        print(*list_tournament, sep='\n')
+                tournament_data.append(tournament_name)
+        for i , list_tournament in enumerate(list_tournament, start=1) : 
+            print(f"{i}.{list_tournament}")
+        
         choice = tournament_view.TournamentView().choose_tournament()
-        for i in range(0,len(data)):
-            for tournament_dict in data_tournament :
-                print(tournament_dict)
-                tournament_info = tournament_dict.get("Nom du tournoi: ")
-                if tournament_info != None : 
-                    if str(choice) == tournament_info :
-                        tournament_data.update(tournament_dict)
+        user_choice=int(choice) -1
+        if 1<= user_choice <= len(tournament_data):
+            tournament_choice=tournament_data[user_choice]
+            print(f"Vous avez choisi le tournoi : {tournament_choice}")
+        else:
+            print("Numéro de tournoi invalide.")
+        return tournament_choice
 
-        print(tournament_dict)
-    
+    def display_tournament_detail(self):
+        '''Permet d'afficher les détails d'un tournoi'''
+        tournament_choice = TournamentController().choose_tournament_detail()
+        file_path = os.path.join("data","tournament_data.json")
+        with open(file_path, "r") as file:
+            data = json.load(file)
+        list_tournament = []
+        for i in range(0,len(data),3):
+                one_tournament=data[i:(i+3)]
+                list_tournament.append(one_tournament)
+        for i in range(0,len(list_tournament)):
+            for l in list_tournament:
+                a = l.get("Nom du tournoi: ")
+                if tournament_choice == a :
+                    display_tournament = l
+                    print(display_tournament)
+        #return tournament_select
+        
+        
 
 
     def display_tournament_alphabetically(self):
+        '''Permet de ranger la liste des joueurs du tournoi par ordre alphabétique'''
         file_path = os.path.join("data","tournament_data.json")
         with open(file_path, "r") as file:
             data = json.load(file)
@@ -144,20 +173,22 @@ class TournamentController:
         return sorted_name
 
     def tournament_menu(self):
+        '''Permet de lancer les fonctions suivant les choix de l'utilisateur'''
         while True:
             choice = tournament_view.TournamentView().display_tournament_menu()
             if choice == "1":
                 TournamentController().start_tournament()
-            elif choice == "2":
-                TournamentController().close_tournament()
             elif choice == "3":
-                TournamentController().display_tournament()
+                TournamentController().close_tournament()
             elif choice == "4":
+                TournamentController().display_tournament()
+            elif choice == "5":
                 break
             else:
                print("Option invalide. Veuillez choisir une option valide.")
     
     def tournament_report_menu(self):
+        '''Permet de choisir les rapports suivant les choix de l'utilisateur'''
         while True:
             choice = report_view.ReportView().display_report_menu()
             if choice == "2":
@@ -174,5 +205,5 @@ class TournamentController:
                 print("Option invalide. Veuillez choisir une option valide.") 
 
 
-#tournament1 = TournamentController()
-#tournament1.display_tournament_detail()
+test = TournamentController()
+test.display_tournament_detail()

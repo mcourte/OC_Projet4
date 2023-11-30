@@ -14,7 +14,7 @@ class MatchController :
 
     
     def match(self):
-
+        '''Crée la liste des matchs d'un round'''
         list_match=[]
         dict_player = round_controller.RoundController().list_of_paires()
         list_player = list(dict_player.values())
@@ -26,6 +26,7 @@ class MatchController :
         
 
     def winner(self):
+        '''Permet de mettre à jour les scores des joueurs'''
         file_path = os.path.join("data","round_data.json")
         with open(file_path, "r") as file:
             data = json.load(file)
@@ -56,12 +57,6 @@ class MatchController :
             data.append(match_result)
             with open(file_path,  "w") as file:
                 json.dump(data, file, ensure_ascii=False, indent=4)
-
-
-
-        
-
-
 
 
 

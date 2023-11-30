@@ -1,5 +1,5 @@
 
-import datetime
+from datetime import datetime
 import json
 import os
 import pandas as pd
@@ -33,18 +33,22 @@ class PlayerView():
     def PlayerDateOfBirth(self):
         self.date_of_birth = input ("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
         separator = self.date_of_birth.find("-")
-        td = datetime.date.today()
+        td = datetime.now()
         if separator == -1: 
             print("Erreur, le format de la date n'est pas le bon jj-mm-aaaa")
             self.date_of_birth=input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
-        dob = datetime.datetime.strptime(self.date_of_birth, "%d-%m-%Y")
+        dob = datetime.strptime(self.date_of_birth, "%d-%m-%Y")
         if dob.year >= td.year:
             print("Erreur, la date de naissance ne peut pas être postérieure à la date du jour")
             self.date_of_birth = input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
-        dob = datetime.datetime.strptime(self.date_of_birth, "%d-%m-%Y")
-        self.date_of_birth = str(dob)
+        dob = datetime.strptime(self.date_of_birth, "%d-%m-%Y")
+        date_of_birth = str(dob)
+        self.date_of_birth = date_of_birth[0:10]
         return self.date_of_birth
     
+    def Player_ID(self):
+        self.player_ID = input("Quel est l'ID du joueur?")
+        return self.player_ID
     
 
     def choose_player(self):

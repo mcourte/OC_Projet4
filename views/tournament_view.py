@@ -15,9 +15,10 @@ class TournamentView:
 
         print("\nMenu de Gestion des Tournois :")
         print("1. Ajouter un nouveau tournoi")
-        print("2. Terminer un tournoi")
-        print("3. Afficher tous les tournois")
-        print("4. Revenir au menu principal")
+        print("2. Compléter un tournoi")
+        print("3. Terminer un tournoi")
+        print("4. Afficher tous les tournois")
+        print("5. Revenir au menu principal")
         user_choice = input("Choisissez une option: ")
         return user_choice
 
