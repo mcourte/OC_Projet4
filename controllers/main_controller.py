@@ -10,13 +10,12 @@ class MainController:
     def __init__(self):
         """Initialise le contrôleur principal."""
         pass
-                                                
 
     def run(self):
 
-        while True :
+        while True:
             choice = main_view.MainView().main_menu()
-            
+
             if choice == "1":
                 player_controller.PlayerController().player_menu()
             elif choice == "2":
