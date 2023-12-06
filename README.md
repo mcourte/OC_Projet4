@@ -1,4 +1,4 @@
-# Programme pour extraire les données et les images des livres de books.toscrape.com
+# Application pour gérer les tournois d'Echecs 
 
 ## Etape 1 : Télécharger le code
 
