@@ -49,6 +49,8 @@ Taper la commande suivante :
 ```
 python3 main.py
 ```
-Vous aurez alors un menu qui va s'afficher 
 
-### Informations diverses
+## Etape 6 : Utilisation du programme
+
+Pour comprendre le fonctionnement du programme et savoir comment l'utiliser , le document " Utilisation " est à votre disposition.
+
