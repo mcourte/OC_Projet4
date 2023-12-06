@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>flake8 violations: views/tournament_view.py</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+<script>
+function bindHandler(link) {
+   var code = link.getAttribute('data-code');
+   var key = location.pathname + '#' + code;
+
+   var ul = link.parentNode.querySelector('.details');
+   if (sessionStorage[key] != 'open') {
+      ul.style.display = 'none';
+   }
+   link.addEventListener('click', function (event) {
+      if (!ul.style.display || ul.style.display == 'none') {
+         ul.style.display = 'block';
+         sessionStorage[key] = 'open';
+      } else {
+         ul.style.display = 'none';
+         sessionStorage[key] = 'closed';
+      }
+   });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+   var links = document.querySelectorAll('#index > li > a');
+   for (var i = 0; i < links.length; i++) {
+      bindHandler(links[i]);
+   }
+});
+</script>
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <p id="srclink">
+            <a title="View full annotated source"
+               href="views.tournament_view.source.html">
+               <img src="file.svg" alt="&#x2261;">
+            </a></p>
+         <h1>
+            <a href="index.html">
+               <img src="back.svg" alt="&#x2B05;">
+               views/tournament_view.py
+            </a>
+         </h1>
+
+         <ul id="index">
+         
+         <li>
+            <a data-code="E501">
+               <span class="count sev-2">
+                  7
+               </span>
+               <strong>E501:</strong> line too long (80 > 79 characters)
+               
+                  (and 6 similar)
+               
+            </a>
+            <ul class="details">
+            <li>
+               
+               <p>Line too long (80 > 79 characters):</p>
+               
+               <a href="views.tournament_view.source.html#l31">
+                  <tt><i>31</i>         <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Entrez les remarques générales du tournoi : &quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (91 > 79 characters):</p>
+               
+               <a href="views.tournament_view.source.html#l54">
+                  <tt><i>54</i>         <span class="bp">self</span><span class="o">.</span><span class="n">number_of_players</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Combien y aura-t-il de joueurs dans le tournoi ?&quot;</span> <span class="o">+</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (88 > 79 characters):</p>
+               
+               <a href="views.tournament_view.source.html#l55">
+                  <tt><i>55</i>                                        <span class="s2">&quot;Le nombre de joueur doit être un nombre pair &quot;</span> <span class="o">+</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (93 > 79 characters):</p>
+               
+               <a href="views.tournament_view.source.html#l56">
+                  <tt><i>56</i>                                        <span class="s2">&quot;au moins 1 joueur de plus que le nombre de round): &quot;</span><span class="p">)</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (105 > 79 characters):</p>
+               
+               <a href="views.tournament_view.source.html#l60">
+                  <tt><i>60</i>         <span class="bp">self</span><span class="o">.</span><span class="n">choose_player</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Voulez-vous créer une liste aléatoire de joueurs ? Oui/Non &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (104 > 79 characters):</p>
+               
+               <a href="views.tournament_view.source.html#l64">
+                  <tt><i>64</i>         <span class="bp">self</span><span class="o">.</span><span class="n">choose_ID</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Veuillez rentrer l&#39;ID du joueur que vous souhaitez rajouter : &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span></tt>
+               </a>
+            </li><li>
+               
+               <p>Line too long (102 > 79 characters):</p>
+               
+               <a href="views.tournament_view.source.html#l85">
+                  <tt><i>85</i>         <span class="bp">self</span><span class="o">.</span><span class="n">choice_tournament</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Choisissez le nom du tournoi dont vous voulez les détails : &quot;</span><span class="p">)</span></tt>
+               </a>
+            </li>
+            </ul>
+         </li>
+         
+         </ul>
+      </div>
+   </body>
+</html>

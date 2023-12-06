@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>views/report_view.py - flake8 annotated source</title>
+      <meta http-equiv="Content-Type" value="text/html; charset=UTF-8">
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <div id="masthead" class="sev-2"></div>
+      <div id="page">
+         <h1>
+            <a href="views.report_view.report.html">
+               <img src="back.svg" alt="&#x2B05;">
+               views/report_view.py source
+            </a>
+         </h1>
+
+         <div id="doc">
+            <div id="l1"
+               class="code sev- "><tt><i>1</i> <span class="k">class</span> <span class="nc">ReportView</span><span class="p">:</span></tt>
+            </div>
+            <div id="l2"
+               class="code sev- "><tt><i>2</i> &nbsp;</tt>
+            </div>
+            <div id="l3"
+               class="code sev- "><tt><i>3</i>     <span class="k">def</span> <span class="nf">display_report_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l4"
+               class="code sev- "><tt><i>4</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Menu de Rapports :&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l5"
+               class="code sev- "><tt><i>5</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;1. Liste de tous les joueurs par ordre alphabétique&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l6"
+               class="code sev- "><tt><i>6</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2. Liste de tous les tournois&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l7"
+               class="code sev- "><tt><i>7</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3. Nom et date d&#39;un tournoi donné&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l8"
+               class="code sev- "><tt><i>8</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;4. Liste des joueurs d&#39;un tournoi par ordre alphabétique&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l9"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (80 > 79 characters)</li>
+               
+               </ul><tt><i>9</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;5. Liste de tous les tours d&#39;un tournoi et de tous les matchs &quot;</span> <span class="o">+</span></tt>
+            </div>
+            <div id="l10"
+               class="code sev- "><tt><i>10</i>               <span class="s2">&quot; et des round&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l11"
+               class="code sev- "><tt><i>11</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;6. Revenir au menu principal</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l12"
+               class="code sev- "><tt><i>12</i>         <span class="n">user_choice</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Choisissez une option: &quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l13"
+               class="code sev- "><tt><i>13</i>         <span class="k">return</span> <span class="n">user_choice</span></tt>
+            </div>
+            <div id="l14"
+               class="code sev- "><tt><i>14</i> &nbsp;</tt>
+            </div>
+            <div id="l15"
+               class="code sev- "><tt><i>15</i>     <span class="k">def</span> <span class="nf">save_report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l16"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (85 > 79 characters)</li>
+               
+               </ul><tt><i>16</i>         <span class="bp">self</span><span class="o">.</span><span class="n">save</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Voulez-vous sauvegarder ce rapport ? (Oui/Non): &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></tt>
+            </div>
+            <div id="l17"
+               class="code sev- "><tt><i>17</i>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">save</span></tt>
+            </div>
+            <div id="l18"
+               class="code sev- "><tt><i>18</i> &nbsp;</tt>
+            </div>
+            <div id="l19"
+               class="code sev- "><tt><i>19</i>     <span class="k">def</span> <span class="nf">name_report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></tt>
+            </div>
+            <div id="l20"
+               class="code sev-2  le">
+               <ul class="violations">
+               
+                  <li>
+                     <span class="count sev-2">
+                        E501
+                     </span>
+                     Line too long (99 > 79 characters)</li>
+               
+               </ul><tt><i>20</i>         <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Choississez le nom sous lequel vous souhaitez enregistrer le rapport: &quot;</span><span class="p">)</span></tt>
+            </div>
+            <div id="l21"
+               class="code sev- "><tt><i>21</i>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></tt>
+            </div>
+            
+         </div>
+      </div>
+   </body>
+</html>
