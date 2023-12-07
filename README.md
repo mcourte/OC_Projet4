@@ -1,11 +1,11 @@
-# Programme pour extraire les données et les images des livres de books.toscrape.com
+# Application pour gérer les tournois d'Echecs 
 
 ## Etape 1 : Télécharger le code
 
 Cliquer sur le bouton vert "<> Code" puis sur Download ZIP.  
 Extraire l'ensemble des éléments dans le dossier dans lequel vous voulez stockez les datas qui seront téléchargées.  
 
-## Etape 2 ; Installer Python et ouvrir le terminal de commande
+## Etape 2 : Installer Python et ouvrir le terminal de commande
 
 Télécharger [Python](https://www.python.org/downloads/) et [installer-le](https://fr.wikihow.com/installer-Python)  
 
@@ -49,6 +49,15 @@ Taper la commande suivante :
 ```
 python3 main.py
 ```
-Vous aurez alors un menu qui va s'afficher 
 
-### Informations diverses
+## Etape 6 : Utilisation du programme
+
+Pour comprendre le fonctionnement du programme et savoir comment l'utiliser , le document " Utilisation " est à votre disposition.
+
+## Etape 7 : Vérification Flake8
+
+Dans le terminal, taper la commande suivante :
+```
+flake8 --max-line-length=119 --exclude env --format=html --htmldir=flake-report
+```
+
