@@ -54,3 +54,9 @@ python3 main.py
 
 Pour comprendre le fonctionnement du programme et savoir comment l'utiliser , le document " Utilisation " est à votre disposition.
 
+## Etape 7 : Vérification Flake8
+
+Dans le terminal, taper la commande suivante :
+```
+flake8 --max-line-length=119 --exclude env --format=html --htmldir=flake-report
+```
