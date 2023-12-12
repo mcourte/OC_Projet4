@@ -20,7 +20,3 @@ class Tournament:
         self.list_of_players = list_of_players
         self.description = description
         self.number_of_players = number_of_players
-
-        return self.name, self.location, self.date_of_begin, self.date_of_end, \
-            self.number_of_round, self.round_number, self.list_of_round, \
-            self.list_of_players, self.description, self.number_of_players

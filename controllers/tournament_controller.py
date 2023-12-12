@@ -34,7 +34,7 @@ class TournamentController:
 
         self.choose_player = tournament_view.TournamentView().choose_players()
         if self.choose_player == "oui":
-            index = number_of_player+1
+            index = number_of_player
             random_player = random.sample(data_players, index)
             self.list_of_players.append(random_player)
 
@@ -57,7 +57,6 @@ class TournamentController:
         self.tournament_data = [{"Nombre de joueurs inscrits: ": self.number_of_player,
                                  "Liste des joueurs inscrits: ": self.list_of_players,
                                  "Date de début: ": self.date_of_begin}]
-
         file_path = os.path.join("data", "tournament_data.json")
         try:
             with open(file_path, "r") as file:
@@ -69,12 +68,15 @@ class TournamentController:
         data.extend(self.tournament_data)
         with open(file_path,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
+        file_path2 = os.path.join("data", "tournament_pending.json")
+        with open(file_path2,  "w") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
 
         return self.tournament_data, self.number_of_player
 
     def end_tournament(self):
         '''Permet de terminer un tournoi et de l'enregistrer dans le fichier tournament_closed'''
-        file_path = os.path.join("data", "tournament_data.json")
+        file_path = os.path.join("data", "tournament_pending.json")
         with open(file_path, "r") as file:
             data = json.load(file)
         date_of_end = datetime.date.today()
@@ -97,7 +99,7 @@ class TournamentController:
         for i in range(0, len(data)):
             close.update(data[i])
             list_close.append(close)
-        print(list_close)
+        return list_close
 
     def display_tournament(self):
         ''' Permet d'afficher la liste des tournois'''
@@ -108,7 +110,6 @@ class TournamentController:
         for i in range(0, len(data), 3):
             tournament = data[i]
             list_tournament.append(tournament)
-        print(list_tournament)
         return list_tournament
 
     def choose_tournament_detail(self):
@@ -124,6 +125,8 @@ class TournamentController:
         list_tournament.pop()
         for tournament in list_tournament:
             tournament = tournament[0]
+            print(tournament)
+            print(type(tournament))
             tournament_name = tournament.get("Nom du tournoi: ")
             if tournament_name is not None:
                 list_tournament_name.append(tournament_name)
@@ -189,5 +192,5 @@ class TournamentController:
                 print("Option invalide. Veuillez choisir une option valide.")
 
 
-test = TournamentController()
-test.start_tournament()
+# test = TournamentController()
+# test.start_tournament()

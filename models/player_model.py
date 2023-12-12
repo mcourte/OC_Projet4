@@ -6,15 +6,12 @@ import random
 
 
 class Player:
-    def __init__(self, score=0, name="", surname="", date_of_birth="", ID="", winner=bool, looser=bool, draw=bool):
+    def __init__(self, score=0, name="", surname="", date_of_birth="", ID=""):
         self.name = name
         self.score = score
         self.surname = surname
         self.date_of_birth = date_of_birth
         self.ID = ID
-        self.winner = winner
-        self.looser = looser
-        self.draw = draw
 
     def random_ID(self):
         ''' Cette fonction permet de générer aléatoirement des ID
