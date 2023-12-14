@@ -113,6 +113,7 @@ class TournamentController:
         return list_tournament
 
     def choose_tournament_detail(self):
+        ''' Permet de choisir le tournoi dont on veut afficher les détails'''
         list_tournament = []
         list_tournament_name = []
         list_tournament_data = []
@@ -122,11 +123,9 @@ class TournamentController:
         for i in range(0, len(data), 3):
             one_tournament = data[i:(i+3)]
             list_tournament.append(one_tournament)
-        list_tournament.pop()
+            print(list_tournament)
+        list_tournament = list_tournament[0]
         for tournament in list_tournament:
-            tournament = tournament[0]
-            print(tournament)
-            print(type(tournament))
             tournament_name = tournament.get("Nom du tournoi: ")
             if tournament_name is not None:
                 list_tournament_name.append(tournament_name)
@@ -147,6 +146,19 @@ class TournamentController:
         user_choice = TournamentController().choose_tournament_detail()
         list_tournament = []
         file_path = os.path.join("data", "tournament_data.json")
+        with open(file_path, "r") as file:
+            data = json.load(file)
+        for i in range(0, len(data), 3):
+            one_tournament = data[i:(i+3)]
+            list_tournament.append(one_tournament)
+        tournament_choice = list_tournament[user_choice]
+        return tournament_choice
+
+    def display_tournament_data(self):
+        '''Permet d'afficher les détails d'un tournoi'''
+        user_choice = TournamentController().choose_tournament_detail()
+        list_tournament = []
+        file_path = os.path.join("data", "tournament_closed.json")
         with open(file_path, "r") as file:
             data = json.load(file)
         for i in range(0, len(data), 3):

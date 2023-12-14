@@ -79,6 +79,8 @@ class PlayerController:
                                  key=lambda x: (x[0], x[1]))
             sorted_name.append(sorted_name)
         sorted_name.pop()
+        for name in sorted_name:
+            print(name)
         return sorted_name
 
     def player_menu(self):

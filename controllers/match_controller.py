@@ -12,7 +12,9 @@ class MatchController:
 
     def winner(self):
         '''Permet de mettre à jour les scores des joueurs'''
-        list_result_match = []
+        data_player = []
+        list_match_result = []
+        players = []
         file_path = os.path.join("data", "tournament_pending.json")
         with open(file_path,  "r") as file:
             data_tournament = json.load(file)
@@ -30,35 +32,34 @@ class MatchController:
                 winner_ID = match_view.MatchView().match_view()
                 if str(winner_ID) == str(ID_player1):
                     player1_score_match = 1
-                    player1_score += 1
                     player2_score_match = 0
-                    player2_score += 0
                     match_result = [(ID_player1, player1_score_match), (ID_player2, player2_score_match)]
 
                 if str(winner_ID) == str(ID_player2):
                     player2_score_match = 1
-                    player2_score += 1
                     player1_score_match = 0
-                    player1_score += 0
                     match_result = [(ID_player1, player1_score_match), (ID_player2, player2_score_match)]
 
                 if str(winner_ID) == "nul":
                     player2_score_match = 0.5
-                    player1_score += 0.5
                     player1_score_match = 0.5
-                    player1_score += 0.5
                     match_result = [(ID_player1, player1_score_match), (ID_player2, player2_score_match)]
-
-            player1.update(str(player1_score))
-            player2.update(str(player2_score))
-            print(player1, player2)
-            list_result_match.append(match_result)
-
-        result_match = {"Liste des scores des matchs: ": list_result_match}
+            list_match_result.append(match_result)
+            player1["Score global du joueur: "] = player1_score + player1_score_match
+            player2["Score global du joueur: "] = player2_score + player2_score_match
+            result_match = {"Liste des scores des matchs: ": list_match_result}
+            players.append(player1)
+            players.append(player2)
+        player_update = {"Mise à jour des scores des joueurs:": players}
+        data_player.append(player_update)
         data_tournament.append(result_match)
-        with open(file_path, "w") as file:
-            json.dump(data_tournament, file, ensure_ascii=False, indent=1)
+        data_tournament.append(data_player)
+        match_choice = match_view.MatchView().match_choice()
+        if match_choice == "non":
+            pass
+        # with open(file_path, "w") as file:
+        #    json.dump(data_tournament, file, ensure_ascii=False, indent=1)
 
 
-test = MatchController()
-test.winner()
+# test = MatchController()
+# test.winner()

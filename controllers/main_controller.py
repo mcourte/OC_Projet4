@@ -5,13 +5,14 @@ from controllers import report_controller
 
 
 class MainController:
-    """Contrôleur principal de l'application."""
+    '''Contrôleur principal de l'application.'''
 
     def __init__(self):
-        """Initialise le contrôleur principal."""
+        '''Initialise le contrôleur principal.'''
         pass
 
     def run(self):
+        ''' Permet de lancer les fonctions en fonction des choix de l'utilisateur'''
 
         while True:
             choice = main_view.MainView().main_menu()
@@ -27,3 +28,7 @@ class MainController:
                 break
             else:
                 print("Option invalide. Veuillez choisir une option valide.")
+
+
+test = MainController()
+test.run()

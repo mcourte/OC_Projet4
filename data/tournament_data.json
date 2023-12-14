@@ -110,5 +110,61 @@
             ]
         ],
         "Date de début: ": "12-12-2023"
+    },
+    {
+        "Nom du tournoi: ": "Tournoi n°3",
+        "Lieu: ": "Rennes",
+        "Nombre de round: ": 4,
+        "Description: ": "sans objet"
+    },
+    {
+        "Nombre de joueurs inscrits: ": "6",
+        "Liste des joueurs inscrits: ": [
+            [
+                {
+                    "Nom: ": "Blattner",
+                    "Prénom: ": "Marion",
+                    "Date de naissance: ": "1991-03-01",
+                    "Identifiant National d'Echecs: ": "LC72420",
+                    "Score global du joueur: ": 0
+                },
+                {
+                    "Nom: ": "Ait-Hida",
+                    "Prénom: ": "Dina",
+                    "Date de naissance: ": "1992-09-15",
+                    "Identifiant National d'Echecs: ": "GE69483",
+                    "Score global du joueur: ": 0
+                },
+                {
+                    "Nom: ": "Sétrin",
+                    "Prénom: ": "Audrey",
+                    "Date de naissance: ": "1998-07-13",
+                    "Identifiant National d'Echecs: ": "DK78847",
+                    "Score global du joueur: ": 0
+                },
+                {
+                    "Nom: ": "Courant",
+                    "Prénom: ": "Pauline",
+                    "Date de naissance: ": "1980-12-25",
+                    "Identifiant National d'Echecs: ": "AO84418",
+                    "Score global du joueur: ": 0
+                },
+                {
+                    "Nom: ": "Morelle",
+                    "Prénom: ": "Mael",
+                    "Date de naissance: ": "1987-11-03",
+                    "Identifiant National d'Echecs: ": "SD67265",
+                    "Score global du joueur: ": 0
+                },
+                {
+                    "Nom: ": "Gouget",
+                    "Prénom: ": "Florine",
+                    "Date de naissance: ": "1993-06-10",
+                    "Identifiant National d'Echecs: ": "NN09582",
+                    "Score global du joueur: ": 0
+                }
+            ]
+        ],
+        "Date de début: ": "13-12-2023"
     }
 ]
