@@ -40,7 +40,7 @@ class ReportController:
             file_name = name + ".txt"
             file_path = os.path.join(data_report, file_name)
             with open(file_path, 'w') as file:
-                file.write(report_text)
+                file.write(str(report_text))
             print(f"Rapport sauvegardé avec succès dans {file_path}")
 
     def display_players_alphabetically(self):
