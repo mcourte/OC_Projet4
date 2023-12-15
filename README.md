@@ -58,6 +58,6 @@ Pour comprendre le fonctionnement du programme et savoir comment l'utiliser , le
 
 Dans le terminal, taper la commande suivante :
 ```
-flake8 --max-line-length=119 --exclude env --format=html --htmldir=flake-report
+flake8 --format=html --htmldir=flake-report
 ```
 
