@@ -30,33 +30,37 @@ class RoundController:
         dict_player = {}
         b = []
         list_paires = []
+        list_round_number = []
         pairing_data = []
         file_path = os.path.join("data", "tournament_pending.json")
         with open(file_path, "r") as file:
             data = json.load(file)
-        for data_dict in data:
-            players_data = data_dict.get("Liste des joueurs inscrits: ")
-            if players_data is not None:
-                players = players_data
-            for player in players:
-                dict_player.update(player)
-                a = list(dict_player.items())
-                b.append(a)
             for data_dict in data:
                 if isinstance(data_dict, dict):
-                    pairing = data_dict.get("Liste des paires: ")
-                    if pairing is not None:
-                        pairing_data.append(pairing)
-        pairings = []
+                    round_number = data_dict.get("Numéro de round: ")
+                    if round_number is not None:
+                        list_round_number.append(round_number)
+            last_round_number = max(list_round_number)
+            key_to_search = "Numéro de round: "
+            value_to_search = last_round_number
+            for index, item in enumerate(data):
+                if item.get(key_to_search) == value_to_search:
+                    result = index
+            players_data = data[result + 1]
+            pairing_data = players_data.get("Liste des paires: ")
+            for match in pairing_data:
+                for player in match:
+                    dict_player.update(player)
+                    a = list(dict_player.items())
+                    b.append(a)
         sorted_b = sorted(b,
                           key=lambda x: (x[-1]), reverse=True)
         sorted_b.append(sorted_b)
         sorted_b.pop()
-        for i in range(0, len(players), 2):
+        for i in range(0, len(sorted_b), 2):
             player1 = sorted_b[i]
             player2 = sorted_b[i + 1] if i + 1 < len(sorted_b) else None
             if (player1, player2) not in pairing_data and (player2, player1) not in pairing_data:
-                pairings.append((player1, player2))
                 dict_player1 = {}
                 dict_player2 = {}
                 for key, value in player1:
@@ -79,8 +83,10 @@ class RoundController:
         data_round = {"Nom du Round: ": "Round "+str(round_number),
                                         "Date de début: ": start_date,
                                         "Numéro de round: ": round_number}
-        data.append(data_round)
         data_players = RoundController().paires_of_player_round_one()
+        data.append(data_round)
+        with open(file_path,  "w") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
         data.append(data_players)
         file_path2 = os.path.join("data", "tournament_pending.json")
         with open(file_path2,  "w") as file:
@@ -90,9 +96,11 @@ class RoundController:
         '''Permet de lancer un deuxième round & les suivants'''
         list_round_number = []
         file_path = os.path.join("data", "tournament_pending.json")
-        # file_path2 = os.path.join("data", "tournament_data.json")
+        file_path2 = os.path.join("data", "tournament_data.json")
         with open(file_path, "r") as file:
             data = json.load(file)
+        with open(file_path2, "r") as file:
+            global_data = json.load(file)
         for round in data:
             if isinstance(round, dict):
                 round_number = round.get("Numéro de round: ")
@@ -106,12 +114,13 @@ class RoundController:
                           "Date de début: ": start_date,
                           "Numéro de round: ": new_round_number}
         data.append(data_new_round)
-        # with open(file_path2,  "w") as file:
-        #    json.dump(data, file, ensure_ascii=False, indent=4)
+        global_data.append(data_new_round)
+        with open(file_path2,  "w") as file:
+            json.dump(global_data, file, ensure_ascii=False, indent=4)
         data_players = RoundController().paires_of_player_new_round()
         data.append(data_players)
-        # with open(file_path,  "w") as file:
-        #    json.dump(data, file, ensure_ascii=False, indent=4)
+        with open(file_path,  "w") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
         return new_round_number
 
     def end_round(self):
@@ -140,9 +149,3 @@ class RoundController:
                 break
             else:
                 print("Option invalide. Veuillez choisir une option valide.")
-
-
-test = RoundController()
-# test.start_round()
-test.new_round()
-# test.end_round()

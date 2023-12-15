@@ -28,7 +28,3 @@ class MainController:
                 break
             else:
                 print("Option invalide. Veuillez choisir une option valide.")
-
-
-test = MainController()
-test.run()

@@ -1,5 +1,3 @@
-"""Define the Tournament."""
-
 import os
 import datetime
 import json
@@ -88,6 +86,9 @@ class TournamentController:
         file_path2 = os.path.join("data", "tournament_closed.json")
         with open(file_path2,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
+        new_data_pending = []
+        with open(file_path,  "w") as file:
+            json.dump(new_data_pending, file, ensure_ascii=False, indent=4)
 
     def close_tournament(self):
         '''Permet de lister les tournois terminés'''
@@ -202,7 +203,3 @@ class TournamentController:
                 break
             else:
                 print("Option invalide. Veuillez choisir une option valide.")
-
-
-# test = TournamentController()
-# test.start_tournament()
