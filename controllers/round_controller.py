@@ -6,6 +6,7 @@ import datetime
 import random
 
 from views import round_view
+from controllers import match_controller
 
 
 class RoundController:
@@ -143,9 +144,13 @@ class RoundController:
 
             if choice == "1":
                 RoundController().start_round()
+            elif choice == "2":
+                match_controller.MatchController().winner()
             elif choice == "3":
-                RoundController().end_round()
+                RoundController().new_round()
             elif choice == "4":
+                RoundController().end_round()
+            elif choice == "5":
                 break
             else:
                 print("Option invalide. Veuillez choisir une option valide.")

@@ -22,7 +22,8 @@ class TournamentView:
 
     def start_tournament_view(self):
         '''Permet d'initier un nouveau tournoi'''
-        self.name = input("Quel est le nom du tournoi?")
+        name = input("Quel est le numéro du tournoi?")
+        self.name = "Tournoi n°" + str(name)
         self.location = input("Quelle est la localisation du tournoi?")
         nb_round = input("Combien il y aura-t-il de round?(par défaut :4)")
         if nb_round == "" or "4":

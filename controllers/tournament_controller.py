@@ -7,6 +7,7 @@ import random
 
 
 from controllers import player_controller
+from views import round_view
 from views import tournament_view
 from views import player_view
 
@@ -108,9 +109,11 @@ class TournamentController:
         file_path = os.path.join("data", "tournament_data.json")
         with open(file_path, "r") as file:
             data = json.load(file)
-        for i in range(0, len(data), 3):
-            tournament = data[i]
-            list_tournament.append(tournament)
+        for data_dict in data:
+            if isinstance(data_dict, dict):
+                tournament_data = data_dict.get("Nom du tournoi: ")
+                if tournament_data is not None:
+                    list_tournament.append(tournament_data)
         return list_tournament
 
     def choose_tournament_detail(self):
@@ -124,7 +127,6 @@ class TournamentController:
         for i in range(0, len(data), 3):
             one_tournament = data[i:(i+3)]
             list_tournament.append(one_tournament)
-            print(list_tournament)
         list_tournament = list_tournament[0]
         for tournament in list_tournament:
             tournament_name = tournament.get("Nom du tournoi: ")
@@ -140,7 +142,7 @@ class TournamentController:
             print(f"Vous avez choisi le tournoi : {tournament_choice}")
         else:
             print("Numéro de tournoi invalide.")
-        return user_choice
+        return tournament_choice
 
     def display_tournament_detail(self):
         '''Permet d'afficher les détails d'un tournoi'''
@@ -170,23 +172,30 @@ class TournamentController:
 
     def display_tournament_alphabetically(self):
         '''Permet de ranger la liste des joueurs du tournoi par ordre alphabétique'''
+        user_choice = TournamentController().choose_tournament_detail()
+        print(user_choice)
         dict_player = {}
         sorted_player = []
         file_path = os.path.join("data", "tournament_data.json")
         with open(file_path, "r") as file:
             data = json.load(file)
-        data = data[1]
-        list_player = data.get("Liste des joueurs inscrits: ")
-        list_player = list_player[0]
-        for player in list_player:
-            dict_player.update(player)
-            a = list(dict_player.items())
-            sorted_player.append(a)
-        for i in range(0, len(sorted_player)):
-            sorted_name = sorted(sorted_player,
-                                 key=lambda x: (x[0], x[1]))
-            sorted_name.append(sorted_name)
-        sorted_name.pop()
+            key_to_search = "Nom du tournoi: "
+            value_to_search = user_choice
+            for index, item in enumerate(data):
+                if item.get(key_to_search) == value_to_search:
+                    result = index
+                players_data = data[result + 1]
+                list_player = players_data.get("Liste des joueurs inscrits: ")
+                list_player = list_player[0]
+            for player in list_player:
+                dict_player.update(player)
+                a = list(dict_player.items())
+                sorted_player.append(a)
+            for i in range(0, len(sorted_player)):
+                sorted_name = sorted(sorted_player,
+                                     key=lambda x: (x[0], x[1]))
+                sorted_name.append(sorted_name)
+            sorted_name.pop()
         return sorted_name
 
     def tournament_menu(self):
@@ -196,7 +205,7 @@ class TournamentController:
             if choice == "1":
                 TournamentController().start_tournament()
             elif choice == "2":
-                pass
+                round_view.RoundView().display_round_menu()
             elif choice == "3":
                 TournamentController().close_tournament()
             elif choice == "4":
