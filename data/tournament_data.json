@@ -70,24 +70,7 @@
         "Date de début: ": "15-12-2023"
     },
     {
-        "Nom du Round: ": "Round 1",
-        "Date de début: ": "15-12-2023",
-        "Numéro de round: ": 1
-    },
-    {
-        "Nom du Round: ": "Round 2",
-        "Date de début: ": "15-12-2023",
-        "Numéro de round: ": 2
-    },
-    {
-        "Nom du Round: ": "Round 3",
-        "Date de début: ": "15-12-2023",
-        "Numéro de round: ": 3
-    },
-    {
-        "Nom du Round: ": "Round 4",
-        "Date de début: ": "15-12-2023",
-        "Numéro de round: ": 4
+        "Date de fin: ": "15-12-2023"
     },
     {
         "Nom du tournoi: ": "Tournoi n°5",
@@ -144,5 +127,8 @@
             ]
         ],
         "Date de début: ": "15-12-2023"
+    },
+    {
+        "Date de fin: ": "15-12-2023"
     }
 ]
