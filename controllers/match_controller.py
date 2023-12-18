@@ -34,17 +34,17 @@ class MatchController:
                     if str(winner_ID) == str(ID_player1):
                         player1_score_match = 1
                         player2_score_match = 0
-                        match_result = [(ID_player1, player1_score_match), (ID_player2, player2_score_match)]
+                        match_result = ((ID_player1, player1_score_match), (ID_player2, player2_score_match))
 
                     if str(winner_ID) == str(ID_player2):
                         player2_score_match = 1
                         player1_score_match = 0
-                        match_result = [(ID_player1, player1_score_match), (ID_player2, player2_score_match)]
+                        match_result = ((ID_player1, player1_score_match), (ID_player2, player2_score_match))
 
                     if str(winner_ID) == "nul":
                         player2_score_match = 0.5
                         player1_score_match = 0.5
-                        match_result = [(ID_player1, player1_score_match), (ID_player2, player2_score_match)]
+                        match_result = ((ID_player1, player1_score_match), (ID_player2, player2_score_match))
                     list_match_result.append(match_result)
                     player1["Score global du joueur: "] = player1_score + player1_score_match
                     player2["Score global du joueur: "] = player2_score + player2_score_match

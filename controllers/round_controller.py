@@ -86,24 +86,20 @@ class RoundController:
                                         "Numéro de round: ": round_number}
         data_players = RoundController().paires_of_player_round_one()
         data.append(data_round)
-        with open(file_path,  "w") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
         data.append(data_players)
-        file_path2 = os.path.join("data", "tournament_pending.json")
-        with open(file_path2,  "w") as file:
+        file_path = os.path.join("data", "tournament_pending.json")
+        with open(file_path,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
     def new_round(self):
         '''Permet de lancer un deuxième round & les suivants'''
         list_round_number = []
         file_path = os.path.join("data", "tournament_pending.json")
-        file_path2 = os.path.join("data", "tournament_data.json")
         with open(file_path, "r") as file:
             data = json.load(file)
-        with open(file_path2, "r") as file:
-            global_data = json.load(file)
         for round in data:
             if isinstance(round, dict):
+                number_of_round = round.get("Nombre de round: ")
                 round_number = round.get("Numéro de round: ")
                 if round_number is not None:
                     list_round_number.append(round_number)
@@ -111,17 +107,17 @@ class RoundController:
         start_date = datetime.datetime.today()
         start_date = start_date.strftime("%d-%m-%Y")
         new_round_number = last_round_number + 1
-        data_new_round = {"Nom du Round: ": "Round "+str(new_round_number),
-                          "Date de début: ": start_date,
-                          "Numéro de round: ": new_round_number}
-        data.append(data_new_round)
-        global_data.append(data_new_round)
-        with open(file_path2,  "w") as file:
-            json.dump(global_data, file, ensure_ascii=False, indent=4)
-        data_players = RoundController().paires_of_player_new_round()
-        data.append(data_players)
-        with open(file_path,  "w") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
+        if new_round_number <= number_of_round:
+            data_new_round = {"Nom du Round: ": "Round "+str(new_round_number),
+                              "Date de début: ": start_date,
+                              "Numéro de round: ": new_round_number}
+            data.append(data_new_round)
+            data_players = RoundController().paires_of_player_new_round()
+            data.append(data_players)
+            with open(file_path,  "w") as file:
+                json.dump(data, file, ensure_ascii=False, indent=4)
+        else:
+            print("Tous les rounds du tournoi ont été joués")
         return new_round_number
 
     def end_round(self):

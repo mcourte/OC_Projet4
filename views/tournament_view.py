@@ -40,29 +40,6 @@ class TournamentView:
                         "Description: ": self.description
                         }
                         ]
-        file_path = os.path.join("data", "tournament_data.json")
-        try:
-            with open(file_path, "r") as file:
-                data = json.load(file)
-        except FileNotFoundError:
-            data = []
-        except json.JSONDecodeError:
-            data = []
-        data.extend(self.tournament_data_view)
-        with open(file_path,  "w") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
-        file_path2 = os.path.join("data", "tournament_pending.json")
-        try:
-            with open(file_path, "r") as file:
-                data = json.load(file)
-        except FileNotFoundError:
-            data = []
-        except json.JSONDecodeError:
-            data = []
-        if data == []:
-            data.extend(self.tournament_data_view)
-        with open(file_path2,  "w") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
         return self.tournament_data_view
 
     def number_of_player(self):
