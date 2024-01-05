@@ -1,9 +1,5 @@
 """Define the Tournament."""
 
-import datetime
-import json
-import os
-
 
 class TournamentView:
 
@@ -58,24 +54,6 @@ class TournamentView:
         ''' Permet de rentrer l'ID du joueur que l'on veut sélectionner'''
         self.choose_ID = input("Veuillez rentrer l'ID du joueur que vous souhaitez rajouter : ").upper()
         return self.choose_ID
-
-    def end_tournament_view(self):
-        ''' Permet de clôturer un tournoi'''
-        self.date_of_end = datetime.date.today()
-        date_of_end = {"Date de fin: ", self.date_of_end}
-        self.tournament_data_view.extend(date_of_end)
-        file_path = os.path.join("data", "tournament_data.json")
-        try:
-            with open(file_path, "r") as file:
-                data = json.load(file)
-        except FileNotFoundError:
-            data = []
-        except json.JSONDecodeError:
-            data = []
-        data.extend(self.tournament_data_view)
-        with open(file_path,  "w") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
-        return self.tournament_data_view
 
     def choose_tournament(self):
         '''Permet à l'utilisateur de choisir le tournoi dont il veut les détails'''

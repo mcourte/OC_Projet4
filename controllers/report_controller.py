@@ -84,5 +84,6 @@ class ReportController:
         report_text = []
         tournament_report = tournament_controller.TournamentController().display_tournament_data()
         for tournament in tournament_report:
+            print(tournament)
             report_text.append(tournament)
         ReportController().save_report_to_file(report_text)

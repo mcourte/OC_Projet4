@@ -58,6 +58,8 @@ class RoundController:
                           key=lambda x: (x[-1]), reverse=True)
         sorted_b.append(sorted_b)
         sorted_b.pop()
+        print("sorted_b", sorted_b)
+        print("pairing_data", pairing_data)
         for i in range(0, len(sorted_b), 2):
             player1 = sorted_b[i]
             player2 = sorted_b[i + 1] if i + 1 < len(sorted_b) else None
@@ -87,19 +89,25 @@ class RoundController:
         data_players = RoundController().paires_of_player_round_one()
         data.append(data_round)
         data.append(data_players)
+        print(data_round)
+        print(data_players)
         file_path = os.path.join("data", "tournament_pending.json")
         with open(file_path,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
+        return data_round, data_players
 
     def new_round(self):
         '''Permet de lancer un deuxième round & les suivants'''
         list_round_number = []
+        list_number_of_round = []
         file_path = os.path.join("data", "tournament_pending.json")
         with open(file_path, "r") as file:
             data = json.load(file)
         for round in data:
             if isinstance(round, dict):
                 number_of_round = round.get("Nombre de round: ")
+                if number_of_round is not None:
+                    list_number_of_round.append(number_of_round)
                 round_number = round.get("Numéro de round: ")
                 if round_number is not None:
                     list_round_number.append(round_number)
@@ -107,7 +115,7 @@ class RoundController:
         start_date = datetime.datetime.today()
         start_date = start_date.strftime("%d-%m-%Y")
         new_round_number = last_round_number + 1
-        if new_round_number <= number_of_round:
+        if new_round_number <= list_number_of_round[0]:
             data_new_round = {"Nom du Round: ": "Round "+str(new_round_number),
                               "Date de début: ": start_date,
                               "Numéro de round: ": new_round_number}
@@ -116,6 +124,8 @@ class RoundController:
             data.append(data_players)
             with open(file_path,  "w") as file:
                 json.dump(data, file, ensure_ascii=False, indent=4)
+            print(data_new_round)
+            print(data_players)
         else:
             print("Tous les rounds du tournoi ont été joués")
         return new_round_number
@@ -129,9 +139,11 @@ class RoundController:
         self.end_date = end_date.strftime("%d-%m-%Y")
         end = {"Date de fin du round : ": self.end_date}
         data.append(end)
+        print(end)
         file_path2 = os.path.join("data", "tournament_pending.json")
         with open(file_path2,  "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
+        return end
 
     def round_menu(self):
         '''Permet de lancer les fonctions suivant les choix de l'utilisateur'''

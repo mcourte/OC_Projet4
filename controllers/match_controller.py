@@ -58,3 +58,15 @@ class MatchController:
         data_tournament.append(result_match)
         with open(file_path, "w") as file:
             json.dump(data_tournament, file, ensure_ascii=False, indent=1)
+
+    def update_matches(self, updated_matches):
+        """Met à jour les matchs du round avec de nouvelles valeurs."""
+        for match_index, match in enumerate(self.matches):
+            if match_index < len(updated_matches):
+                match_data = updated_matches[match_index]
+                for key, value in match_data.items():
+                    setattr(match, key, value)
+
+
+test = MatchController()
+test.winner()

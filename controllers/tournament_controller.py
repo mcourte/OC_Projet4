@@ -146,7 +146,7 @@ class TournamentController:
         else:
             print("Numéro de tournoi invalide.")
         return tournament_choice
-    
+
     def choose_tournament_data(self):
         ''' Permet de choisir le tournoi dont on veut afficher les détails'''
         list_tournament = []
@@ -196,18 +196,28 @@ class TournamentController:
     def display_tournament_data(self):
         '''Permet d'afficher les détails d'un tournoi'''
         user_choice = TournamentController().choose_tournament_data()
+        tournament_number = user_choice[-1]
+        next_tournament_number = int(tournament_number) + 1
         list_tournament = []
         file_path = os.path.join("data", "tournament_closed.json")
         with open(file_path, "r") as file:
             data = json.load(file)
-        data = data[0]
-        print(data)
-        for one_tournament in list_tournament:
-            for tournament_dict in one_tournament:
-                choice = tournament_dict.get("Nom du tournoi: ")
-                if choice == user_choice:
-                    print(one_tournament)
-        return one_tournament
+        for i in range(0, len(data), 3):
+            one_tournament = data[i:(i+3)]
+            del one_tournament[1]
+            list_tournament.append(one_tournament)
+        key_to_search = "Nom du tournoi: "
+        value_to_search = user_choice
+        value_to_search2 = "Tournoi n°" + str(next_tournament_number)
+        for index, item in enumerate(data):
+            if item.get(key_to_search) == value_to_search:
+                result_start = index
+            if item.get(key_to_search) == value_to_search2:
+                result_end = index
+            else:
+                result_end = -1
+        tournament_data = data[result_start:result_end]
+        return tournament_data
 
     def display_tournament_alphabetically(self):
         '''Permet de ranger la liste des joueurs du tournoi par ordre alphabétique'''
@@ -246,12 +256,8 @@ class TournamentController:
             elif choice == "2":
                 round_view.RoundView().display_round_menu()
             elif choice == "3":
-                TournamentController().close_tournament()
+                TournamentController().end_tournament()
             elif choice == "4":
                 break
             else:
                 print("Option invalide. Veuillez choisir une option valide.")
-
-
-test = TournamentController()
-test.display_tournament_data()
