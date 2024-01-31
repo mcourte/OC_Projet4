@@ -26,9 +26,9 @@ class TournamentView:
         self.tournament_location = input("Quelle est la localisation du tournoi?")
         nb_round = input("Combien il y aura-t-il de round?(par défaut 4)")
         if nb_round == "" or "4":
-            self.tournament_number_of_round = 4
+            self.number_of_round = 4
         else:
-            self.tournament_number_of_round = nb_round
+            self.number_of_round = nb_round
 
         tournament_date_of_begin = input("Quelle est la date de début du tournoi?")
         self.tournament_date_of_begin = datetime.strftime(tournament_date_of_begin, "%d-%m-%Y")
@@ -36,15 +36,15 @@ class TournamentView:
         numbers = ''.join((random.choice(string.digits))
                           for x in range(nb_numbers))
         ID_list = list(numbers)
-        self.tournament_id = ''.join(ID_list)
+        self.tournament_ID = ''.join(ID_list)
         self.tournament_description = input("Entrez les remarques générales du tournoi : ")
         self.tournament_data_view = [{
                         "Nom_du_tournoi": self.tournament_name,
                         "Lieu": self.tournament_location,
-                        "Nombre_de_round": self.tournament_number_of_round,
+                        "Nombre_de_round": self.number_of_round,
                         "Description": self.tournament_description,
                         "Date_de_debut": self.tournament_date_of_begin,
-                        "Tournoi_ID": self.tournament_id
+                        "Tournoi_ID": self.tournament_ID
                         }
         ]
         return self.tournament_data_view
@@ -71,7 +71,7 @@ class TournamentView:
         self.choice_tournament = input("Choisissez le nom du tournoi dont vous voulez les détails : ")
         return self.choice_tournament
 
-    def display_list(self, tournaments):
+    def display_list_tournament(self, tournaments):
         '''Affiche la liste des tournois.'''
         print("\nListe des tournois:")
         for tournament in tournaments:
@@ -82,8 +82,22 @@ class TournamentView:
         '''Affiche les tournois en cours.'''
         print("Tournois en cours :\n")
         for i, tournament in enumerate(tournaments):
-            TournamentView.display_tournament(tournament, i)
+            TournamentView.display_list_tournament(tournament, i)
         print()
+
+    def display_tournament(tournament, index=None):
+        """Affiche les détails du tournoi."""
+        if index is not None:
+            details = (
+                f"{index + 1}. {tournament.tournament_name}"
+                f" - {tournament.tournament_location} - {tournament.tournament_date_of_begin}\n"
+            )
+        else:
+            details = (
+                f"{tournament.tournament_ID}. {tournament.tournament_name})"
+                f" - {tournament.tournament_location} - {tournament.tournament_date_of_begin}\n"
+            )
+        print(details)
 
     def display_tournament_launched(tournament_name):
         '''Affiche le message indiquant que le tournoi a été lancé avec succès.'''

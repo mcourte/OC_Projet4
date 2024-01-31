@@ -1,6 +1,5 @@
 """Define the Player."""
 
-
 import string
 import random
 import json
@@ -8,12 +7,12 @@ import os
 
 
 class Player:
-    def __init__(self, score=0, name="", surname="", date_of_birth="", ID=""):
+    def __init__(self, name, surname, date_of_birth, player_ID, score_tournament):
         self.name = name
-        self.score = score
         self.surname = surname
         self.date_of_birth = date_of_birth
-        self.ID = ID
+        self.player_ID = player_ID
+        self.score_tournament = score_tournament
 
     def random_ID(self):
         ''' Cette fonction permet de générer aléatoirement des ID

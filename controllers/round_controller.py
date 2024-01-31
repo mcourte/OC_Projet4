@@ -8,7 +8,8 @@ from controllers.match_controller import MatchController
 from controllers.tournament_controller import TournamentController
 from controllers.player_controller import PlayerController
 from views.round_view import RoundView
-from models.round_model import Round
+from models.round_model import RoundModel
+from models.tournament_model import Tournament
 
 
 class RoundController:
@@ -26,7 +27,7 @@ class RoundController:
             "Nom du Round: ": f"Round {round_number}",
             "Date de début: ": start_date,
         }
-        data_players = Round().create_pairs_round_one()
+        data_players = RoundModel.create_pairs_round_one()
         data.extend([data_round, data_players])
 
         file_path2 = os.path.join("data", "tournament_pending.json")
@@ -38,7 +39,7 @@ class RoundController:
         return data_round, data_players
 
     def new_round(self):
-        data = Round.load_data("data", "tournament_pending.json")
+        data = RoundModel.load_data("data", "tournament_pending.json")
         list_round_numbers = [round["Numéro de round: "] for round in data if isinstance(round, dict)]
         last_round_number = max(list_round_numbers)
         start_date = datetime.datetime.today().strftime("%d-%m-%Y")
@@ -50,13 +51,13 @@ class RoundController:
                 "Date de début: ": start_date,
             }
             file_path2 = os.path.join("data", "tournament_data.json")
-            Round.save_data(file_path2, data_new_round)
+            RoundModel.save_data(file_path2, data_new_round)
 
-            data_players = Round().create_pairs_new_round(data[-1]["Liste des paires: "])
+            data_players = RoundModel.create_pairs_new_round(data[-1]["Liste des paires: "])
             data.extend([data_new_round, data_players])
 
             file_path = os.path.join("data", "tournament_pending.json")
-            Round.save_data(file_path, data)
+            RoundModel.save_data(file_path, data)
 
             print(data_new_round)
             print(data_players)
@@ -67,16 +68,16 @@ class RoundController:
 
     def end_round(self):
         end_date = datetime.datetime.today().strftime("%d-%m-%Y")
-        end = {"Date de fin du round : ": end_date}
-        data = Round.load_data("data", "tournament_pending.json")
+        end = {"Date_de_fin_round": end_date}
+        data = RoundModel.load_data("data", "tournament_pending.json")
         data.append(end)
 
         print(end)
 
         file_path = os.path.join("data", "tournament_pending.json")
-        Round.save_data(file_path, data)
+        RoundModel.save_data(file_path, data)
         file_path2 = os.path.join("data", "tournament_data.json")
-        Round.save_data(file_path2, data)
+        RoundModel.save_data(file_path2, data)
 
         return end
 
@@ -107,40 +108,40 @@ class RoundTournamentController:
         selected_tournament = TournamentController.load_tournament_by_id(tournament_id)
 
         players = PlayerController.load_players_by_ids(players_ids)
-        number_of_rounds = selected_tournament.number_of_tours
+        number_of_rounds = selected_tournament.number_of_round
         print("\nce tournoi a ", number_of_rounds, " rounds")
 
-        selected_tournament.Tournament.start_tournament(tournament)
+        selected_tournament = TournamentController.start_tournament(tournament)
 
         for round_number in range(1, number_of_rounds + 1):
             round_name = f"Round {round_number}"
-            new_round = Round(round_name)
+            new_round = RoundModel(round_name)
             new_round.start_round()
             print(f"debut du round : {round_number}")
             if round_number == 1:
-                new_round.create_random_pairs(players)
+                new_round.create_pairs_round_one(players)
             else:
                 sorted_players = self.calculate_points_for_tournament(tournament_id)
                 previous_results = self.get_previous_results(
                     tournament_id, round_number
                 )
-                pairs, _ = new_round.generate_pairs_for_next_round(
+                pairs, _ = new_round.create_pairs_new_round(
                     players, previous_results, sorted_players
                 )
                 print("\nprochain Match pour le round en cours :\n")
                 for pair in pairs:
-                    player1 = f"{pair['player1']['last_name']} {pair['player1']['first_name']}"
-                    player2 = f"{pair['player2']['last_name']} {pair['player2']['first_name']}"
+                    player1 = f"{pair['player1']['name']} {pair['player1']['name']}"
+                    player2 = f"{pair['player2']['name']} {pair['player2']['name']}"
                     print(f"Match : {player1} vs {player2}")
-            selected_tournament.add_tour_to_list(new_round)
+            selected_tournament = Tournament.add_round_to_list(new_round)
             MatchController.play_match(new_round)
             new_round.end_round()
             TournamentController.update_tournament(
                 tournament_id, {"list_of_tours": selected_tournament.list_of_tours}
             )
             if round_number < number_of_rounds:
-                user_choice = input("Continuez a entrer les resultats O/N : ")
-                if user_choice.lower() == "n":
+                user_choice = input("Voulez-vous rentrer le score du match suivant? Oui/Non :").lower()
+                if user_choice == "non":
                     break
             else:
                 self.calculate_points_for_tournament_final(tournament_id)
@@ -204,17 +205,17 @@ class RoundTournamentController:
             print("le dernier round est le : ", dernier_numero_round, "\n")
         for round_number in range(dernier_numero_round + 1, number_of_rounds + 1):
             round_name = f"Round {round_number}"
-            new_round = Round(round_name)
+            new_round = RoundModel(round_name)
             new_round.start_round()
             print(f"debut du round : {round_number}\n")
             if round_number == 1:
-                new_round.create_random_pairs(players)
+                new_round.create_pairs_round_one(players)
             else:
                 sorted_players = self.calculate_points_for_tournament(tournament_id)
                 previous_results = self.get_previous_results(
                     tournament_id, round_number
                 )
-                pairs, _ = new_round.generate_pairs_for_next_round(
+                pairs, _ = new_round.create_pairs_new_round(
                     players, previous_results, sorted_players
                 )
                 print("\nprochain Match pour le round en cours :\n")
@@ -231,7 +232,7 @@ class RoundTournamentController:
                 tournament_id, {"list_of_tours": selected_tournament.list_of_tours}
             )
             if round_number < number_of_rounds:
-                user_choice = input("Continuez a entrer les resultats O/N : ")
+                user_choice = input("Continuez a entrer les resultats (Oui/non) : ")
                 if user_choice.lower() == "n":
                     break
             else:
@@ -265,7 +266,7 @@ class RoundTournamentController:
         for player_id, points in sorted_players:
             player = PlayerController.get_player_by_id(player_id)
             if player:
-                print(f"{player.first_name} {player.last_name}: {points} points")
+                print(f"{player.name} {player.surname}: {points} points")
             else:
                 print(f"Player with ID {player_id} not found.")
         print()

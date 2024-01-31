@@ -59,12 +59,12 @@ class MatchController:
 
         for matchs in data_matchs:
             for match in matchs:
-                player_ID = match.get("Identifiant National d'Echecs: ")
+                player_ID = match.get("player_id")
                 matchs_played = data_tournament.get("Liste des scores des matchs: ")
                 for match_index, match in enumerate(matchs_played):
                     if match_index < len(matchs):
                         match_data = matchs[match_index]
-                        player_IDs = match_data.get("Identifiant National d'Echecs: ")
+                        player_IDs = match_data.get("player_id")
                         print(player_IDs)
                         if player_ID in player_IDs:
                             index = match_index + 1
@@ -78,8 +78,8 @@ class MatchController:
                         for i in range(0, len(match), 2):
                             player1 = next_match[0]
                             player2 = next_match[1]
-                            ID_player1 = player1.get("Identifiant National d'Echecs: ")
-                            ID_player2 = player2.get("Identifiant National d'Echecs: ")
+                            ID_player1 = player1.get("player_id")
+                            ID_player2 = player2.get("player_id")
                             print(player1, player2)
                             winner_ID = MatchView().match_view()
                             if winner_ID == ID_player1:
@@ -117,19 +117,19 @@ class MatchController:
         for match in round.matches:
             print(
                 f"Entrez le score pour "
-                f"{match.player1.first_name} {match.player1.last_name} vs "
-                f"{match.player2.first_name} {match.player2.last_name}\n"
+                f"{match.player1.name} {match.player1.surname} vs "
+                f"{match.player2.name} {match.player2.surname}\n"
             )
             while True:
                 try:
                     score1 = int(
                         input(
-                            f"Score de {match.player1.first_name} {match.player1.last_name}: "
+                            f"Score de {match.player1.name} {match.player1.surname}: "
                         )
                     )
                     score2 = int(
                         input(
-                            f"Score de {match.player2.first_name} {match.player2.last_name}: "
+                            f"Score de {match.player2.name} {match.player2.surname}: "
                         )
                     )
                     print()

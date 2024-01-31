@@ -14,7 +14,7 @@ class PlayerController:
         surname = PlayerView().player_surname()
         name = PlayerView().player_name()
         date_of_birth = PlayerView().player_date_of_birth()
-        player_ID = PlayerView().player_ID()
+        player_ID = PlayerView().player_id()
         chess_ID = Player().random_ID()
         score_tournament = 0
 

@@ -41,7 +41,7 @@ class PlayerView():
         self.date_of_birth = date_of_birth[0:10]
         return self.date_of_birth
 
-    def player_ID(self):
+    def player_id(self):
         self.player_ID = input("Quel est l'ID du joueur?")
         return self.player_ID
 

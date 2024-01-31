@@ -63,8 +63,8 @@ class TournamentController:
 
         else:
             self.choose_player = TournamentView().choose_players()
-        self.tournament_data = [{"Nombre de joueurs inscrits: ": self.number_of_player,
-                                 "Liste des joueurs inscrits: ": self.list_of_players,
+        self.tournament_data = [{"Nombre_joueurs_inscrits": self.number_of_player,
+                                 "Liste_joueurs_inscrits": self.list_of_players,
                                  }]
         data.extend(self.tournament_data)
         file_path = os.path.join("data", "tournament_data.json")
@@ -85,7 +85,7 @@ class TournamentController:
         date_of_end = datetime.date.today()
         self.date_of_end = date_of_end.strftime("%d-%m-%Y")
 
-        tournament_end = {"Date de fin: ": self.date_of_end}
+        tournament_end = {"Date_de_fin": self.date_of_end}
         data.append(tournament_end)
         print(data)
 
@@ -146,8 +146,8 @@ class TournamentController:
         list_tournament = []
         for i in range(0, len(data), 3):
             one_tournament = data[i:(i + 3)]
-            if one_tournament[0].get("Nom du tournoi: ") is not None:
-                list_tournament.append(one_tournament[0].get("Nom du tournoi: "))
+            if one_tournament[0].get("Nom_du_tournoi") is not None:
+                list_tournament.append(one_tournament[0].get("Nom_du_tournoi"))
 
         for i, tournament_name in enumerate(list_tournament, start=1):
             print(f"{i}.{tournament_name}")
@@ -177,7 +177,7 @@ class TournamentController:
             list_tournament.append(one_tournament)
         for one_tournament in list_tournament:
             for tournament_dict in one_tournament:
-                choice = tournament_dict.get("Nom du tournoi: ")
+                choice = tournament_dict.get("Nom_du_tournoi")
                 if choice == user_choice:
                     print(one_tournament)
         return one_tournament
@@ -192,9 +192,9 @@ class TournamentController:
         with open(file_path, "r") as file:
             data = json.load(file)
         for index, item in enumerate(data):
-            if item.get("Nom du tournoi: ") == user_choice:
+            if item.get("Nom_du_tournoi") == user_choice:
                 players_data = data[index + 1]
-                list_player = players_data.get("Liste des joueurs inscrits: ")[0]
+                list_player = players_data.get("Liste_joueurs_inscrits")[0]
                 for player in list_player:
                     dict_player.update(player)
                     a = list(dict_player.items())
@@ -217,7 +217,7 @@ class TournamentController:
             one_tournament = data[i:(i+3)]
             del one_tournament[1]
             list_tournament.append(one_tournament)
-        key_to_search = "Nom du tournoi: "
+        key_to_search = "Nom_du_tournoi"
         value_to_search = user_choice
         value_to_search2 = "Tournoi n°" + str(next_tournament_number)
         for index, item in enumerate(data):
@@ -238,7 +238,7 @@ class TournamentController:
             data = json.load(file)
         for data_dict in data:
             if isinstance(data_dict, dict):
-                tournament_data = data_dict.get("Nom du tournoi: ")
+                tournament_data = data_dict.get("Nom_du_tournoi")
                 if tournament_data is not None:
                     list_tournament.append(tournament_data)
         return list_tournament
