@@ -1,5 +1,5 @@
 # Ignorer les élements suivants
-env/
+/env/
 .vscode/
 .flake8
 ppt_soutenance.odp
