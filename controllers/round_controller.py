@@ -102,12 +102,12 @@ class RoundController:
 class RoundTournamentController:
     '''Contrôleur pour la gestion des rounds dans un tournoi.'''
 
-    def start_rounds(self, tournament, tournament_id, players_ids):
+    def start_rounds(self, tournament, tournament_ID, player_ID):
         '''Démarre les rounds d'un tournoi.'''
 
-        selected_tournament = TournamentController.load_tournament_by_id(tournament_id)
+        selected_tournament = TournamentController.load_tournament_by_id(tournament_ID)
 
-        players = PlayerController.load_players_by_ids(players_ids)
+        players = PlayerController.load_players_by_ids(player_ID)
         number_of_rounds = selected_tournament.number_of_round
         print("\nce tournoi a ", number_of_rounds, " rounds")
 
@@ -121,9 +121,9 @@ class RoundTournamentController:
             if round_number == 1:
                 new_round.create_pairs_round_one(players)
             else:
-                sorted_players = self.calculate_points_for_tournament(tournament_id)
+                sorted_players = self.calculate_points_for_tournament(tournament_ID)
                 previous_results = self.get_previous_results(
-                    tournament_id, round_number
+                    tournament_ID, round_number
                 )
                 pairs, _ = new_round.create_pairs_new_round(
                     players, previous_results, sorted_players
@@ -137,21 +137,21 @@ class RoundTournamentController:
             MatchController.play_match(new_round)
             new_round.end_round()
             TournamentController.update_tournament(
-                tournament_id, {"list_of_tours": selected_tournament.list_of_tours}
+                tournament_ID, {"list_of_round": selected_tournament.list_of_round}
             )
             if round_number < number_of_rounds:
                 user_choice = input("Voulez-vous rentrer le score du match suivant? Oui/Non :").lower()
                 if user_choice == "non":
                     break
             else:
-                self.calculate_points_for_tournament_final(tournament_id)
-                selected_tournament.end_tournament(tournament_id)
+                self.calculate_points_for_tournament_final(tournament_ID)
+                selected_tournament.end_tournament(tournament_ID)
 
-    def get_previous_results(self, tournament_id, round_number):
+    def get_previous_results(self, tournament_ID, round_number):
         '''Récupère les résultats des rounds précédents.'''
         previous_results = []
-        selected_tournament = TournamentController.load_tournament_by_id(tournament_id)
-        reversed_rounds = reversed(selected_tournament.list_of_tours)
+        selected_tournament = TournamentController.load_tournament_by_id(tournament_ID)
+        reversed_rounds = reversed(selected_tournament.list_of_round)
 
         for round_data in reversed_rounds:
             current_round_number = round_data.get("round_number", 0)
@@ -160,8 +160,8 @@ class RoundTournamentController:
                 break
         return previous_results
 
-    def update_matches_in_round(self, round_number, tournament_id, updated_matches):
-        selected_tournament = TournamentController.load_tournament_by_id(tournament_id)
+    def update_matches_in_round(self, round_number, tournament_ID, updated_matches):
+        selected_tournament = TournamentController.load_tournament_by_id(tournament_ID)
 
         round_to_update = selected_tournament.get_round_by_number(round_number)
         if round_to_update:
@@ -169,36 +169,36 @@ class RoundTournamentController:
             round_to_update.update_matches(updated_matches)
 
             TournamentController.update_tournament(
-                tournament_id, {"list_of_tours": selected_tournament.list_of_tours}
+                tournament_ID, {"list_of_tours": selected_tournament.list_of_round}
             )
 
-    def calculate_points_for_tournament(self, tournament_id):
-        tournament = TournamentController.load_tournament_by_id(tournament_id)
+    def calculate_points_for_tournament(self, tournament_ID):
+        tournament = TournamentController.load_tournament_by_id(tournament_ID)
         if not tournament:
-            print(f"Tournament with ID {tournament_id} not found.")
+            print(f"Tournament with ID {tournament_ID} not found.")
             return
         player_points = {}
-        for round_data in tournament.list_of_tours:
+        for round_data in tournament.list_of_round:
             for match_data in round_data.get("matches", []):
-                for player_id, score in match_data:
-                    self.update_player_points(player_points, player_id, score)
+                for player_ID, score in match_data:
+                    self.update_player_points(player_points, player_ID, score)
         sorted_players = sorted(player_points.items(), key=lambda x: x[1], reverse=True)
         return sorted_players
 
-    def update_player_points(self, player_points, player_id, score):
-        player_points.setdefault(player_id, 0)
-        player_points[player_id] += score
+    def update_player_points(self, player_points, player_ID, score):
+        player_points.setdefault(player_ID, 0)
+        player_points[player_ID] += score
 
-    def resume_rounds(self, tournament_id, players_ids):
+    def resume_rounds(self, tournament_ID, player_ID):
         '''Reprendre l'entrée des résultats pour les rounds d'un tournoi.'''
 
-        selected_tournament = TournamentController.load_tournament_by_id(tournament_id)
-        players = PlayerController.load_players_by_ids(players_ids)
-        number_of_rounds = selected_tournament.number_of_tours
+        selected_tournament = TournamentController.load_tournament_by_id(tournament_ID)
+        players = PlayerController.load_players_by_ids(player_ID)
+        number_of_rounds = selected_tournament.number_of_round
 
         round_number = [
             int(re.search(r"Round (\d+)", tour["round_name"]).group(1))
-            for tour in selected_tournament.list_of_tours
+            for tour in selected_tournament.list_of_round
         ]
         if round_number:
             dernier_numero_round = max(round_number)
@@ -211,9 +211,9 @@ class RoundTournamentController:
             if round_number == 1:
                 new_round.create_pairs_round_one(players)
             else:
-                sorted_players = self.calculate_points_for_tournament(tournament_id)
+                sorted_players = self.calculate_points_for_tournament(tournament_ID)
                 previous_results = self.get_previous_results(
-                    tournament_id, round_number
+                    tournament_ID, round_number
                 )
                 pairs, _ = new_round.create_pairs_new_round(
                     players, previous_results, sorted_players
@@ -229,45 +229,45 @@ class RoundTournamentController:
 
             new_round.end_round()
             TournamentController.update_tournament(
-                tournament_id, {"list_of_tours": selected_tournament.list_of_tours}
+                tournament_ID, {"list_of_tours": selected_tournament.list_of_round}
             )
             if round_number < number_of_rounds:
                 user_choice = input("Continuez a entrer les resultats (Oui/non) : ")
-                if user_choice.lower() == "n":
+                if user_choice.lower() == "non":
                     break
             else:
                 break
-        if not (user_choice.lower()) == "n":
-            self.calculate_points_for_tournament_final(tournament_id)
-            selected_tournament.end_tournament(tournament_id)
+        if user_choice.lower() == "oui":
+            self.calculate_points_for_tournament_final(tournament_ID)
+            selected_tournament.end_tournament(tournament_ID)
 
-    def calculate_points_for_tournament_final(self, tournament_id):
-        tournament = TournamentController.load_tournament_by_id(tournament_id)
+    def calculate_points_for_tournament_final(self, tournament_ID):
+        tournament = TournamentController.load_tournament_by_id(tournament_ID)
         if not tournament:
-            print(f"Tournament with ID {tournament_id} not found.")
+            print(f"Tournament with ID {tournament_ID} not found.")
             return
         player_points = {}
         new_tournament_score = 0
         score = 0
-        for round_data in tournament.list_of_tours:
+        for round_data in tournament.list_of_round:
             for match_data in round_data.get("matches", []):
-                for player_id, score in match_data:
-                    player_points.setdefault(player_id, 0)
-                    player_points[player_id] += score
+                for player_ID, score in match_data:
+                    player_points.setdefault(player_ID, 0)
+                    player_points[player_ID] += score
 
-                    player = PlayerController.get_player_by_id(player_id)
+                    player = PlayerController.get_player_by_id(player_ID)
                     if player:
                         new_tournament_score = score
-                        player.update_score_tournament(player_id, new_tournament_score)
+                        player.update_score_tournament(player_ID, new_tournament_score)
                     else:
-                        print(f"Joueur avec l'ID {player_id} non trouvé.")
+                        print(f"Joueur avec l'ID {player_ID} non trouvé.")
         sorted_players = sorted(player_points.items(), key=lambda x: x[1], reverse=True)
         print("Classement Final du Tournoi :\n")
         for player_id, points in sorted_players:
-            player = PlayerController.get_player_by_id(player_id)
+            player = PlayerController.get_player_by_id(player_ID)
             if player:
                 print(f"{player.name} {player.surname}: {points} points")
             else:
-                print(f"Player with ID {player_id} not found.")
+                print(f"Player with ID {player_ID} not found.")
         print()
         return sorted_players

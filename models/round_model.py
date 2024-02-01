@@ -107,14 +107,14 @@ class RoundTournamentModel:
                 )
                 print("\nprochain Match pour le round en cours :\n")
                 for pair in pairs:
-                    player1 = f"{pair['player1']['last_name']} {pair['player1']['first_name']}"
-                    player2 = f"{pair['player2']['last_name']} {pair['player2']['first_name']}"
+                    player1 = f"{pair['player1']['name']} {pair['player1']['surname']}"
+                    player2 = f"{pair['player2']['name']} {pair['player2']['surname']}"
                     print(f"Match : {player1} vs {player2}")
             selected_tournament.add_round_to_list(new_round)
             MatchController.play_match(new_round)
             new_round.end_round()
             Tournament.update_tournament(
-                tournament_ID, {"list_of_tours": selected_tournament.list_of_round}
+                tournament_ID, {"list_of_round": selected_tournament.list_of_round}
             )
             if round_number < number_of_rounds:
                 user_choice = input("Continuez a entrer les resultats O/N : ")
@@ -253,13 +253,13 @@ class RoundTournamentModel:
                 previous_results = self.get_previous_results(
                     tournament_ID, round_number
                 )
-                pairs, _ = new_round.create_pairs_round_one(
+                pairs, _ = new_round.create_pairs_new_round(
                     players, previous_results, sorted_players
                 )
                 print("\nprochain Match pour le round en cours :\n")
                 for pair in pairs:
-                    player1 = f"{pair['player1']['last_name']} {pair['player1']['first_name']}"
-                    player2 = f"{pair['player2']['last_name']} {pair['player2']['first_name']}"
+                    player1 = f"{pair['player1']['name']} {pair['player1']['surname']}"
+                    player2 = f"{pair['player2']['name']} {pair['player2']['surname']}"
                     print(f"Match : {player1} vs {player2}")
             selected_tournament = Tournament.add_round_to_list(new_round)
             MatchController.play_match(new_round)
@@ -267,14 +267,14 @@ class RoundTournamentModel:
 
             new_round = RoundController.end_round()
             Tournament.update_tournament(
-                tournament_ID, {"list_of_tours": selected_tournament.list_of_tours}
+                tournament_ID, {"list_of_round": selected_tournament.list_of_round}
             )
             if round_number < number_of_rounds:
-                user_choice = input("Continuez a entrer les resultats O/N : ")
-                if user_choice.lower() == "n":
+                user_choice = input("Continuez a entrer les résultats suivants Oui/Non : ")
+                if user_choice.lower() == "non":
                     break
             else:
                 break
-        if not (user_choice.lower()) == "n":
+        if user_choice.lower() == "oui":
             self.calculate_points_tournament(tournament_ID)
             selected_tournament = TournamentController.end_tournament(tournament_ID)
