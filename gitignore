@@ -1,4 +1,5 @@
 # Ignorer le répertoire de l'environnement virtuel
 /env/
 .vscode/
+.flake8
 ppt_soutenance.odp
