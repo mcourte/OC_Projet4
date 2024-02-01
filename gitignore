@@ -1,3 +1,4 @@
 # Ignorer le répertoire de l'environnement virtuel
 /env/
-
+.vscode/
+ppt_soutenance.odp
