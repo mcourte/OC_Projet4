@@ -1,3 +1,7 @@
+from os import name
+from os import system
+
+
 class MainView:
 
     def main_menu(self):
@@ -9,3 +13,14 @@ class MainView:
 
         self.choice = input("Choisissez une option: ")
         return self.choice
+
+    def clear_screen():
+        """Clear the terminal"""
+        # for windows
+
+        if name == "nt":
+            _ = system("cls")
+        # for mac and linux
+
+        else:
+            _ = system("clear")

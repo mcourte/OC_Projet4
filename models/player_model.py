@@ -15,8 +15,7 @@ class Player:
         self.score_tournament = score_tournament
 
     def random_ID(self):
-        ''' Cette fonction permet de générer aléatoirement des ID
-        Elle sera supprimer une fois les tests finis'''
+        ''' Cette fonction permet de générer aléatoirement des ID'''
         nb_letters = 2
         nb_numbers = 5
         letters = ''.join((random.choice(string.ascii_uppercase))
@@ -24,10 +23,11 @@ class Player:
         numbers = ''.join((random.choice(string.digits))
                           for x in range(nb_numbers))
         ID_list = list(letters + numbers)
-        ID = ''.join(ID_list)
-        return ID
+        player_ID = ''.join(ID_list)
+        return player_ID
 
-    def load_data(self, file_path):
+    def load_data(self):
+        file_path = os.path.join("data", "players_data.json")
         try:
             with open(file_path, "r") as file:
                 return json.load(file)
@@ -35,20 +35,10 @@ class Player:
             # Si le fichier n'existe pas ou contient une erreur : création d'une liste vite
             return []
 
-    def save_data(self, file_path, data):
+    def save_data(self, data):
+        file_path = os.path.join("data", "players_data.json")
         with open(file_path, "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-
-    def to_dict(self):
-        '''Convertit l'objet Player en un dictionnaire.'''
-
-        return {
-            "last_name": self.name,
-            "first_name": self.surname,
-            "birth_date": self.date_of_birth,
-            "player_id": self.player_ID,
-            "score_tournament": self.score_tournament,
-        }
 
     def update_score_tournament(self, player_ID, new_score):
         '''Met à jour le score du tournoi'''
@@ -57,15 +47,30 @@ class Player:
             if player.player_ID == player_ID:
                 player.score_tournament += new_score
         file_path = os.path.join("data", "players_data.json")
-        for p in players:
+        for player in players:
             with open(file_path, "w") as file:
                 players_data = [
                     {
-                        "last_name": p.name,
-                        "first_name": p.surname,
-                        "birth_date": p.date_of_birth,
-                        "player_id": p.player_ID,
-                        "score_tournament": p.score_tournament,
+                        "last_name": player.name,
+                        "first_name": player.surname,
+                        "birth_date": player.date_of_birth,
+                        "player_id": player.player_ID,
+                        "score_tournament": player.score_tournament,
                     }
                 ]
             json.dump(players_data, file, indent=4)
+
+    def load_players_ID(cls, players_ids):
+        # Charge tous les joueurs
+        all_players = cls.load_data()
+        selected_players = [
+            player for player in all_players if player.player_ID in players_ids
+        ]
+        return selected_players
+
+    def get_player_ID(cls, player_ID):
+        players = cls.load_data()
+        for player in players:
+            if player.player_ID == player_ID:
+                return player
+        return None  # Retourne None si le joueur n'est pas trouvé

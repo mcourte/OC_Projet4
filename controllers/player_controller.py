@@ -11,31 +11,33 @@ class PlayerController:
 
     def create_player(self):
         '''Permet de créer un nouveau joueur'''
-        surname = PlayerView().player_surname()
-        name = PlayerView().player_name()
-        date_of_birth = PlayerView().player_date_of_birth()
-        player_ID = PlayerView().player_id()
-        chess_ID = Player().random_ID()
+        surname = PlayerView.player_surname(self)
+        name = PlayerView.player_name(self)
+        date_of_birth = PlayerView.player_date_of_birth(self)
+        player_ID = PlayerView.player_ID(self)
         score_tournament = 0
+        chess_ID = Player.random_ID(self)
 
         if player_ID == "":
             player_ID = chess_ID
 
         player_information = [{
-            "last_name": name,
-            "first_name": surname,
-            "birth_date": date_of_birth,
-            "player_id": player_ID,
-            "score_tournament": score_tournament,
+            "Surname": surname,
+            "Name": name,
+            "Date_of_birth": date_of_birth,
+            "Player_ID": player_ID,
+            "Score_tournament": score_tournament,
         }]
 
         # Enregistrement des informations dans un fichier JSON :
         file_path = os.path.join("data", "players_data.json")
-        data = Player.load_data(file_path)
+        data = Player.load_data(self)
         data.extend(player_information)
 
         with open(file_path, "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
+
+        print("Le joueur a bien été ajouté")
 
     def display_players(self):
         '''Permet de trier les joueurs par ordre alphabétique'''

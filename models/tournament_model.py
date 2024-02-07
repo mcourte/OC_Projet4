@@ -1,5 +1,7 @@
 '''Define the Tournament.'''
 import json
+import os
+import datetime
 
 
 class Tournament:
@@ -13,7 +15,7 @@ class Tournament:
         self.tournament_name = tournament_name
         self.tournament_location = tournament_location
         self.tournament_date_of_begin = tournament_date_of_begin
-        self.number_of_round = max(number_of_round, 4)  # Assure un minimum de 4 tours
+        self.number_of_round = number_of_round
         self.tournament_description = tournament_description
         self.number_of_players = number_of_players
         self.list_of_players = list_of_players if list_of_players is not None else []
@@ -27,35 +29,59 @@ class Tournament:
         except (FileNotFoundError, json.JSONDecodeError):
             return []
 
-    def save_data(self, file_path, data):
-        with open(file_path, "w") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
-
-    def add_round_to_list(self, round):
+    def add_round(self, round):
         '''Ajoute un round à la liste des rounds du tournoi'''
         self.list_of_round.append(round)
 
-    def load_tournament_by_id(cls, tournament_ID):
-        '''Charger un tournoi grâce à son ID'''
-        tournaments = cls.load_data()
-        for tournament in tournaments:
-            if tournament.tournament_ID == tournament_ID:
-                return tournament
-        return None
-
     def update_tournament(tournament_ID, updated_values):
         ''' Mise à jour des données d'un tournoi à partir de son ID'''
-        tournaments = Tournament.load_data()
+        file_path = os.path.join("data", "tournament_pending.json")
+        with open(file_path, "r") as file:
+            tournaments = json.load(file)
         for tournament in tournaments:
-            if tournament.tournament_ID == tournament_ID:
+            tournament_ID_data = tournament.get("Tournoi_ID")
+            if tournament_ID_data == tournament_ID:
                 for key, value in updated_values.items():
-                    setattr(tournament, key, value)
+                    update_tournament = setattr(tournament, key, value)
+                    with open(file_path, "a") as file:
+                        json.dump(update_tournament, file, ensure_ascii=False, indent=4)
 
-        Tournament.save_data(tournaments)
-
-    def get_round_by_number(self, round_number):
+    def round_by_number(self, round_number):
         '''Trouve un Round grâce à son numéro'''
         for i, round_data in enumerate(self.list_of_round):
             if round_data.get("round_name") == f"Round {round_number}" and i > 0:
                 return self.list_of_round[i - 1]
         return None
+
+    def end_tournament_model(self):
+        '''Permet de terminer un tournoi et de l'enregistrer dans le fichier tournament_closed'''
+        file_path = os.path.join("data", "tournament_pending.json")
+        with open(file_path, "r") as file:
+            data = json.load(file)
+
+        date_of_end = datetime.date.today()
+        tournament_end = {"Date_de_fin": str(date_of_end)}
+        data.append(tournament_end)
+
+        with open(file_path, "w") as file:
+            json.dump([], file, ensure_ascii=False, indent=4)
+
+        file_path2 = os.path.join("data", "tournament_closed.json")
+        with open(file_path2, "a") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
+        print("Le tournoi est clos")
+
+    def close_tournament(self):
+        '''Permet de lister les tournois terminés'''
+        file_path = os.path.join("data", "tournament_closed.json")
+        with open(file_path, "r") as file:
+            data = json.load(file)
+
+        close = {}
+        list_close = []
+
+        for i in range(len(data)):
+            close.update(data[i])
+            list_close.append(close)
+
+        return list_close
