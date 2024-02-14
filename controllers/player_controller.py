@@ -33,10 +33,8 @@ class PlayerController:
         file_path = os.path.join("data", "players_data.json")
         data = Player.load_data(self)
         data.extend(player_information)
-
         with open(file_path, "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-
         print("Le joueur a bien été ajouté")
 
     def display_players(self):

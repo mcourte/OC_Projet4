@@ -1,6 +1,10 @@
+from views.main_view import MainView
+
+
 class ReportView:
 
     def display_report_menu(self):
+        # MainView.clear_screen()
         print("\nMenu de Rapports :")
         print("1. Liste de tous les joueurs par ordre alphabétique")
         print("2. Liste de tous les tournois")

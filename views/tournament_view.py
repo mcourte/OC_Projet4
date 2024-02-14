@@ -5,6 +5,8 @@ from datetime import datetime
 import os
 import json
 
+from views.main_view import MainView
+
 
 class TournamentView:
 
@@ -12,56 +14,79 @@ class TournamentView:
         pass
 
     def display_tournament_menu(self):
+        # MainView.clear_screen()
         '''Permet d'afficher le menu de gestion des tournois'''
-        print("\nMenu de Gestion des Tournois :")
+        print("\nMenu de Gestion des Tournois :\n")
         print("1. Commencer un nouveau tournoi")
-        print("2. Reprendre un tournoi")
-        print("3. Terminer un tournoi")
-        print("5. Revenir au menu principal\n")
+        print("2. Reprendre un tournoi en cours")
+        print("3. Clôturer un tournoi")
+        print("4. Revenir au menu principal\n")
         user_choice = input("Choisissez une option: ")
         return user_choice
 
     def start_tournament_view(self):
         '''Permet d'initier un nouveau tournoi'''
-        tournament_name = input("Quel est le nom du tournoi?")
-        self.tournament_name = str(tournament_name)
-        self.tournament_location = input("Quelle est la localisation du tournoi?")
-        nb_round = input("Combien il y aura-t-il de round?(par défaut 4)")
-        if nb_round == "" or "4":
-            self.number_of_round = 4
-        else:
-            self.number_of_round = nb_round
+        # MainView.clear_screen()
+        while True:
+            tournament_name = input("Quel est le nom du tournoi?")
+            if tournament_name != "":
+                break
+            else:
+                print("Le nom du tournoi ne peut pas être vide.")
+        while True:
+            tournament_location = input("Quelle est la localisation du tournoi?")
+            if tournament_location != "":
+                break
+            else:
+                print("La localisation du tournoi ne peut pas être vide.")
 
-        tournament_date_of_begin = input("Quelle est la date de début du tournoi? (Format : jj-mm-aaaa)")
-        separator = tournament_date_of_begin.find("-")
-        if separator == -1:
-            print("Erreur, le format de la date n'est pas le bon jj-mm-aaaa")
-            tournament_date_of_begin = input("Quelle est la date de début du tournoi? (Format : jj-mm-aaaa)")
-        tournament_date_of_begin = datetime.strptime(tournament_date_of_begin, "%d-%m-%Y")
-        tournament_date_of_begin = str(tournament_date_of_begin)
-        self.tournament_date_of_begin = tournament_date_of_begin[0:10]
+        while True:
+            tournament_date_of_begin = input("Quelle est la date de début du tournoi? (Format : JJ/MM/AAAA)")
+            try:
+                # Essayer de convertir la chaîne en objet datetime
+
+                datetime.strptime(tournament_date_of_begin, "%d/%m/%Y")
+                # La conversion a réussi, la date est valide
+                break  # Sortir de la boucle si la date est conforme
+            except ValueError:
+                # La conversion a échoué, la date n'est pas valide
+                print(
+                    "Format de date invalide. Assurez-vous d'utiliser "
+                    + "le format JJ/MM/AAAA. Réessayez."
+                )
+        nb_round = int(input("Combien il y aura-t-il de round?(par défaut 4)"))
+        if nb_round == "" or "4":
+            number_of_round = 4
+        else:
+            number_of_round = nb_round
         nb_numbers = 6
         numbers = ''.join((random.choice(string.digits))
                           for x in range(nb_numbers))
+
         ID_list = list(numbers)
-        self.tournament_ID = ''.join(ID_list)
-        self.tournament_description = input("Entrez les remarques générales du tournoi : ")
-        self.tournament_data_view = [{
-                        "Nom_du_tournoi": self.tournament_name,
-                        "Lieu": self.tournament_location,
-                        "Nombre_de_round": self.number_of_round,
-                        "Description": self.tournament_description,
-                        "Date_de_debut": self.tournament_date_of_begin,
-                        "Tournoi_ID": self.tournament_ID
+        tournament_ID = ''.join(ID_list)
+        self.list_of_round = []
+        tournament_description = input("Entrez les remarques générales du tournoi : ")
+        tournament_data = [{
+                        "Nom_du_tournoi": tournament_name,
+                        "Lieu": tournament_location,
+                        "Description": tournament_description,
+                        "Date_de_debut": tournament_date_of_begin,
+                        "Tournoi_ID": tournament_ID,
+                        "Nombre_de_round": number_of_round,
+                        "Liste_des_rounds": self.list_of_round
                         }
         ]
-        return self.tournament_data_view
+        return tournament_data
 
     def number_of_player(self):
         '''Permet à l'utilisateur de choisir le nombre de joueur qu'il veut dans le tournoi'''
         self.number_of_players = input("Combien y aura-t-il de joueurs dans le tournoi ?" +
                                        "Le nombre de joueur doit être un nombre pair " +
                                        "au moins 1 joueur de plus que le nombre de round): ")
+        while int(self.number_of_players) % 2 != 0:
+            print("Le nombre de joueurs doit être pair.")
+
         return self.number_of_players
 
     def choose_players(self):
@@ -80,6 +105,7 @@ class TournamentView:
         return self.choice_tournament
 
     def display_list_tournament(self, tournaments):
+        # MainView.clear_screen()
         '''Affiche la liste des tournois.'''
         list_tournament = []
         print("\nListe des tournois:")
@@ -89,15 +115,9 @@ class TournamentView:
                 list_tournament.append(tournament_name)
         return list_tournament
 
-    def display_ongoing_tournaments(tournaments):
-        '''Affiche les tournois en cours.'''
-        print("Tournois en cours :\n")
-        for i, tournament in enumerate(tournaments):
-            TournamentView.display_list_tournament(tournament, i)
-        print()
-
     def display_tournament(tournament):
         """Affiche les détails du tournoi."""
+        # MainView.clear_screen()
         details = (
             f"{tournament.tournament_ID}. {tournament.tournament_name})"
             f" - {tournament.tournament_location} - {tournament.tournament_date_of_begin}\n"

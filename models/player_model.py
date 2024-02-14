@@ -51,11 +51,11 @@ class Player:
             with open(file_path, "w") as file:
                 players_data = [
                     {
-                        "last_name": player.name,
-                        "first_name": player.surname,
-                        "birth_date": player.date_of_birth,
-                        "player_id": player.player_ID,
-                        "score_tournament": player.score_tournament,
+                        "Surname": player.name,
+                        "Name": player.surname,
+                        "Date_of_birth": player.date_of_birth,
+                        "Player_ID": player.player_ID,
+                        "Score_tournament": player.score_tournament,
                     }
                 ]
             json.dump(players_data, file, indent=4)
@@ -68,9 +68,35 @@ class Player:
         ]
         return selected_players
 
+    @classmethod
     def get_player_ID(cls, player_ID):
         players = cls.load_data()
         for player in players:
             if player.player_ID == player_ID:
                 return player
         return None  # Retourne None si le joueur n'est pas trouvé
+
+    @classmethod
+    def get_player_by_name(cls, player_name):
+        players = cls.load_data()
+        for player in players:
+            if player.name == player_name:
+                return player
+        return None  # Returns None if the player is not found
+
+    @staticmethod
+    def get_player_info(player):
+        if isinstance(player, dict):
+            return {
+                'Surname': player.get('Surname'),
+                'Name': player.get('Name'),
+                'Player_ID': player.get('Player_ID'),
+                'Score_tournament': player.get('Score_tournament')
+            }
+        else:
+            return (
+                player.player1.get("Name"),
+                player.player1.get("Surname"),
+                player.player1.get("Player_ID"),
+                player.player1.get("Score_tournament")
+            )

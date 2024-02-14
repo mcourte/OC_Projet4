@@ -1,9 +1,12 @@
 from datetime import datetime
 
+from views.main_view import MainView
+
 
 class PlayerView():
 
     def display_player_menu(self):
+        # MainView.clear_screen()
         print("\nMenu de Gestion des Joueurs :")
         print("1. Ajouter un nouveau joueur")
         print("2. Afficher tous les joueurs")
@@ -26,17 +29,17 @@ class PlayerView():
         return self.surname
 
     def player_date_of_birth(self):
-        self.date_of_birth = input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
-        separator = self.date_of_birth.find("-")
+        self.date_of_birth = input("Quelle est la date de naissance du joueur? (format JJ/MM/AAAA)")
+        separator = self.date_of_birth.find("/")
         td = datetime.now()
         if separator == -1:
-            print("Erreur, le format de la date n'est pas le bon jj-mm-aaaa")
-            self.date_of_birth = input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
-        dob = datetime.strptime(self.date_of_birth, "%d-%m-%Y")
+            print("Erreur, le format de la date n'est pas le bon JJ/MM/AAAA")
+            self.date_of_birth = input("Quelle est la date de naissance du joueur? (format JJ/MM/AAAA)")
+        dob = datetime.strptime(self.date_of_birth, "%d/%m/%Y")
         if dob.year >= td.year:
             print("Erreur, la date de naissance ne peut pas être postérieure à la date du jour")
-            self.date_of_birth = input("Quelle est la date de naissance du joueur? (format jj-mm-aaaa)")
-        dob = datetime.strptime(self.date_of_birth, "%d-%m-%Y")
+            self.date_of_birth = input("Quelle est la date de naissance du joueur? (format JJ/MM/AAAA)")
+        dob = datetime.strptime(self.date_of_birth, "%d/%m/%Y")
         date_of_birth = str(dob)
         self.date_of_birth = date_of_birth[0:10]
         return self.date_of_birth

@@ -5,6 +5,7 @@ from os import system
 class MainView:
 
     def main_menu(self):
+        print("\nBienvenue sur le gestionnaire de Tournois d'Echecs ! \n")
         print("\nMenu :")
         print("1. Gestion des joueurs")
         print("2. Gestion des tournois")

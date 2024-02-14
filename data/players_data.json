@@ -37,7 +37,7 @@
     {
         "Surname": "Lanos",
         "Name": "Hélori",
-        "Date_of_birth": "1987-07-26",
+        "Date_of_birth": "1984-07-26",
         "Player_ID": "AX15761",
         "Score_tournament": 0
     },
@@ -60,6 +60,13 @@
         "Name": "Alison",
         "Date_of_birth": "1990-05-18",
         "Player_ID": "DE15747",
+        "Score_tournament": 0
+    },
+    {
+        "Surname": "Salomon",
+        "Name": "Valentin",
+        "Date_of_birth": "1999-01-24",
+        "Player_ID": "KN67565",
         "Score_tournament": 0
     }
 ]
