@@ -21,10 +21,8 @@ class Match:
         with open(file_path, "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
-    @staticmethod
-    def get_player_info_match(player1, player2):
-        from models.player_model import Player
-        # Your implementation to retrieve and return player information
-        player1_info = Player.get_player_info(player1)
-        player2_info = Player.get_player_info(player2)
-        return player1_info, player2_info
+    # def to_dict(self):
+    #    return {
+    #        "player1": Match.get_player_info_match(self.player1),
+    #        "player2": Match.get_player_info_match(self.player2)
+    #    }

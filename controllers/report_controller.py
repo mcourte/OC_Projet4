@@ -68,8 +68,8 @@ class ReportController:
         '''Affiche les joueurs d'un tournoi par ordre alphabétique.'''
         report_text = []
         tournament_alpha_report = TournamentView.display_tournament_alphabetically(self)
-        for tournament in tournament_alpha_report:
-            report_text.append(tournament)
+        report_text.append(tournament_alpha_report)
+        print(report_text)
         ReportController.save_report(self, report_text)
 
     def display_tournaments_detail(self):

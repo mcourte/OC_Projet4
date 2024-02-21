@@ -72,6 +72,7 @@ class Player:
     def get_player_ID(cls, player_ID):
         players = cls.load_data()
         for player in players:
+            print(player)
             if player.player_ID == player_ID:
                 return player
         return None  # Retourne None si le joueur n'est pas trouvé
@@ -95,8 +96,8 @@ class Player:
             }
         else:
             return (
-                player.player1.get("Name"),
-                player.player1.get("Surname"),
-                player.player1.get("Player_ID"),
-                player.player1.get("Score_tournament")
+                player.player.get("Name"),
+                player.player.get("Surname"),
+                player.player.get("Player_ID"),
+                player.player.get("Score_tournament")
             )

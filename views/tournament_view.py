@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 import json
 
-from views.main_view import MainView
+# from views.main_view import MainView
 
 
 class TournamentView:
@@ -18,9 +18,10 @@ class TournamentView:
         '''Permet d'afficher le menu de gestion des tournois'''
         print("\nMenu de Gestion des Tournois :\n")
         print("1. Commencer un nouveau tournoi")
-        print("2. Reprendre un tournoi en cours")
-        print("3. Clôturer un tournoi")
-        print("4. Revenir au menu principal\n")
+        print("2. Lancer un tournoi")
+        print("3. Reprendre un tournoi en cours")
+        print("4. Clôturer un tournoi")
+        print("5. Revenir au menu principal\n")
         user_choice = input("Choisissez une option: ")
         return user_choice
 
@@ -99,7 +100,7 @@ class TournamentView:
         self.choose_ID = input("Veuillez rentrer l'ID du joueur que vous souhaitez rajouter : ").upper()
         return self.choose_ID
 
-    def choose_tournament_2(self):
+    def choose_tournament(self):
         '''Permet à l'utilisateur de choisir le tournoi dont il veut les détails'''
         self.choice_tournament = input("Choisissez le nom du tournoi dont vous voulez les détails : ")
         return self.choice_tournament
@@ -155,48 +156,105 @@ class TournamentView:
 
     def display_tournament_alphabetically(self):
         '''Permet de ranger la liste des joueurs du tournoi par ordre alphabétique'''
-        file_path = os.path.join("data", "tournament_data.json")
-        user_choice = TournamentView().choose_tournament(file_path)
-        print(user_choice)
-        dict_player = {}
         sorted_player = []
+        dict_player = {}
+        list_tournaments = []
+        file_path = os.path.join("data", "tournament_data.json")
         with open(file_path, "r") as file:
-            data = json.load(file)
-        for index, item in enumerate(data):
-            if item.get("Nom_du_tournoi") == user_choice:
-                players_data = data[index + 1]
-                list_player = players_data.get("Liste_joueurs_inscrits")[0]
-                for player in list_player:
-                    dict_player.update(player)
-                    a = list(dict_player.items())
-                    sorted_player.append(a)
-                sorted_name = sorted(sorted_player, key=lambda x: (x[0], x[1]))
-                sorted_name.append(sorted_name)
-                sorted_name.pop()
-        return sorted_name
+            tournaments = json.load(file)
+        for tournament in tournaments:
+            list_tournaments.append(tournament)
+        for i, tournament in enumerate(list_tournaments, start=1):
+            tournament_name = tournament.get("Nom_du_tournoi")
+            if tournament_name is not None:
+                print(f"{i}. {tournament_name}")
+        choice = int(input("Veuillez sélectionner le numéro du tournoi : "))
 
-    def display_tournament_data(self, tournaments):
+        if 1 <= choice <= len(list_tournaments):
+            selected_tournament_index = choice - 1
+            selected_tournament = list_tournaments[selected_tournament_index:selected_tournament_index + 2]
+
+        target_tournoi_name = selected_tournament[0].get("Nom_du_tournoi")
+        target_tournoi_index = None
+
+        # Find the index of the selected tournament in the data list
+        for i, tournament in enumerate(tournaments):
+            if tournament.get("Nom_du_tournoi") == target_tournoi_name:
+                target_tournoi_index = i
+                break
+
+        # Check if the selected tournament was found
+        if target_tournoi_index is not None:
+            next_tournoi_name = None
+            next_tournoi_index = None
+
+            # Search for the next occurrence of "Nom_du_tournoi" after the selected tournament
+            for j, tournament in enumerate(tournaments[target_tournoi_index + 1:], start=target_tournoi_index + 1):
+                if tournament.get("Nom_du_tournoi"):
+                    next_tournoi_name = tournament.get("Nom_du_tournoi")
+                    next_tournoi_index = j
+                    break
+
+            if next_tournoi_name is not None:
+                tournament_data_list = tournaments[target_tournoi_index:next_tournoi_index]
+            else:
+                tournament_data_list = tournaments
+
+            list_player = tournament_data_list[1].get("Liste_joueurs_inscrits")
+            for player in list_player:
+                dict_player.update(player)
+                a = list(dict_player.items())
+                sorted_player.append(a)
+            sorted_name = sorted(sorted_player, key=lambda x: (x[0], x[1]))
+            sorted_name.append(sorted_name)
+            sorted_name.pop()
+            data = {"Nom du tournoi": target_tournoi_name, "Liste_joueurs_triées": sorted_name}
+        return data
+
+    def display_tournament_data(self):
         '''Permet d'afficher les détails d'un tournoi'''
         file_path = os.path.join("data", "tournament_closed.json")
-        user_choice = TournamentView.choose_tournament(file_path)
-        tournament_number = user_choice[-1]
-        next_tournament_number = int(tournament_number) + 1
-        list_tournament = []
+        list_tournaments = []
         with open(file_path, "r") as file:
-            data = json.load(file)
-        for i in range(0, len(data), 3):
-            one_tournament = data[i:(i+3)]
-            del one_tournament[1]
-            list_tournament.append(one_tournament)
-        key_to_search = "Nom_du_tournoi"
-        value_to_search = user_choice
-        value_to_search2 = "Tournoi n°" + str(next_tournament_number)
-        for index, item in enumerate(data):
-            if item.get(key_to_search) == value_to_search:
-                result_start = index
-            if item.get(key_to_search) == value_to_search2:
-                result_end = index
+            tournaments = json.load(file)
+        for tournament in tournaments:
+            list_tournaments.append(tournament)
+        for i, tournament in enumerate(list_tournaments, start=1):
+            for l_tournament in tournament:
+                tournament_name = l_tournament.get("Nom_du_tournoi")
+                if tournament_name is not None:
+                    print(f"{i}. {tournament_name}")
+        choice = int(input("Veuillez sélectionner le numéro du tournoi : "))
+
+        if 1 <= choice <= len(list_tournaments):
+            selected_tournament_index = choice - 1
+            selected_tournament = list_tournaments[selected_tournament_index:selected_tournament_index + 2]
+        selected_tournament = selected_tournament[0]
+        target_tournoi_name = selected_tournament[0].get("Nom_du_tournoi")
+        target_tournoi_index = None
+
+        # Find the index of the selected tournament in the data list
+        for i, tournament in enumerate(tournaments):
+            for l_tournament in tournament:
+                if l_tournament.get("Nom_du_tournoi") == target_tournoi_name:
+                    target_tournoi_index = i
+                    break
+
+        # Check if the selected tournament was found
+        if target_tournoi_index is not None:
+            next_tournoi_name = None
+            next_tournoi_index = None
+
+            # Search for the next occurrence of "Nom_du_tournoi" after the selected tournament
+            for j, tournament in enumerate(tournaments[target_tournoi_index + 1:], start=target_tournoi_index + 1):
+                if tournament.get("Nom_du_tournoi"):
+                    next_tournoi_name = tournament.get("Nom_du_tournoi")
+                    next_tournoi_index = j
+                    break
+
+            if next_tournoi_name is not None:
+                tournament_data_list = tournaments[target_tournoi_index:next_tournoi_index]
             else:
-                result_end = -1
-        tournament_data = data[result_start:result_end]
-        return tournament_data
+                tournament_data_list = tournaments
+            print(tournament_data_list)
+        return tournament_data_list
