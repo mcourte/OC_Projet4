@@ -8,6 +8,7 @@ import os
 
 class Player:
     def __init__(self, name, surname, date_of_birth, player_ID, score_tournament):
+        '''Initialise une instance de joueur'''
         self.name = name
         self.surname = surname
         self.date_of_birth = date_of_birth
@@ -27,6 +28,7 @@ class Player:
         return player_ID
 
     def load_data(self):
+        '''Permet de charger l'ensemble des données des joueurs'''
         file_path = os.path.join("data", "players_data.json")
         try:
             with open(file_path, "r") as file:
@@ -35,10 +37,38 @@ class Player:
             # Si le fichier n'existe pas ou contient une erreur : création d'une liste vite
             return []
 
-    def save_data(self, data):
+    @classmethod
+    def get_player_ID(cls, player_ID):
+        '''Permet de récupérer les informations d'un joueur via son ID'''
         file_path = os.path.join("data", "players_data.json")
-        with open(file_path, "w") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
+        try:
+            with open(file_path, "r") as file:
+                players = json.load(file)
+                for player in players:
+                    if player.get("Player_ID") == player_ID:
+                        return player
+            return None
+        except (FileNotFoundError, json.JSONDecodeError):
+            # Si le fichier n'existe pas ou contient une erreur : création d'une liste vite
+            return []
+
+    @staticmethod
+    def get_player_info(player):
+        '''Permet de récupérer les informations d'un joueur'''
+        if isinstance(player, dict):
+            return {
+                'Surname': player.get("Surname"),
+                'Name': player.get("Name"),
+                'Player_ID': player.get("Player_ID"),
+                'Score_tournament': player.get("Score_tournament")
+            }
+        else:
+            return (
+                player.player.get("Name"),
+                player.player.get("Surname"),
+                player.player.get("Player_ID"),
+                player.player.get("Score_tournament")
+            )
 
     def update_score_tournament(self, player_ID, new_score):
         '''Met à jour le score du tournoi'''
@@ -59,45 +89,3 @@ class Player:
                     }
                 ]
             json.dump(players_data, file, indent=4)
-
-    def load_players_ID(cls, players_ids):
-        # Charge tous les joueurs
-        all_players = cls.load_data()
-        selected_players = [
-            player for player in all_players if player.player_ID in players_ids
-        ]
-        return selected_players
-
-    @classmethod
-    def get_player_ID(cls, player_ID):
-        players = cls.load_data()
-        for player in players:
-            print(player)
-            if player.player_ID == player_ID:
-                return player
-        return None  # Retourne None si le joueur n'est pas trouvé
-
-    @classmethod
-    def get_player_by_name(cls, player_name):
-        players = cls.load_data()
-        for player in players:
-            if player.name == player_name:
-                return player
-        return None  # Returns None if the player is not found
-
-    @staticmethod
-    def get_player_info(player):
-        if isinstance(player, dict):
-            return {
-                'Surname': player.get('Surname'),
-                'Name': player.get('Name'),
-                'Player_ID': player.get('Player_ID'),
-                'Score_tournament': player.get('Score_tournament')
-            }
-        else:
-            return (
-                player.player.get("Name"),
-                player.player.get("Surname"),
-                player.player.get("Player_ID"),
-                player.player.get("Score_tournament")
-            )

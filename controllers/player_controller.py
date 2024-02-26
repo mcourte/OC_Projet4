@@ -7,20 +7,35 @@ from views.player_view import PlayerView
 
 class PlayerController:
     def __init__(self):
+        '''Contrôleur pour gérer les joueurs.'''
         pass
+
+    def player_menu(self):
+        '''Permet de lancer les fonctions suivant les choix de l'utilisateur'''
+        while True:
+            choice = PlayerView().display_player_menu()
+            if choice == "1":
+                self.create_player()
+            elif choice == "2":
+                self.display_players()
+            elif choice == "3":
+                break
+            else:
+                print("Option invalide. Veuillez choisir une option valide.")
 
     def create_player(self):
         '''Permet de créer un nouveau joueur'''
+        # Récuperer les informations fournies par l'utilisateur
         surname = PlayerView.player_surname(self)
         name = PlayerView.player_name(self)
         date_of_birth = PlayerView.player_date_of_birth(self)
         player_ID = PlayerView.player_ID(self)
         score_tournament = 0
         chess_ID = Player.random_ID(self)
-
+        # Si l'utilisateur ne rentre pas l'ID d'un joueur, création d'un ID aléatoire
         if player_ID == "":
             player_ID = chess_ID
-
+        # Transformation des informations en dictionnaire
         player_information = [{
             "Surname": surname,
             "Name": name,
@@ -39,16 +54,18 @@ class PlayerController:
 
     def display_players(self):
         '''Permet de trier les joueurs par ordre alphabétique'''
+        # Variables
         list_dict_player = []
         dict_player = {}
         sorted_player = []
         file_path = os.path.join("data", "players_data.json")
+        # Charge les données des joueurs
         try:
             with open(file_path, "r") as file:
                 data = json.load(file)
         except (FileNotFoundError, json.JSONDecodeError):
             data = []
-
+        # Crée la liste des joueurs à trier
         for i in range(len(data)):
             player = data[i]
             list_dict_player.append(player)
@@ -57,21 +74,6 @@ class PlayerController:
             dict_player.update(i)
             a = list(dict_player.items())
             sorted_player.append(a)
-
+        # Trie la liste des joueurs par Surname x[0] et Name x[1]
         sorted_name = sorted(sorted_player, key=lambda x: (x[0], x[1]))
-        for name in sorted_name:
-            print(name)
         return sorted_name
-
-    def player_menu(self):
-        '''Permet de lancer les fonctions suivant les choix de l'utilisateur'''
-        while True:
-            choice = PlayerView().display_player_menu()
-            if choice == "1":
-                self.create_player()
-            elif choice == "2":
-                self.display_players()
-            elif choice == "3":
-                break
-            else:
-                print("Option invalide. Veuillez choisir une option valide.")

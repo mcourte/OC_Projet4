@@ -3,18 +3,22 @@ from datetime import datetime
 from views.main_view import MainView
 
 
-class PlayerView():
+class PlayerView:
 
     def display_player_menu(self):
-        # MainView.clear_screen()
-        print("\nMenu de Gestion des Joueurs :")
-        print("1. Ajouter un nouveau joueur")
-        print("2. Afficher tous les joueurs")
-        print("3. Revenir au menu principal\n")
-        user_choice = input("Choisissez une option: ")
-        return user_choice
+        '''Affiche le menu de gestion des Joueurs'''
+        MainView.clear_screen()
+        title = "\nMenu de Gestion des Joueurs :\n"
+        MainView().slow_print(title)
+        menu = "\n 1. Ajouter un nouveau joueur \n 2. Afficher tous les joueurs \n 3. Revenir au menu principal \n"
+        MainView().slow_print(menu)
+        choice = "Choisissez une option: "
+        MainView().slow_print(choice)
+        self.choice = input()
+        return self.choice
 
     def player_name(self):
+        '''Permet à l'utilisateur de rentrer le prénom du Joueur'''
         self.name = input("Quel est le prénom du joueur?")
         if self.name == "":
             print("Erreur, le prénom ne doit pas être vide")
@@ -22,6 +26,7 @@ class PlayerView():
         return self.name
 
     def player_surname(self):
+        '''Permet à l'utilisateur de rentrer le nom du Joueur'''
         self.surname = input("Quel est le nom de famille du joueur?")
         if self.surname == "":
             print("Erreur, le nom ne doit pas être vide")
@@ -29,6 +34,7 @@ class PlayerView():
         return self.surname
 
     def player_date_of_birth(self):
+        '''Permet à l'utilisateur de rentrer la date de naissance du Joueur'''
         self.date_of_birth = input("Quelle est la date de naissance du joueur? (format JJ/MM/AAAA)")
         separator = self.date_of_birth.find("/")
         td = datetime.now()
@@ -45,5 +51,6 @@ class PlayerView():
         return self.date_of_birth
 
     def player_ID(self):
+        '''Permet à l'utilisateur de rentrer l'ID du Joueur'''
         self.player_ID = input("Quel est l'ID du joueur?")
         return self.player_ID

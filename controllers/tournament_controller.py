@@ -10,12 +10,14 @@ from controllers.round_controller import RoundController
 class TournamentController:
 
     def __init__(self):
+        '''Contrôleur pour gérer les tournois.'''
         self.tournament_data_view = None
         self.number_of_player = None
         self.score_tournoi = 0
         self.list_of_players = []
 
     def create_tournament(self):
+        '''Permet de créer un tournoi'''
         self.tournament_data_view = TournamentView.start_tournament_view(self)
         file_path = os.path.join("data", "tournament_data.json")
 
@@ -103,7 +105,7 @@ class TournamentController:
                         counter += 1
                         print(f"{counter}. {tournament_name}")
 
-            choice = int(input("Veuillez sélectionner le numéro du tournoi à reprendre : "))
+            choice = int(input("Veuillez sélectionner le numéro du tournoi à lancer : "))
             print(f"Choix saisi : {choice}")
             try:
                 if 1 <= choice <= len(tournament_inprogress):
@@ -121,6 +123,7 @@ class TournamentController:
         return selected_tournament
 
     def end_tournament(self):
+        '''Permet de terminer un tournoi'''
         tournament_inprogress = TournamentController.load_tournament_pending()
         if not tournament_inprogress:
             print("Aucun tournoi en cours.")
@@ -144,7 +147,7 @@ class TournamentController:
                     tournament_index = (choice - 1)
                     selected_tournament = tournament_inprogress[tournament_index]
 
-                    break  # exit the loop if a valid choice is made
+                    break  # Permet de sortir de la boucle si un choix correct à été fait
                 else:
                     print("Choix invalide: hors de la plage valide")
 
@@ -153,17 +156,18 @@ class TournamentController:
         target_tournoi_name = selected_tournament.get("Nom_du_tournoi")
         target_tournoi_index = None
 
-        # Find the index of the selected tournament in the data list
+        # Cherche l'index du tournoi cible dans la liste des tournois
         for i, tournament in enumerate(tournament_inprogress):
             if tournament.get("Nom_du_tournoi") == target_tournoi_name:
                 target_tournoi_index = i
                 break
 
-        # Check if the selected tournament was found
+        # Si l'index existe, l'index du tournoi suivant est "None"
         if target_tournoi_index is not None:
             next_tournoi_index = None
 
-            # Search for the next occurrence of "Nom_du_tournoi" after the selected tournament
+            # Cherche la prochaine occurence de "Nom_du_tournoi" qui vient après le tournoi cible
+            # Calcul son index
             for j, tournament in enumerate(tournament_inprogress[target_tournoi_index + 1:],
                                            start=target_tournoi_index + 1):
                 if tournament.get("Nom_du_tournoi"):
@@ -187,23 +191,25 @@ class TournamentController:
         print("Le tournoi est clos")
 
     def resume_selected_tournament(self, selected_tournament):
-        """Reprendre un tournoi sélectionné."""
+        '''Reprendre un tournoi sélectionné.'''
         data = TournamentController.load_tournament_pending()
+
         target_tournoi_name = selected_tournament.get("Nom_du_tournoi")
         target_tournoi_index = None
 
-        # Find the index of the selected tournament in the data list
+        # Cherche l'index du tournoi cible dans la liste des tournois
         for i, tournament in enumerate(data):
             if tournament.get("Nom_du_tournoi") == target_tournoi_name:
                 target_tournoi_index = i
                 break
 
-        # Check if the selected tournament was found
+        # Si l'index existe, l'index du tournoi suivant est "None"
         if target_tournoi_index is not None:
             next_tournoi_name = None
             next_tournoi_index = None
 
-            # Search for the next occurrence of "Nom_du_tournoi" after the selected tournament
+            # Cherche la prochaine occurence de "Nom_du_tournoi" qui vient après le tournoi cible
+            # Récupère l'information du "Nom_du_tournoi" - Calcule son index
             for j, tournament in enumerate(data[target_tournoi_index + 1:], start=target_tournoi_index + 1):
                 if tournament.get("Nom_du_tournoi"):
                     next_tournoi_name = tournament.get("Nom_du_tournoi")
@@ -225,17 +231,18 @@ class TournamentController:
         for player in list_players:
             player.get("Player_ID")
             list_player_ID.append(player)
-        round_name = tournaments.get("Nom du Round: ")
+        if list_of_round == []:
+            round_name = None
+        else:
+            round_name = list_of_round[0].get("Nom_du_round")
         if round_name is None:
             RoundController().start_round(list_player_ID, tournament_ID, number_of_rounds, list_of_round)
         else:
-            round_number = round_name[-1]
-            if int(round_number) == 1:
-                RoundController().start_round(list_player_ID, tournament_ID, number_of_rounds, list_of_round)
-            elif int(round_number) > 1:
-                RoundController().resume_rounds(
-                    list_player_ID, tournament_ID, number_of_rounds, round_number, list_of_round
-                    )
+            round_number = int(round_name[-1])
+            list_pairs = list_of_round[0].get("Matchs")
+            RoundController().resume_rounds(list_player_ID, tournament_ID,
+                                            round_number, number_of_rounds,
+                                            list_of_round, list_pairs)
         return tournament_ID, list_player_ID, tournament, number_of_rounds
 
     def tournament_menu(self):
@@ -256,6 +263,7 @@ class TournamentController:
                 print("Option invalide. Veuillez choisir une option valide.")
 
     def load_tournament_pending():
+        ''' Permet de télécharger les tournois en cours'''
         file_path = "data/tournament_pending.json"
 
         try:
@@ -270,14 +278,12 @@ class TournamentController:
             return []
 
     def resume_tournament_pending_menu(self):
-        """Affiche les tournois en cours et permet à l'utilisateur de choisir
-        le tournoi à reprendre.
-        """
+        '''Affiche les tournois en cours et permet à l'utilisateur de choisir
+        le tournoi à reprendre.'''
         tournament_inprogress = TournamentController.load_tournament_pending()
         if not tournament_inprogress:
             print("Aucun tournoi en cours.")
             return
-
         while True:
             counter = 0
 
@@ -294,7 +300,7 @@ class TournamentController:
                 if 1 <= choice <= len(tournament_inprogress):
                     tournament_index = (choice - 1)
                     selected_tournament = tournament_inprogress[tournament_index]
-                    self.resume_selected_tournament_pending(selected_tournament)
+                    self.resume_selected_tournament(selected_tournament)
                     break
                 else:
                     print("Choix invalide: hors de la plage valide")
@@ -304,50 +310,3 @@ class TournamentController:
             except Exception as e:
                 print(f"Erreur inattendue : {e}")
         return selected_tournament
-
-    def resume_selected_tournament_pending(self, selected_tournament):
-        """Reprendre un tournoi sélectionné."""
-        data = TournamentController.load_tournament_pending()
-        target_tournoi_name = selected_tournament.get("Nom_du_tournoi")
-        target_tournoi_index = None
-
-        # Find the index of the selected tournament in the data list
-        for i, tournament in enumerate(data):
-            if tournament.get("Nom_du_tournoi") == target_tournoi_name:
-                target_tournoi_index = i
-                break
-
-        # Check if the selected tournament was found
-        if target_tournoi_index is not None:
-            next_tournoi_name = None
-            next_tournoi_index = None
-
-            # Search for the next occurrence of "Nom_du_tournoi" after the selected tournament
-            for j, tournament in enumerate(data[target_tournoi_index + 1:], start=target_tournoi_index + 1):
-                if tournament.get("Nom_du_tournoi"):
-                    next_tournoi_name = tournament.get("Nom_du_tournoi")
-                    next_tournoi_index = j
-                    break
-
-            if next_tournoi_name:
-                tournament_data_list = data[target_tournoi_index - 1:next_tournoi_index]
-            else:
-                tournament_data_list = data
-        tournaments = {}
-        for list_data in tournament_data_list:
-            tournaments.update(list_data)
-        tournament_ID = tournaments.get("Tournoi_ID")
-        number_of_rounds = tournaments.get("Nombre_de_round")
-        list_players = tournaments.get("Liste_joueurs_inscrits")
-        list_of_round = tournaments.get("Liste_des_rounds")
-        list_player_ID = []
-        for player in list_players:
-            player.get("Player_ID")
-            list_player_ID.append(player)
-        round_name = list_of_round[0].get("round_name")
-        round_number = round_name[-1]
-        if int(round_number) >= 1:
-            RoundController().resume_rounds(
-                list_player_ID, tournament_ID, number_of_rounds, round_number, list_of_round
-                )
-        return tournament_ID, list_player_ID, tournament, number_of_rounds

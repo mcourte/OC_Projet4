@@ -1,3 +1,5 @@
+from colorama import Style
+
 from views.main_view import MainView
 from controllers.player_controller import PlayerController
 from controllers.tournament_controller import TournamentController
@@ -23,7 +25,8 @@ class MainController:
             elif choice == "3":
                 ReportController().report_menu()
             elif choice == "4":
-                print("Au revoir !")
+                phrase = "\n \n Au revoir & à Bientôt! \n \n \n \n"
+                MainView().slow_print(phrase)
                 break
             else:
-                print("Option invalide. Veuillez choisir une option valide.")
+                print(f"{Style.BRIGHT}Option invalide. Veuillez choisir une option valide{Style.RESET_ALL}")
