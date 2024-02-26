@@ -252,7 +252,7 @@ class TournamentController:
             if choice == "1":
                 TournamentController().create_tournament()
             elif choice == "2":
-                TournamentController().resume_tournament_menu()
+                TournamentController().begin_tournament_menu()
             elif choice == "3":
                 TournamentController().resume_tournament_pending_menu()
             elif choice == "4":
@@ -300,6 +300,77 @@ class TournamentController:
                 if 1 <= choice <= len(tournament_inprogress):
                     tournament_index = (choice - 1)
                     selected_tournament = tournament_inprogress[tournament_index]
+                    self.resume_selected_tournament(selected_tournament)
+                    break
+                else:
+                    print("Choix invalide: hors de la plage valide")
+
+            except ValueError as e:
+                print(f"Erreur lors de la conversion en entier : {e}")
+            except Exception as e:
+                print(f"Erreur inattendue : {e}")
+        return selected_tournament
+
+    def begin_tournament_menu(self):
+        # Function to load JSON data from a file
+        def load_json(file_path):
+            with open(file_path, 'r') as file:
+                return json.load(file)
+
+        # File paths
+        json1_path = os.path.join("data", "tournament_data.json")
+        json2_path = os.path.join("data", "tournament_pending.json")
+        json3_path = os.path.join("data", "tournament_closed.json")
+
+        # Load JSON data from files
+        data1 = load_json(json1_path)
+        data2 = load_json(json2_path)
+        data3 = load_json(json3_path)
+
+        # Combine dictionaries not in tournament_pending and tournament_closed
+        not_in_pending = [item for item in data1 if item not in data2]
+        not_in_closed = [item for item in data1 if item not in data3]
+
+        # Function to create a new dictionary at each occurrence of "Nom_du_tournoi"
+        def create_tournament_dict(data):
+            result = []
+            current_tournament = None
+
+            for item in data:
+                if "Nom_du_tournoi" in item:
+                    # If a new tournament is found, append the previous one to the result list
+                    if current_tournament is not None:
+                        result.append(current_tournament)
+                    # Start a new dictionary for the current tournament
+                    current_tournament = {"Nom_du_tournoi": item["Nom_du_tournoi"]}
+                elif current_tournament is not None:
+                    # If a tournament is in progress, add the current item to it
+                    current_tournament.update(item)
+
+            # Append the last tournament after the loop
+            if current_tournament is not None:
+                result.append(current_tournament)
+            return result
+
+        # Create new dictionaries at each occurrence of "Nom_du_tournoi"
+        tournament_to_begin = create_tournament_dict(not_in_pending + not_in_closed)
+
+        while True:
+            counter = 0
+
+            for i, tournament_dict in enumerate(tournament_to_begin, start=1):
+                if isinstance(tournament_dict, dict):
+                    tournament_name = tournament_dict.get("Nom_du_tournoi")
+                    if tournament_name is not None:
+                        counter += 1
+                        print(f"{counter}. {tournament_name}")
+
+            choice = int(input("Veuillez sélectionner le numéro du tournoi à lancer : "))
+            print(f"Choix saisi : {choice}")
+            try:
+                if 1 <= choice <= len(tournament_to_begin):
+                    tournament_index = (choice - 1)
+                    selected_tournament = tournament_to_begin[tournament_index]
                     self.resume_selected_tournament(selected_tournament)
                     break
                 else:
