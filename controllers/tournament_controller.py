@@ -284,31 +284,39 @@ class TournamentController:
         if not tournament_inprogress:
             print("Aucun tournoi en cours.")
             return
-        while True:
-            counter = 0
 
-            for i, tournament_dict in enumerate(tournament_inprogress, start=1):
-                if isinstance(tournament_dict, dict):
-                    tournament_name = tournament_dict.get("Nom_du_tournoi")
-                    if tournament_name is not None:
-                        counter += 1
-                        print(f"{counter}. {tournament_name}")
+        for i, tournament_dict in enumerate(tournament_inprogress, start=1):
+            if isinstance(tournament_dict, dict):
+                tournament_name = tournament_dict.get("Nom_du_tournoi")
+                if tournament_name is not None:
+                    print(f"{i}. {tournament_name}")
 
-            choice = int(input("Veuillez sélectionner le numéro du tournoi à reprendre : "))
-            print(f"Choix saisi : {choice}")
-            try:
-                if 1 <= choice <= len(tournament_inprogress):
-                    tournament_index = (choice - 1)
-                    selected_tournament = tournament_inprogress[tournament_index]
+        choice = int(input("Veuillez sélectionner le numéro du tournoi à reprendre : "))
+        print(f"Choix saisi : {choice}")
+
+        try:
+            if 1 <= choice <= len(tournament_inprogress):
+                tournament_index = choice - 1
+                selected_tournament = tournament_inprogress[tournament_index]
+
+                # Find the last round index
+                last_round_index = len(selected_tournament.get("Liste_des_rounds", [])) - 1
+
+                # If there are rounds in the tournament, resume from the last round
+                if last_round_index >= 0:
+                    last_round = selected_tournament["Liste_des_rounds"][last_round_index]
+                    print(last_round)
                     self.resume_selected_tournament(selected_tournament)
-                    break
                 else:
-                    print("Choix invalide: hors de la plage valide")
+                    print("Ce tournoi n'a pas de rounds.")
+            else:
+                print("Choix invalide: hors de la plage valide")
 
-            except ValueError as e:
-                print(f"Erreur lors de la conversion en entier : {e}")
-            except Exception as e:
-                print(f"Erreur inattendue : {e}")
+        except ValueError as e:
+            print(f"Erreur lors de la conversion en entier : {e}")
+        except Exception as e:
+            print(f"Erreur inattendue : {e}")
+
         return selected_tournament
 
     def begin_tournament_menu(self):

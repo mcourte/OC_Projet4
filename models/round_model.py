@@ -42,52 +42,64 @@ class RoundModel:
     def create_pairs_new_round(self, pairing_data, previous_results, sorted_players):
         '''Génère des paires pour le prochain tour en fonction des résultats précédents et du classement
         des joueurs.'''
-        print("Classement des joueurs :\n")
+
         pairings = []
         sorted_players_info = []
         paired_data = [(sorted_players[i], sorted_players[i + 1]) for i in range(0, len(sorted_players), 2)]
         result = [(player_ID, score) for pair in paired_data for player_ID, score in pair]
 
         def custom_sort(player_info):
-            # Fonction de comparaison personnalisée pour le tri des joueurs
-
             _, score, player = player_info
             return (-score, player["Surname"], player["Name"])
 
         # Chargez les informations complètes des joueurs pour trier par nom et prénom
-
         sorted_players_info = [
             (player_ID, score, Player.get_player_ID(player_ID))
             for player_ID, score in result
         ]
+
         sorted_players_info = sorted(sorted_players_info, key=custom_sort)
         for player_ID, points, player in sorted_players_info:
             print(
                 f"{player['Surname']} {player['Name']} {player['Player_ID']}: {points} points"
             )
 
-        for i in range(0, len(sorted_players), 2):
-            player1 = sorted_players[i]
-            player2 = sorted_players[i + 1]
+        # Create a copy of the sorted_players_info list before shuffling
+        shuffled_players = sorted_players_info.copy()
+        random.shuffle(shuffled_players)
+        list_test = shuffled_players
 
-            # Check if players have already played against each other
-            while (player1, player2) in pairing_data or (player2, player1) in pairing_data:
+        for i in range(0, len(list_test), 2):
+            player1_ID = list_test[i][0]
+            player2_ID = list_test[i + 1][0]
+
+            player1_info = Player.get_player_ID(player1_ID)
+            player2_info = Player.get_player_ID(player2_ID)
+
+            # Modify the while loop to print the shuffled players
+            while self.has_played_before(player1_ID, player2_ID, pairing_data):
+                print("Players have played before. Reshuffling.")
                 # Reshuffle and try again
-                random.shuffle(sorted_players)
-                player1 = sorted_players[i]
-                player2 = sorted_players[i + 1]
+                random.shuffle(shuffled_players)
+                player1_ID = shuffled_players[i][0]
+                player2_ID = shuffled_players[i + 1][0]
+                print("Shuffled Players (after reshuffle):", shuffled_players)
 
-            pairings.append({"player1": player1, "player2": player2})
+                # Check if player1 or player2 is None after reshuffle
+                if player1_ID is None or player2_ID is None:
+                    print("Error: Player object is None after reshuffle.")
+                    break
+
+                player1_info = Player.get_player_ID(player1_ID)
+                player2_info = Player.get_player_ID(player2_ID)
+
+                if player1_info is None or player2_info is None:
+                    print("Error: Player information is None after reshuffle.")
+                    break
+
+            pairings.append({"player1": player1_ID, "player2": player2_ID})
+
         return pairings
-
-    def update_matches(self, updated_matches):
-        '''Met à jour les matchs du round avec de nouvelles valeurs.'''
-        for match_index, match in enumerate(self.matches):
-            # Mets à jour les valeurs du match
-            if match_index < len(updated_matches):
-                match_data = updated_matches[match_index]
-                for key, value in match_data.items():
-                    setattr(match, key, value)
 
     def to_dict(self):
         '''Permet de transformer un objet Round en dictionnaire'''
@@ -154,3 +166,18 @@ class RoundModel:
             else:
                 print("Format invalide pour un match :", match_data)
         return new_round
+
+    def has_played_before(self, player1_ID, player2_ID, previous_results):
+        for result in previous_results:
+            # Ajouter des commentaires de débogage
+
+            # Utiliser les parenthèses pour accéder aux éléments du tuple
+            try:
+                if (result['player1'] == player1_ID and result['player2'] == player2_ID) or \
+                   (result['player1'] == player2_ID and result['player2'] == player1_ID):
+                    return True
+            except Exception as e:
+                print(f"Error: {e}")
+                print("An error occurred while checking if players have played before.")
+
+        return False

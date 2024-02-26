@@ -59,13 +59,21 @@ class RoundController:
             new_round = RoundModel(round_name)
             new_round.start_round_model()
             print(f"\nDébut du round : {round_number}\n")
-            print("\nAttention, il est impératif de remplir les scores de l'ensemble des matchs du round :\n")
-            print("\nLe score d'un joueur peut être 0, 1 ou 0.5")
+
             if round_number == 1:
                 list_pairs_one = new_round.create_pairs_round_one(list_player_ID)
                 selected_tournament.add_round(new_round)
+                print("\n Les matchs à venir pour le Round en cours sont les suivants :\n")
+                for pair in list_pairs_one:
+                    player1 = pair[0]
+                    player2 = pair[1]
 
+                    print(f"{player1.get('Surname')} {player1.get('Name')} contre {player2.get('Surname')}"
+                          f" {player2.get('Name')}")
+                print("\nAttention, il est impératif de remplir les scores de l'ensemble des matchs du round :\n")
+                print("\nLe score d'un joueur peut être 0, 1 ou 0.5")
                 # Joue les matchs pour le Round en cours
+
                 for pair in list_pairs_one:
                     player1 = pair[0]
                     player2 = pair[1]
@@ -91,16 +99,16 @@ class RoundController:
 
         return selected_tournament
 
-    def resume_rounds(self, list_player_ID, tournament_ID,
-                      round_number, number_of_rounds,
-                      list_of_round, list_pairs_one):
+    def resume_rounds(self, list_player_ID, tournament_ID, round_number,
+                      number_of_rounds, list_of_round, list_pairs_one):
         '''Reprendre l'entrée des résultats pour les rounds d'un tournoi.'''
         file_path = os.path.join("data", "tournament_pending.json")
         selected_tournament = Tournament.load_tournament_by_id(tournament_ID, file_path)
         round_number = round_number + 1
         number_of_rounds = int(number_of_rounds)
-        if round_number <= number_of_rounds:
-            print("enter the loop")
+
+        if round_number <= number_of_rounds and f"Round {round_number}" not in [round_data.get('Nom') for round_data in selected_tournament.list_of_round]:
+            print("Entering the loop")
             round_name = f"Round {round_number}"
             new_round = RoundModel(round_name)
             new_round.start_round_model()
@@ -109,57 +117,56 @@ class RoundController:
 
             print("\nAttention, il est impératif de remplir les scores de l'ensemble des matchs du round :\n")
             previous_result = self.get_previous_results(tournament_ID, round_number)
+            # Reset player points at the beginning of each round
+            self.player_points = {}
 
             sorted_players = self.calculate_points_for_tournament(tournament_ID)
             list_pairs = new_round.create_pairs_new_round(list_pairs_one, previous_result, sorted_players)
-
             for pair in list_pairs:
-                player1_ID = pair["player1"][0]
-                player2_ID = pair["player2"][0]
+                player1_ID = pair.get("player1")
+                player2_ID = pair.get("player2")
                 player1 = Player.get_player_ID(player1_ID)
                 player2 = Player.get_player_ID(player2_ID)
                 MatchController.play_match(new_round, player1, player2)
 
-            # Termine le Round après que les matchs soient joués
+            # End the Round after the matches are played
             new_round.end_round()
-            # Converti le Round en dictionnaire
-            new_round.to_dict()
 
-            # Mat à jour le tournoi avec toutes les informations du Round et des Matchs
-            selected_tournament.to_dict()
+            # Convert the Round to a dictionary
+            new_round_dict = new_round.to_dict()
 
-            updates_values = {'Liste_des_rounds': selected_tournament.list_of_round}
-            Tournament.update_tournament(tournament_ID, updates_values)
+            # Update the tournament with all the information of the Round and Matches
+            selected_tournament.list_of_round.append(new_round_dict)
+            Tournament.update_tournament(tournament_ID, {'Liste_des_rounds': selected_tournament.list_of_round})
             list_pairs_one = list_pairs
-        if round_number < number_of_rounds:
-            print(f"Entering the loop. Round Number: {round_number}, Number of Rounds: {number_of_rounds}")
-            user_choice = input("\nContinuez a entrer les resultats Oui/Non : ")
-            if user_choice.lower() == "non":
-                pass
+
+            if round_number < number_of_rounds:
+                print(f"Entering the loop. Round Number: {round_number}, Number of Rounds: {number_of_rounds}")
+                user_choice = input("\nContinuez a entrer les resultats Oui/Non : ")
+                if user_choice.lower() == "oui":
+                    self.resume_rounds(list_player_ID, tournament_ID,
+                                       round_number, number_of_rounds,
+                                       list_of_round, list_pairs)
             else:
-                round_controller = RoundController()
-                round_controller.resume_rounds(list_player_ID, tournament_ID,
-                                               round_number, number_of_rounds,
-                                               list_of_round, list_pairs)
-        else:
-            print(f"Not entering the loop. Round Number: {round_number}, Number of Rounds: {number_of_rounds}")
-            RoundController().calculate_points_for_tournament_final(tournament_ID)
+                print(f"Not entering the loop. Round Number: {round_number}, Number of Rounds: {number_of_rounds}")
+                # Debug print statement to check if this block is executed
+                print("Calculating final points for the tournament")
+                self.calculate_points_for_tournament_final(tournament_ID)
+
         return selected_tournament, list_pairs
 
     def calculate_points_for_tournament(self, tournament_ID):
-        '''Permet de calculer les points des joueurs au cours d'un tournoi'''
-        # Charger le tournoi spécifique
+        # Load the tournament
         file_path = os.path.join("data", "tournament_pending.json")
         tournament = Tournament.load_tournament_by_id(tournament_ID, file_path)
         if not tournament:
             print(f"Tournament with ID {tournament_ID} not found.")
             return
 
-        # Remise à zéro des points des joueurs avant calcul
-        self.player_points = {}
-
         list_of_round = tournament.list_of_round
+
         for round_data in list_of_round:
+
             for match_data in round_data.get("Matchs"):
                 player1_ID = match_data.get("player1")
                 player1_score = int(match_data.get("score1"))
@@ -169,6 +176,8 @@ class RoundController:
 
                 self.update_player_points(player1_ID, player1_score)
                 self.update_player_points(player2_ID, player2_score)
+
+            # Save the results of the current round
 
         sorted_players = sorted(self.player_points.items(), key=lambda x: x[1], reverse=True)
         return sorted_players
@@ -211,3 +220,19 @@ class RoundController:
     def update_player_points(self, player_ID, score):
         '''Permet de mettre à jour les point des Joueurs'''
         self.player_points[player_ID] = self.player_points.get(player_ID, 0) + score
+
+    def save_round_results(self, tournament_ID, round_data):
+        file_path = os.path.join("data", "tournament_pending.json")
+        tournament = Tournament.load_tournament_by_id(tournament_ID, file_path)
+        if not tournament:
+            print(f"Tournament with ID {tournament_ID} not found.")
+            return
+
+        last_round_name = tournament.list_of_round[-1].get('Nom_du_round')
+        new_round_name = f"Round {int(last_round_name.split()[-1]) + 1}"
+
+        round_data['Nom_du_round'] = new_round_name
+        tournament.list_of_round.append(round_data)
+
+        # Save the updated tournament
+        tournament.save_tournament(file_path)

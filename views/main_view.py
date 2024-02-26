@@ -1,5 +1,5 @@
 from os import name
-from os import system
+# from os import system
 
 from colorama import Fore, Style
 import time
@@ -25,11 +25,13 @@ class MainView:
         '''Permet de repartir à 0 dans l'affichage du terminal'''
         # Pour utilisateur Windows :
         if name == "nt":
-            _ = system("cls")
+            print("clear screen")
+            # _ = system("cls")
 
         # Pour utilisateur Mac ou Linux :
         else:
-            _ = system("clear")
+            print("clear screen")
+            # _ = system("clear")
 
     def slow_print(self, phrase, color=Fore.WHITE):
         '''Permet de styliser l'affichage des menus'''

@@ -2,208 +2,34 @@
     [
         {
             "Nom_du_tournoi": "Test",
-            "Lieu": "Test",
+            "Lieu": "Rennes",
             "Description": "sans o",
             "Date_de_debut": "12/02/2024",
-            "Tournoi_ID": "267842",
+            "Tournoi_ID": "159565",
             "Nombre_de_round": 4,
             "Liste_des_rounds": [
                 {
-                    "round_name": "Round 1",
-                    "start_time": "2024-02-21T00:43:14.031475",
-                    "end_time": null,
-                    "matches": [
+                    "Nom_du_round": "Round 1",
+                    "Date_de_debut": "2024-02-25T19:15:57.976961",
+                    "Date_de_fin": "2024-02-25T19:15:57.976967",
+                    "Matchs": [
                         {
-                            "player1": [
-                                {
-                                    "Surname": "Courant",
-                                    "Name": "Pauline",
-                                    "Player_ID": "SE89174",
-                                    "Score_tournament": 0
-                                },
-                                {
-                                    "Surname": "Inizan",
-                                    "Name": "Maël",
-                                    "Player_ID": "KD48049",
-                                    "Score_tournament": 0
-                                }
-                            ],
-                            "player2": [
-                                {
-                                    "Surname": "Inizan",
-                                    "Name": "Maël",
-                                    "Player_ID": "KD48049",
-                                    "Score_tournament": 0
-                                },
-                                {
-                                    "Surname": "Courant",
-                                    "Name": "Pauline",
-                                    "Player_ID": "SE89174",
-                                    "Score_tournament": 0
-                                }
-                            ],
-                            "score1": 0,
-                            "score2": 0
+                            "player1": "TI96473",
+                            "score1": 1.0,
+                            "player2": "LK57412",
+                            "score2": 0.0
                         },
                         {
-                            "player1": [
-                                {
-                                    "Surname": "Rolland",
-                                    "Name": "Gäelle",
-                                    "Player_ID": "LK57412",
-                                    "Score_tournament": 0
-                                },
-                                {
-                                    "Surname": "Lanos",
-                                    "Name": "Hélori",
-                                    "Player_ID": "AX15761",
-                                    "Score_tournament": 0
-                                }
-                            ],
-                            "player2": [
-                                {
-                                    "Surname": "Lanos",
-                                    "Name": "Hélori",
-                                    "Player_ID": "AX15761",
-                                    "Score_tournament": 0
-                                },
-                                {
-                                    "Surname": "Rolland",
-                                    "Name": "Gäelle",
-                                    "Player_ID": "LK57412",
-                                    "Score_tournament": 0
-                                }
-                            ],
-                            "score1": 0,
-                            "score2": 0
+                            "player1": "KD48049",
+                            "score1": 1.0,
+                            "player2": "DE15747",
+                            "score2": 0.0
                         },
                         {
-                            "player1": [
-                                {
-                                    "Surname": "Courté",
-                                    "Name": "Mickaël",
-                                    "Player_ID": "CR98092",
-                                    "Score_tournament": 0
-                                },
-                                {
-                                    "Surname": "Gambier",
-                                    "Name": "Alison",
-                                    "Player_ID": "DE15747",
-                                    "Score_tournament": 0
-                                }
-                            ],
-                            "player2": [
-                                {
-                                    "Surname": "Gambier",
-                                    "Name": "Alison",
-                                    "Player_ID": "DE15747",
-                                    "Score_tournament": 0
-                                },
-                                {
-                                    "Surname": "Courté",
-                                    "Name": "Mickaël",
-                                    "Player_ID": "CR98092",
-                                    "Score_tournament": 0
-                                }
-                            ],
-                            "score1": 0,
-                            "score2": 0
-                        },
-                        {
-                            "player1": [
-                                {
-                                    "Surname": "Courant",
-                                    "Name": "Pauline",
-                                    "Player_ID": "SE89174",
-                                    "Score_tournament": 1
-                                },
-                                {
-                                    "Surname": "Inizan",
-                                    "Name": "Maël",
-                                    "Player_ID": "KD48049",
-                                    "Score_tournament": 0
-                                }
-                            ],
-                            "player2": [
-                                {
-                                    "Surname": "Inizan",
-                                    "Name": "Maël",
-                                    "Player_ID": "KD48049",
-                                    "Score_tournament": 0
-                                },
-                                {
-                                    "Surname": "Courant",
-                                    "Name": "Pauline",
-                                    "Player_ID": "SE89174",
-                                    "Score_tournament": 1
-                                }
-                            ],
-                            "score1": 1,
-                            "score2": 0
-                        },
-                        {
-                            "player1": [
-                                {
-                                    "Surname": "Rolland",
-                                    "Name": "Gäelle",
-                                    "Player_ID": "LK57412",
-                                    "Score_tournament": 1
-                                },
-                                {
-                                    "Surname": "Lanos",
-                                    "Name": "Hélori",
-                                    "Player_ID": "AX15761",
-                                    "Score_tournament": 0
-                                }
-                            ],
-                            "player2": [
-                                {
-                                    "Surname": "Lanos",
-                                    "Name": "Hélori",
-                                    "Player_ID": "AX15761",
-                                    "Score_tournament": 0
-                                },
-                                {
-                                    "Surname": "Rolland",
-                                    "Name": "Gäelle",
-                                    "Player_ID": "LK57412",
-                                    "Score_tournament": 1
-                                }
-                            ],
-                            "score1": 1,
-                            "score2": 0
-                        },
-                        {
-                            "player1": [
-                                {
-                                    "Surname": "Courté",
-                                    "Name": "Mickaël",
-                                    "Player_ID": "CR98092",
-                                    "Score_tournament": 1
-                                },
-                                {
-                                    "Surname": "Gambier",
-                                    "Name": "Alison",
-                                    "Player_ID": "DE15747",
-                                    "Score_tournament": 0
-                                }
-                            ],
-                            "player2": [
-                                {
-                                    "Surname": "Gambier",
-                                    "Name": "Alison",
-                                    "Player_ID": "DE15747",
-                                    "Score_tournament": 0
-                                },
-                                {
-                                    "Surname": "Courté",
-                                    "Name": "Mickaël",
-                                    "Player_ID": "CR98092",
-                                    "Score_tournament": 1
-                                }
-                            ],
-                            "score1": 1,
-                            "score2": 0
+                            "player1": "CT13027",
+                            "score1": 1.0,
+                            "player2": "SE89174",
+                            "score2": 0.0
                         }
                     ]
                 }
@@ -213,17 +39,24 @@
             "Nombre_joueurs_inscrits": "6",
             "Liste_joueurs_inscrits": [
                 {
-                    "Surname": "Lanos",
-                    "Name": "Hélori",
-                    "Date_of_birth": "1984-07-26",
-                    "Player_ID": "AX15761",
-                    "Score_tournament": 0
-                },
-                {
                     "Surname": "Inizan",
                     "Name": "Maël",
                     "Date_of_birth": "1984-09-03",
                     "Player_ID": "KD48049",
+                    "Score_tournament": 0
+                },
+                {
+                    "Surname": "Courté",
+                    "Name": "Magali",
+                    "Date_of_birth": "1991-10-26",
+                    "Player_ID": "CT13027",
+                    "Score_tournament": 0
+                },
+                {
+                    "Surname": "Courté",
+                    "Name": "David",
+                    "Date_of_birth": "1987-08-07",
+                    "Player_ID": "TI96473",
                     "Score_tournament": 0
                 },
                 {
@@ -234,13 +67,6 @@
                     "Score_tournament": 0
                 },
                 {
-                    "Surname": "Gambier",
-                    "Name": "Alison",
-                    "Date_of_birth": "1990-05-18",
-                    "Player_ID": "DE15747",
-                    "Score_tournament": 0
-                },
-                {
                     "Surname": "Courant",
                     "Name": "Pauline",
                     "Date_of_birth": "1988-12-28",
@@ -248,16 +74,16 @@
                     "Score_tournament": 0
                 },
                 {
-                    "Surname": "Courté",
-                    "Name": "Mickaël",
-                    "Date_of_birth": "1989-02-19",
-                    "Player_ID": "CR98092",
+                    "Surname": "Gambier",
+                    "Name": "Alison",
+                    "Date_of_birth": "1990-05-18",
+                    "Player_ID": "DE15747",
                     "Score_tournament": 0
                 }
             ]
         },
         {
-            "Date_de_fin": "2024-02-21"
+            "Date_de_fin": "2024-02-26"
         }
     ]
 ]

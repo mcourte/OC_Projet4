@@ -67,21 +67,6 @@ class Tournament:
                 with open(file_path, "w") as file:
                     json.dump(tournaments, file, ensure_ascii=False, indent=4)
 
-    def close_tournament(self):
-        '''Permet de lister les tournois terminés'''
-        file_path = os.path.join("data", "tournament_closed.json")
-        with open(file_path, "r") as file:
-            data = json.load(file)
-
-        close = {}
-        list_close = []
-
-        for i in range(len(data)):
-            close.update(data[i])
-            list_close.append(close)
-
-        return list_close
-
     @classmethod
     def from_dict(cls, tournament_data):
         '''Permet de créer une instance de tournoi depuis un dictionnaire'''
