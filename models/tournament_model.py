@@ -10,7 +10,7 @@ class Tournament:
     def __init__(
         self, name="", location="", date_of_begin="",
         number_of_round="", description="", number_of_player="",
-        list_of_round=None, players=None, tournament_ID=None,
+        list_of_round=None, list_of_player=None, tournament_ID=None,
     ):
         '''Initialise une instance de tournoi'''
         self.name = name
@@ -19,7 +19,7 @@ class Tournament:
         self.number_of_round = number_of_round
         self.description = description
         self.number_of_player = number_of_player
-        self.players = players if players is not None else []
+        self.list_of_player = list_of_player if list_of_player is not None else []
         self.list_of_round = list_of_round if list_of_round is not None else []
         self.tournament_ID = tournament_ID
 
@@ -41,6 +41,27 @@ class Tournament:
     def add_round(self, round):
         '''Ajoute un round à la liste des rounds du tournoi'''
         self.list_of_round.append(round)
+
+    def create_tournament_pending(tournament):
+        file_path = os.path.join("data", "tournament_pending.json")
+
+        def tournament_serializer(obj):
+            if isinstance(obj, Tournament):
+                return obj.to_dict()
+            raise TypeError("Type not serializable")
+
+        try:
+            with open(file_path, "r") as file:
+                # Load existing data
+                existing_data = json.load(file)
+        except FileNotFoundError:
+            existing_data = []
+
+        # Append the new tournament to existing data
+        existing_data.append(tournament.to_dict())
+
+        with open(file_path, "w") as file:
+            json.dump(existing_data, file, default=tournament_serializer, ensure_ascii=False, indent=4)
 
     def update_tournament(tournament_ID, updated_values):
         '''Permet de mettre à jour le Tournoi dans le json'''
@@ -79,14 +100,14 @@ class Tournament:
                 "description": tournament_data.get("Description"),
                 "number_of_player": tournament_data.get("Nombre_joueurs_inscrits"),
                 "list_of_round": tournament_data.get("Liste_des_rounds"),
-                "players": [],
+                "list_of_player": tournament_data.get("Liste_joueurs_inscrits"),
                 "tournament_ID": tournament_data.get("Tournoi_ID"),
             }
 
             # Crée un dictionnaire imbriqué pour les informations des joueurs
             if "Liste_joueurs_inscrits" in tournament_data:
                 players_data = tournament_data["Liste_joueurs_inscrits"]
-                renamed_tournament_data["players"] = [
+                renamed_tournament_data["list_of_player"] = [
                     {
                         "Player_ID": player.get("Player_ID"),
                         "Score_tournament": player.get("Score_tournament", 0),
@@ -127,11 +148,10 @@ class Tournament:
             tournament_dict = {
                 "Nom_du_tournoi": self.name,
                 "Lieu": self.location,
-                "Date_de_debut": self.date_of_begin,
-                "Nombre_de_round": self.number_of_round,
                 "Description": self.description,
-                "Nombre_joueurs_inscrits": self.number_of_player,
-                "Joueurs": self.players,
+                "Date_de_debut": self.date_of_begin,
+                "Tournoi_ID": self.tournament_ID,
+                "Nombre_de_round": self.number_of_round,
                 "Liste_des_rounds": list_of_rounds_data
             }
 

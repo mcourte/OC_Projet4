@@ -110,13 +110,12 @@ class RoundModel:
 
             player1_ID = player1_info.get("Player_ID")
             player2_ID = player2_info.get("Player_ID")
-            match_dict = {
-                "player1": player1_ID,
-                "score1": match.score1 if match.score1 is not None else 0,
-                "player2": player2_ID,
-                "score2": match.score2 if match.score2 is not None else 0
-            }
-            match_data.append(match_dict)
+            match_tuple = [
+                            [player1_ID, match.score1 if match.score1 is not None else 0.0],
+                            [player2_ID, match.score2 if match.score2 is not None else 0.0]
+            ]
+
+            match_data.append(match_tuple)
 
         return {
             "Nom_du_round": self.round_name,

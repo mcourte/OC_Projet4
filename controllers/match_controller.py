@@ -1,4 +1,5 @@
 from models.match_model import Match
+from models.player_model import Player
 
 
 class MatchController:
@@ -9,13 +10,15 @@ class MatchController:
     @staticmethod
     def play_match(round, player1, player2):
         '''Permet à l'utilisateur de rentrer les scores d'un match'''
+        player1_info = Player.get_player_ID(player1)
+        player2_info = Player.get_player_ID(player2)
         # Check if player1 or player2 is None
         if player1 is None or player2 is None:
             print("Error: Player object is None.")
             return
 
         # Créer un objet Match
-        match = Match(player1, player2)
+        match = Match(player1_info, player2_info)
 
         print("\nProchain match: ")
 
@@ -52,11 +55,13 @@ class MatchController:
                     print("\nLes scores ne peuvent pas être tous les deux 1 ou tous les deux 0. Veuillez réessayer.\n")
                     continue
 
+                player1 = Player.get_player_ID(player1)
+                player2 = Player.get_player_ID(player2)
                 match.score1 = score1
                 match.score2 = score2
-
                 player1["Score_tournament"] += match.score1
                 player2["Score_tournament"] += match.score2
+
                 break
             except ValueError:
                 print("\nVeuillez entrer des chiffres valides pour les scores.")

@@ -9,100 +9,167 @@
         "Liste_des_rounds": [
             {
                 "Nom_du_round": "Round 1",
-                "Date_de_debut": "2024-02-26T22:17:55.234850",
-                "Date_de_fin": "2024-02-26T22:17:55.234865",
+                "Date_de_debut": "2024-02-27T14:49:07.482546",
+                "Date_de_fin": "2024-02-27T14:49:07.482561",
                 "Matchs": [
-                    {
-                        "player1": "KD48049",
-                        "score1": 1.0,
-                        "player2": "SE89174",
-                        "score2": 0.0
-                    },
-                    {
-                        "player1": "KN67565",
-                        "score1": 1.0,
-                        "player2": "MT27469",
-                        "score2": 0.0
-                    },
-                    {
-                        "player1": "CR98092",
-                        "score1": 1.0,
-                        "player2": "AX15761",
-                        "score2": 0.0
-                    }
+                    [
+                        [
+                            "CR98092",
+                            1.0
+                        ],
+                        [
+                            "SE89174",
+                            0.0
+                        ]
+                    ],
+                    [
+                        [
+                            "KD48049",
+                            1.0
+                        ],
+                        [
+                            "AX15761",
+                            0.0
+                        ]
+                    ],
+                    [
+                        [
+                            "MT27469",
+                            1.0
+                        ],
+                        [
+                            "KN67565",
+                            0.0
+                        ]
+                    ]
                 ]
             },
             {
                 "Nom_du_round": "Round 2",
-                "Date_de_debut": "2024-02-26T22:17:59.488010",
-                "Date_de_fin": "2024-02-26T22:17:59.488016",
+                "Date_de_debut": "2024-02-27T16:54:55.604202",
+                "Date_de_fin": "2024-02-27T16:54:55.604210",
                 "Matchs": [
-                    {
-                        "player1": "SE89174",
-                        "score1": 1.0,
-                        "player2": "CR98092",
-                        "score2": 0.0
-                    },
-                    {
-                        "player1": "KD48049",
-                        "score1": 1.0,
-                        "player2": "MT27469",
-                        "score2": 0.0
-                    },
-                    {
-                        "player1": "KN67565",
-                        "score1": 1.0,
-                        "player2": "AX15761",
-                        "score2": 0.0
-                    }
+                    [
+                        [
+                            "AX15761",
+                            1.0
+                        ],
+                        [
+                            "SE89174",
+                            0.0
+                        ]
+                    ],
+                    [
+                        [
+                            "KD48049",
+                            1.0
+                        ],
+                        [
+                            "KN67565",
+                            0.0
+                        ]
+                    ],
+                    [
+                        [
+                            "CR98092",
+                            1.0
+                        ],
+                        [
+                            "MT27469",
+                            0.0
+                        ]
+                    ]
+                ]
+            },
+            {
+                "Nom_du_round": "Round 3",
+                "Date_de_debut": "2024-02-27T16:55:10.906973",
+                "Date_de_fin": "2024-02-27T16:55:10.906981",
+                "Matchs": [
+                    [
+                        [
+                            "SE89174",
+                            1.0
+                        ],
+                        [
+                            "MT27469",
+                            0.0
+                        ]
+                    ],
+                    [
+                        [
+                            "CR98092",
+                            1.0
+                        ],
+                        [
+                            "KN67565",
+                            0.0
+                        ]
+                    ],
+                    [
+                        [
+                            "AX15761",
+                            1.0
+                        ],
+                        [
+                            "KD48049",
+                            0.0
+                        ]
+                    ]
+                ]
+            },
+            {
+                "Nom_du_round": "Round 4",
+                "Date_de_debut": "2024-02-27T16:55:19.059174",
+                "Date_de_fin": "2024-02-27T16:55:19.059181",
+                "Matchs": [
+                    [
+                        [
+                            "KD48049",
+                            1.0
+                        ],
+                        [
+                            "KN67565",
+                            0.0
+                        ]
+                    ],
+                    [
+                        [
+                            "MT27469",
+                            1.0
+                        ],
+                        [
+                            "CR98092",
+                            0.0
+                        ]
+                    ],
+                    [
+                        [
+                            "SE89174",
+                            1.0
+                        ],
+                        [
+                            "AX15761",
+                            0.0
+                        ]
+                    ]
                 ]
             }
         ]
     },
     {
-        "Nombre_joueurs_inscrits": "6",
-        "Liste_joueurs_inscrits": [
+        "Nom_du_tournoi": "Test La Cordée",
+        "Lieu": "Rennes",
+        "Description": "sans o",
+        "Date_de_debut": "27/02/2024",
+        "Tournoi_ID": "527287",
+        "Nombre_de_round": 4,
+        "Liste_des_rounds": [
             {
-                "Surname": "Courant",
-                "Name": "Pauline",
-                "Date_of_birth": "1988-12-28",
-                "Player_ID": "SE89174",
-                "Score_tournament": 0
-            },
-            {
-                "Surname": "Salomon",
-                "Name": "Valentin",
-                "Date_of_birth": "1999-01-24",
-                "Player_ID": "KN67565",
-                "Score_tournament": 0
-            },
-            {
-                "Surname": "Inizan",
-                "Name": "Maël",
-                "Date_of_birth": "1984-09-03",
-                "Player_ID": "KD48049",
-                "Score_tournament": 0
-            },
-            {
-                "Surname": "Courté",
-                "Name": "Mickaël",
-                "Date_of_birth": "1989-02-19",
-                "Player_ID": "CR98092",
-                "Score_tournament": 0
-            },
-            {
-                "Surname": "Lanos",
-                "Name": "Hélori",
-                "Date_of_birth": "1984-07-26",
-                "Player_ID": "AX15761",
-                "Score_tournament": 0
-            },
-            {
-                "Surname": "Gouget",
-                "Name": "Florine",
-                "Date_of_birth": "1993-06-10",
-                "Player_ID": "MT27469",
-                "Score_tournament": 0
+                "Nom_du_round": "Round 1",
+                "Date_de_debut": "2024-02-27T17:06:29.109279",
+                "Date_de_fin": "2024-02-27T17:06:29.109294",
+                "Matchs": []
             }
         ]
     }

@@ -73,11 +73,6 @@ class TournamentController:
         with open(file_path, "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
-        file_path_pending = os.path.join("data", "tournament_pending.json")
-
-        with open(file_path_pending, "w") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
-
         tournament = self.tournament_data_view[0]
         tournament.update(self.tournament_data[0])
         tournament_ID = tournament.get("Tournoi_ID")
@@ -190,8 +185,10 @@ class TournamentController:
 
         print("Le tournoi est clos")
 
-    def resume_selected_tournament(self, selected_tournament):
+    def resume_selected_tournament(self, selected_tournament, last_round):
         '''Reprendre un tournoi sélectionné.'''
+
+        list_player_ID = []
         data = TournamentController.load_tournament_pending()
 
         target_tournoi_name = selected_tournament.get("Nom_du_tournoi")
@@ -208,7 +205,7 @@ class TournamentController:
             next_tournoi_name = None
             next_tournoi_index = None
 
-            # Cherche la prochaine occurence de "Nom_du_tournoi" qui vient après le tournoi cible
+            # Cherche la prochaine occurrence de "Nom_du_tournoi" qui vient après le tournoi cible
             # Récupère l'information du "Nom_du_tournoi" - Calcule son index
             for j, tournament in enumerate(data[target_tournoi_index + 1:], start=target_tournoi_index + 1):
                 if tournament.get("Nom_du_tournoi"):
@@ -220,29 +217,33 @@ class TournamentController:
                 tournament_data_list = data[target_tournoi_index - 1:next_tournoi_index]
             else:
                 tournament_data_list = data
+
         tournaments = {}
         for list_data in tournament_data_list:
             tournaments.update(list_data)
+
         tournament_ID = tournaments.get("Tournoi_ID")
         number_of_rounds = tournaments.get("Nombre_de_round")
-        list_players = tournaments.get("Liste_joueurs_inscrits")
         list_of_round = tournaments.get("Liste_des_rounds")
-        list_player_ID = []
-        for player in list_players:
-            player.get("Player_ID")
-            list_player_ID.append(player)
-        if list_of_round == []:
-            round_name = None
-        else:
-            round_name = list_of_round[0].get("Nom_du_round")
-        if round_name is None:
-            RoundController().start_round(list_player_ID, tournament_ID, number_of_rounds, list_of_round)
-        else:
-            round_number = int(round_name[-1])
-            list_pairs = list_of_round[0].get("Matchs")
-            RoundController().resume_rounds(list_player_ID, tournament_ID,
-                                            round_number, number_of_rounds,
-                                            list_of_round, list_pairs)
+
+        if not list_of_round:
+            print("Aucun round disponible pour ce tournoi.")
+            return
+
+        # Assuming you want to work with the last round in the list_of_rounds
+        last_round_data = list_of_round[-1] if last_round is None else last_round
+
+        round_name = last_round_data.get("Nom_du_round")
+        round_number = int(round_name[-1])
+        list_pairs = last_round_data.get("Matchs")
+        for pairs in list_pairs:
+            for player in pairs:
+                player_ID = player[0]
+                list_player_ID.append(player_ID)
+
+        RoundController().resume_rounds(list_player_ID, tournament_ID,
+                                        round_number, number_of_rounds,
+                                        list_of_round, list_pairs)
         return tournament_ID, list_player_ID, tournament, number_of_rounds
 
     def tournament_menu(self):
@@ -305,8 +306,7 @@ class TournamentController:
                 # If there are rounds in the tournament, resume from the last round
                 if last_round_index >= 0:
                     last_round = selected_tournament["Liste_des_rounds"][last_round_index]
-                    print(last_round)
-                    self.resume_selected_tournament(selected_tournament)
+                    self.resume_selected_tournament(selected_tournament, last_round)
                 else:
                     print("Ce tournoi n'a pas de rounds.")
             else:
@@ -319,73 +319,88 @@ class TournamentController:
 
         return selected_tournament
 
+    def get_not_in_pending_or_closed(self, data1, data2, data3):
+        result = []
+
+        def dict_in_list(d, liste):
+            return any(d.items() <= item.items() for item in liste)
+
+        for item1 in data1:
+            if not dict_in_list(item1, data2) and not dict_in_list(item1, data3):
+                result.append(item1)
+
+        return result
+
     def begin_tournament_menu(self):
-        # Function to load JSON data from a file
+        list_player_ID = []
+
         def load_json(file_path):
             with open(file_path, 'r') as file:
                 return json.load(file)
 
-        # File paths
         json1_path = os.path.join("data", "tournament_data.json")
         json2_path = os.path.join("data", "tournament_pending.json")
         json3_path = os.path.join("data", "tournament_closed.json")
 
-        # Load JSON data from files
         data1 = load_json(json1_path)
         data2 = load_json(json2_path)
         data3 = load_json(json3_path)
 
-        # Combine dictionaries not in tournament_pending and tournament_closed
-        not_in_pending = [item for item in data1 if item not in data2]
-        not_in_closed = [item for item in data1 if item not in data3]
+        tournoi_ids_data1 = {item.get("Tournoi_ID") for item in data1 if item.get("Tournoi_ID") is not None}
+        tournoi_ids_data2 = {item.get("Tournoi_ID") for item in data2}
+        tournoi_ids_data3 = {item.get("Tournoi_ID") for item in data3}
 
-        # Function to create a new dictionary at each occurrence of "Nom_du_tournoi"
-        def create_tournament_dict(data):
-            result = []
-            current_tournament = None
-
-            for item in data:
-                if "Nom_du_tournoi" in item:
-                    # If a new tournament is found, append the previous one to the result list
-                    if current_tournament is not None:
-                        result.append(current_tournament)
-                    # Start a new dictionary for the current tournament
-                    current_tournament = {"Nom_du_tournoi": item["Nom_du_tournoi"]}
-                elif current_tournament is not None:
-                    # If a tournament is in progress, add the current item to it
-                    current_tournament.update(item)
-
-            # Append the last tournament after the loop
-            if current_tournament is not None:
-                result.append(current_tournament)
-            return result
-
-        # Create new dictionaries at each occurrence of "Nom_du_tournoi"
-        tournament_to_begin = create_tournament_dict(not_in_pending + not_in_closed)
-
+        # Get Tournoi_ID values in data1 but not in data2 or data3
+        tournoi_ids_to_begin = tournoi_ids_data1 - (tournoi_ids_data2 | tournoi_ids_data3)
         while True:
+            if not tournoi_ids_to_begin:
+                print("Il n'y a aucun tournoi à lancer.")
+                break
             counter = 0
+            for tournoi_id in tournoi_ids_to_begin:
+                counter += 1
+                print(f"{counter}. Tournoi_ID: {tournoi_id}")
 
-            for i, tournament_dict in enumerate(tournament_to_begin, start=1):
-                if isinstance(tournament_dict, dict):
-                    tournament_name = tournament_dict.get("Nom_du_tournoi")
-                    if tournament_name is not None:
-                        counter += 1
-                        print(f"{counter}. {tournament_name}")
+            if counter == 0:
+                print("No tournaments found.")
+                break
 
-            choice = int(input("Veuillez sélectionner le numéro du tournoi à lancer : "))
-            print(f"Choix saisi : {choice}")
+            choice = input("Veuillez sélectionner le numéro du tournoi à lancer (ou 'q' pour quitter) : ")
+            if choice.lower() == 'q':
+                break
             try:
-                if 1 <= choice <= len(tournament_to_begin):
-                    tournament_index = (choice - 1)
-                    selected_tournament = tournament_to_begin[tournament_index]
-                    self.resume_selected_tournament(selected_tournament)
-                    break
+                choice = int(choice)
+                if 1 <= choice <= counter:
+                    selected_tournoi_id = list(tournoi_ids_to_begin)[choice - 1]
+
+                    # Find the tournament with the selected Tournoi_ID in data1
+                    selected_tournament = next((item for item in data1 if
+                                                item.get("Tournoi_ID") == selected_tournoi_id), None)
+                    print(selected_tournament)
+                    if selected_tournament:
+                        list_players = selected_tournament.get("Liste_joueurs_inscrits", [])
+                        for player in list_players:
+                            player_ID = player.get("Player_ID")
+                            list_player_ID.append(player_ID)
+
+                        tournament_ID = selected_tournament.get("Tournoi_ID")
+                        number_of_rounds = selected_tournament.get("Nombre_de_round")
+                        list_of_round = selected_tournament.get("Liste_des_rounds", [])
+                        if list_of_round is None:
+                            list_of_round = []
+
+                        RoundController().start_round(
+                            list_player_ID=list_player_ID,
+                            tournament_ID=tournament_ID,
+                            number_of_rounds=number_of_rounds,
+                            list_of_round=list_of_round
+                        )
+                        break
+                    else:
+                        print("Choix invalide: Aucun tournoi trouvé avec cet ID")
                 else:
                     print("Choix invalide: hors de la plage valide")
-
             except ValueError as e:
                 print(f"Erreur lors de la conversion en entier : {e}")
             except Exception as e:
                 print(f"Erreur inattendue : {e}")
-        return selected_tournament
