@@ -52,12 +52,17 @@ python3 main.py
 
 ## Etape 6 : Utilisation du programme
 
-Pour comprendre le fonctionnement du programme et savoir comment l'utiliser , le document " Utilisation " est à votre disposition.
+Commencer par créer des joueurs.
+Créer un tournoi.
+Une fois le tournoi crée, vous pouvez "Lancer un tournoi"
+Si vous souhaitez arrêter de rentrer les scores après un ou plusieurs rounds, vous pourrez reprendre ce tournoi depuis " Reprendre un tournoi"
+Une fois le tournoi complet, pensez à Clôturer le tournoi.
+Dans le menu rapport, vous trouverez une liste de rapport que vous pouvez afficher directement dans votre terminal et l'enregistrez en fichier text si vous le souhaitez.
+
 
 ## Etape 7 : Vérification Flake8
 
 Dans le terminal, taper la commande suivante :
 ```
-flake8 --format=html --htmldir=flake-report
+flake8 --output-file=flake8-report/flake8-output.html --exclude=env
 ```
-
