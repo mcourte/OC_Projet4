@@ -52,12 +52,12 @@ python3 main.py
 
 ## Etape 6 : Utilisation du programme
 
-Commencer par créer des joueurs.
-Créer un tournoi.
-Une fois le tournoi crée, vous pouvez "Lancer un tournoi"
-Si vous souhaitez arrêter de rentrer les scores après un ou plusieurs rounds, vous pourrez reprendre ce tournoi depuis " Reprendre un tournoi"
-Une fois le tournoi complet, pensez à Clôturer le tournoi.
-Dans le menu rapport, vous trouverez une liste de rapport que vous pouvez afficher directement dans votre terminal et l'enregistrez en fichier text si vous le souhaitez.
+Commencer par créer des joueurs.  
+Créer un tournoi.  
+Une fois le tournoi crée, vous pouvez "Lancer un tournoi".  
+Si vous souhaitez arrêter de rentrer les scores après un ou plusieurs rounds, vous pourrez reprendre ce tournoi depuis " Reprendre un tournoi"  
+Une fois le tournoi complet, pensez à Clôturer le tournoi.  
+Dans le menu rapport, vous trouverez une liste de rapport que vous pouvez afficher directement dans votre terminal et l'enregistrez en fichier text si vous le souhaitez.  
 
 
 ## Etape 7 : Vérification Flake8
