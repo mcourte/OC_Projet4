@@ -43,6 +43,8 @@ class Tournament:
         self.list_of_round.append(round)
 
     def create_tournament_pending(tournament):
+        '''Permet de copié le tournoi commencé dans tournament_pending.json'''
+
         file_path = os.path.join("data", "tournament_pending.json")
 
         def tournament_serializer(obj):
@@ -52,12 +54,11 @@ class Tournament:
 
         try:
             with open(file_path, "r") as file:
-                # Load existing data
                 existing_data = json.load(file)
         except FileNotFoundError:
             existing_data = []
 
-        # Append the new tournament to existing data
+        # Ajoute le nouveau tournoi à la liste existante
         existing_data.append(tournament.to_dict())
 
         with open(file_path, "w") as file:
@@ -91,7 +92,7 @@ class Tournament:
     @classmethod
     def from_dict(cls, tournament_data):
         '''Permet de créer une instance de tournoi depuis un dictionnaire'''
-        if isinstance(tournament_data, dict):  # Vérifie si c'est un dictionnaire
+        if isinstance(tournament_data, dict):
             renamed_tournament_data = {
                 "name": tournament_data.get("Nom_du_tournoi"),
                 "location": tournament_data.get("Lieu"),
@@ -156,38 +157,3 @@ class Tournament:
             }
 
         return tournament_dict
-
-    def get_selected_tournament_data(choice, tournaments, list_tournaments):
-        if 1 <= choice <= len(list_tournaments):
-            selected_tournament_index = choice - 1
-            selected_tournament = list_tournaments[selected_tournament_index:selected_tournament_index + 2]
-            selected_tournament = selected_tournament[0]
-            target_tournoi_name = selected_tournament[0].get("Nom_du_tournoi")
-            target_tournoi_index = None
-
-            # Cherche l'index du tournoi cible dans la liste des tournois
-            for i, tournament in enumerate(tournaments):
-                for l_tournament in tournament:
-                    if l_tournament.get("Nom_du_tournoi") == target_tournoi_name:
-                        target_tournoi_index = i
-                        break
-
-            # Si l'index existe, l'index du tournoi suivant est "None"
-            if target_tournoi_index is not None:
-                next_tournoi_name = None
-                next_tournoi_index = None
-
-                # Cherche la prochaine occurence de "Nom_du_tournoi" qui vient après le tournoi cible
-                # Récupère l'information du "Nom_du_tournoi" - Calcule son index
-                for j, tournament in enumerate(tournaments[target_tournoi_index + 1:], start=target_tournoi_index + 1):
-                    if tournament.get("Nom_du_tournoi"):
-                        next_tournoi_name = tournament.get("Nom_du_tournoi")
-                        next_tournoi_index = j
-                        break
-
-                if next_tournoi_name is not None:
-                    tournament_data_list = tournaments[target_tournoi_index:next_tournoi_index]
-                else:
-                    tournament_data_list = tournaments
-
-        return tournament_data_list

@@ -17,11 +17,11 @@ class RoundModel:
 
     def start_round_model(self):
         '''Permet d'ajouter la date de début de round'''
-        self.start_date = datetime.datetime.today().strftime("%d/%m/%Y")
+        self.start_date = datetime.datetime.today().strftime("%d/%m/%Y")[0:10]
 
     def end_round(self):
         '''Permet d'ajouter la date de fin de round'''
-        self.end_date = datetime.datetime.today().strftime("%d/%m/%Y")
+        self.end_date = datetime.datetime.today().strftime("%d/%m/%Y")[0:10]
 
     @staticmethod
     def get_player_info_match(player1, player2):
@@ -60,7 +60,7 @@ class RoundModel:
 
         sorted_players_info = sorted(sorted_players_info, key=custom_sort)
 
-        # Create a copy of the sorted_players_info list before shuffling
+        # On crée une copie de la liste de sorted_players_info avant de la trié
         shuffled_players = sorted_players_info.copy()
         random.shuffle(shuffled_players)
         list_test = shuffled_players
@@ -72,14 +72,12 @@ class RoundModel:
             player1_info = Player.get_player_ID(player1_ID)
             player2_info = Player.get_player_ID(player2_ID)
 
-            # Modify the while loop to print the shuffled players
             while self.has_played_before(player1_ID, player2_ID, pairing_data):
-                # Reshuffle and try again
+                # On retrie la liste et on réessaye
                 random.shuffle(shuffled_players)
                 player1_ID = shuffled_players[i][0]
                 player2_ID = shuffled_players[i + 1][0]
 
-                # Check if player1 or player2 is None after reshuffle
                 if player1_ID is None or player2_ID is None:
                     break
 

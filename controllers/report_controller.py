@@ -85,7 +85,7 @@ class ReportController:
 
     def display_tournament_players_alphabetically(self):
         '''Affiche les joueurs d'un tournoi par ordre alphabétique.'''
-        # Récupère les
+        # Récupère les infos depuis le tournoi sélectionné
         tournament_alpha_report = TournamentView.display_tournament_alphabetically(self)
         tournament_name = tournament_alpha_report.get("Nom du tournoi")
         tournament_players = tournament_alpha_report.get("Liste_joueurs_triées")
@@ -98,13 +98,10 @@ class ReportController:
                 player_data = [val for _, val in player_info]
                 table_data.append(player_data)
 
-            # Include tournament name in the title
             title = f"{tournament_name} - List of Players"
 
-            # Concatenate title with the table
             table = "\n\n" + title + "\n\n" + tabulate(table_data, headers=headers, tablefmt="pretty")
 
-            # Print the table
             print(table)
         else:
             print("No tournament data available.")
@@ -112,7 +109,9 @@ class ReportController:
 
     def display_tournaments_detail(self):
         '''Affiche les détails d'un tournoi.'''
+        # Variables
         file_path = os.path.join("data", "tournament_data.json")
+
         with open(file_path, "r") as file:
             tournaments = json.load(file)
         tournament_name, date_of_begin, date_of_end = TournamentView.display_tournament_details(self, tournaments)
@@ -124,12 +123,13 @@ class ReportController:
 
     def display_tournaments_data(self):
         '''Affiche tous les rounds et matchs d'un tournois.'''
+        # Variables
         list_of_round_name = []
         list_of_match = []
         tournament_report = TournamentView.display_tournament_data(self)
         tournament_data = tournament_report[0]
         tournament_data = tournament_data[0]
-        tournament_name = tournament_data.get("Nom_du_tournoi")
+        # tournament_name = tournament_data.get("Nom_du_tournoi")
         list_of_round = tournament_data.get("Liste_des_rounds")
 
         for round in list_of_round:
@@ -138,22 +138,17 @@ class ReportController:
             list_of_round_name.append(round_name)
             list_of_match.append(list_match)
 
-        # Include tournament name in the title
-        title = f"{tournament_name}"
+        # title = f"{tournament_name}"
 
-        # Process each round independently
         for round_name, matches in zip(list_of_round_name, list_of_match):
-            # Clear lists for each round
             list_of_round_name = []
             list_of_match = []
 
-            # Append round_name and matches for each round
             list_of_round_name.append(round_name)
             list_of_match.append(matches)
+        # Crée et affiche un tableau pour mettre en forme les données
+        table = tabulate([[list_of_round_name, list_of_match]],
+                         headers=["Nom du round", "Matchs"], tablefmt="pretty")
 
-            # Concatenate title with the table for each round
-            table = tabulate([[list_of_round_name, list_of_match]],
-                             headers=["Nom du round", "Matchs"], tablefmt="pretty")
-
-            # Print the table for each round
-            print(table)
+        print(table)
+        ReportController.save_report(self, table)

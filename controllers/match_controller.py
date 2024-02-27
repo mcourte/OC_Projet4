@@ -12,7 +12,7 @@ class MatchController:
         '''Permet à l'utilisateur de rentrer les scores d'un match'''
         player1_info = Player.get_player_ID(player1)
         player2_info = Player.get_player_ID(player2)
-        # Check if player1 or player2 is None
+        # Vérifie que player1 et player2 existent bien
         if player1 is None or player2 is None:
             print("Error: Player object is None.")
             return
@@ -22,7 +22,7 @@ class MatchController:
 
         print("\nProchain match: \n")
 
-        # Check if player1 and player2 have the expected attributes
+        # Vérfié que player1 et player2 ont les attributs nécessaires
         if 'Surname' not in match.player1 or 'Name' not in match.player1 or \
            'Surname' not in match.player2 or 'Name' not in match.player2:
             print("Error: Player object does not have expected attributes.")

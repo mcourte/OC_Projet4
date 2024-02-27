@@ -322,22 +322,12 @@ class TournamentController:
 
         return selected_tournament
 
-    def get_not_in_pending_or_closed(self, data1, data2, data3):
-        result = []
-
-        def dict_in_list(d, liste):
-            return any(d.items() <= item.items() for item in liste)
-
-        for item1 in data1:
-            if not dict_in_list(item1, data2) and not dict_in_list(item1, data3):
-                result.append(item1)
-
-        return result
-
     def begin_tournament_menu(self):
+        '''Permet d'afficher les tournois qui n'ont pas encore été commencés'''
         list_player_ID = []
 
         def load_json(file_path):
+            '''Fonction qui permet de charger les Json, évite les répétitions'''
             with open(file_path, 'r') as file:
                 return json.load(file)
 
@@ -352,10 +342,11 @@ class TournamentController:
         tournoi_ids_data1 = {item.get("Tournoi_ID") for item in data1 if item.get("Tournoi_ID") is not None}
         tournoi_ids_data2 = {item.get("Tournoi_ID") for item in data2}
         tournoi_ids_data3 = {item.get("Tournoi_ID") for data_item in data3 for item in data_item}
-        # Get Tournoi_ID values unique to data1 and not in both data2 and data3
+        # Cherche les valeurs de Tournoi_ID qui ne sont pas dansa tournament_pending.json ni dans
+        # tournament_closed.json
         tournoi_ids_to_begin = tournoi_ids_data1 - tournoi_ids_data2 - tournoi_ids_data3
 
-        # Display the resulting Tournoi_ID values to begin
+        # Affiche les valeurs de Tournoi ID que l'ont peut commencer
 
         while True:
             if not tournoi_ids_to_begin:
@@ -372,15 +363,15 @@ class TournamentController:
                 if 1 <= choice <= counter:
                     selected_tournoi_id = list(tournoi_ids_to_begin)[choice - 1]
 
-                    # Find the tournament with the selected Tournoi_ID in data1
+                    # On cherche le tournoi avec l'ID voulu
                     selected_tournament = next((item for item in data1 if
                                                 item.get("Tournoi_ID") == selected_tournoi_id), None)
 
                     if selected_tournament:
-                        # Find the index of the selected tournament in data1
+                        # Cherche l'index du tournoi sélectionné dans data1
                         index_of_selected_tournament = data1.index(selected_tournament)
 
-                        # Get the next dictionary after the selected tournament
+                        # Cherche le dictionnaire juste après celui sélectionné pour avoir toutes la data
                         if index_of_selected_tournament + 1 < len(data1):
                             next_tournament = data1[index_of_selected_tournament + 1]
 

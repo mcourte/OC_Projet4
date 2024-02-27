@@ -106,15 +106,14 @@ class RoundController:
         '''Reprendre l'entrée des résultats pour les rounds d'un tournoi.'''
         file_path = os.path.join("data", "tournament_pending.json")
         selected_tournament = Tournament.load_tournament_by_id(tournament_ID, file_path)
-        # Find the maximum round number among the rounds in selected_tournament
+        # Trouve le plus grand nombre de Round joué
         max_round_number = max(int(round_data.get("Nom_du_round").split(" ")[-1]) for round_data
                                in selected_tournament.list_of_round)
-        # The next round number will be one more than the max round number
+        # Le round suivant sera égal au max_round_number + 1
         next_round_number = max_round_number + 1
 
         tournament_name = selected_tournament.name
         print("Bienvenue sur le tournoi: ", tournament_name)
-        # Handle the error as needed, perhaps by setting a default value or asking the user for input.
         round_number = next_round_number
         if (round_number <= number_of_rounds and
             f"Round {round_number}" not in [round_data.get('Nom')
@@ -127,7 +126,7 @@ class RoundController:
 
             print("\nAttention, il est impératif de remplir les scores de l'ensemble des matchs du round :\n")
             previous_result = self.get_previous_results(tournament_ID, round_number)
-            # Reset player points at the beginning of each round
+            # Remise à 0 des points des joueurs au début de chaque round
             self.player_points = {}
             sorted_players = self.calculate_points_for_tournament(tournament_ID)
             list_pairs = new_round.create_pairs_new_round(list_pairs_one, previous_result, sorted_players)
@@ -136,13 +135,13 @@ class RoundController:
                 player2_ID = pair.get("player2")
                 MatchController.play_match(new_round, player1_ID, player2_ID)
 
-            # End the Round after the matches are played
+            # Termine le round après que les matchs soient joués
             new_round.end_round()
 
-            # Convert the Round to a dictionary
+            # Converti le Round en dictionnaire
             new_round_dict = new_round.to_dict()
 
-            # Update the tournament with all the information of the Round and Matches
+            # Mise à jour du tournoi
             selected_tournament.list_of_round.append(new_round_dict)
             Tournament.update_tournament(tournament_ID, {'Liste_des_rounds': selected_tournament.list_of_round})
             list_pairs_one = list_pairs
@@ -161,7 +160,7 @@ class RoundController:
         return selected_tournament, list_pairs
 
     def calculate_points_for_tournament(self, tournament_ID):
-        # Load the tournament
+        '''Permet de calculer les points des joueurs en cours de tournoi'''
         file_path = os.path.join("data", "tournament_pending.json")
         tournament = Tournament.load_tournament_by_id(tournament_ID, file_path)
         if not tournament:
