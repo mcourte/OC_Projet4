@@ -2,7 +2,6 @@
 import random
 import datetime
 
-from models.match_model import Match
 from models.player_model import Player
 
 
@@ -113,48 +112,6 @@ class RoundModel:
             "Date_de_fin": self.end_time.isoformat() if self.end_time else None,
             "Matchs": match_data
         }
-
-    @classmethod
-    def from_dict(cls, round_data, players):
-        '''Crée une instance de Round à partir d'un dictionnaire.'''
-        round_name = round_data["round_name"]
-        start_time = (
-            datetime.datetime.fromisoformat(round_data["start_time"])
-            if round_data["start_time"]
-            else None
-        )
-        end_time = (
-            datetime.datetime.fromisoformat(round_data["end_time"])
-            if round_data["end_time"]
-            else None
-        )
-        new_round = cls(round_name, start_time, end_time)
-
-        matches_data = round_data.get("matches", [])
-        for match_data in matches_data:
-            if len(match_data) == 2:
-                player1_data, player2_data = match_data
-                player1_ID, score1 = player1_data
-                player2_ID, score2 = player2_data
-                # Recherchez les joueurs
-
-                player1 = next(
-                    (player for player in players if player.player_ID == player1_ID),
-                    None,
-                )
-                player2 = next(
-                    (player for player in players if player.player_ID == player2_ID),
-                    None,
-                )
-                if player1 and player2:
-                    new_round.matches.append(Match(player1, player2, score1, score2))
-                else:
-                    print(
-                        f"Erreur : Impossible de trouver les joueurs pour le match {match_data}"
-                    )
-            else:
-                print("Format invalide pour un match :", match_data)
-        return new_round
 
     def has_played_before(self, player1_ID, player2_ID, previous_results):
         for result in previous_results:

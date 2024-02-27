@@ -27,20 +27,20 @@ class TournamentView:
         '''Permet de créer un nouveau tournoi'''
         MainView.clear_screen()
         while True:
-            tournament_name = input("Quel est le nom du tournoi?")
+            tournament_name = input("Quel est le nom du tournoi? ")
             if tournament_name != "":
                 break
             else:
                 print("Le nom du tournoi ne peut pas être vide.")
         while True:
-            tournament_location = input("Quelle est la localisation du tournoi?")
+            tournament_location = input("Quelle est la localisation du tournoi? ")
             if tournament_location != "":
                 break
             else:
                 print("La localisation du tournoi ne peut pas être vide.")
 
         while True:
-            tournament_date_of_begin = input("Quelle est la date de début du tournoi? (Format : JJ/MM/AAAA)")
+            tournament_date_of_begin = input("Quelle est la date de début du tournoi? (Format : JJ/MM/AAAA) ")
             try:
                 # Essayer de convertir la chaîne en objet datetime
 
@@ -53,7 +53,7 @@ class TournamentView:
                     "Format de date invalide. Assurez-vous d'utiliser "
                     + "le format JJ/MM/AAAA. Réessayez."
                 )
-        nb_round = int(input("Combien il y aura-t-il de round?(par défaut 4)"))
+        nb_round = int(input("Combien il y aura-t-il de round? (par défaut 4) "))
         if nb_round == "" or "4":
             number_of_round = 4
         else:
@@ -95,7 +95,7 @@ class TournamentView:
 
     def choose_players_ID(self):
         ''' Permet de rentrer l'ID du joueur que l'on veut sélectionner'''
-        self.choose_ID = input("Veuillez rentrer l'ID du joueur que vous souhaitez rajouter : ").upper()
+        self.choose_ID = input("Veuillez rentrer l'ID du joueur que vous souhaitez rajouter: ").upper()
         return self.choose_ID
 
     def display_list_tournament(self, tournaments):
@@ -124,7 +124,7 @@ class TournamentView:
                 counter += 1
                 print(f"{counter}. {tournament_name}")
         try:
-            choice = int(input("Veuillez sélectionner le numéro du tournoi : "))
+            choice = int(input("Veuillez sélectionner le numéro du tournoi: "))
             if 1 <= choice <= len(list_tournaments):
                 selected_tournament_index = choice - 1
                 selected_tournament = list_tournaments[selected_tournament_index]

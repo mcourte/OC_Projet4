@@ -89,6 +89,20 @@ class Tournament:
                 with open(file_path, "w") as file:
                     json.dump(tournaments, file, ensure_ascii=False, indent=4)
 
+    @staticmethod
+    def serialize_to_json(file_path, data, serializer=None):
+        '''Serialize data to JSON and write to file'''
+        try:
+            with open(file_path, "r") as file:
+                existing_data = json.load(file)
+        except FileNotFoundError:
+            existing_data = []
+
+        existing_data.append(data)
+
+        with open(file_path, "w") as file:
+            json.dump(existing_data, file, default=serializer, ensure_ascii=False, indent=4)
+
     @classmethod
     def from_dict(cls, tournament_data):
         '''Permet de créer une instance de tournoi depuis un dictionnaire'''
@@ -107,6 +121,9 @@ class Tournament:
 
             # Crée un dictionnaire imbriqué pour les informations des joueurs
             if "Liste_joueurs_inscrits" in tournament_data:
+                players_data = tournament_data["Liste_joueurs_inscrits"]
+                renamed_tournament_data["list_of_player"] = Tournament.deserialize_players(players_data)
+
                 players_data = tournament_data["Liste_joueurs_inscrits"]
                 renamed_tournament_data["list_of_player"] = [
                     {

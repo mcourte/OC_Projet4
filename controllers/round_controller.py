@@ -1,4 +1,5 @@
 import os
+from colorama import Style
 
 from models.round_model import RoundModel
 from models.player_model import Player
@@ -35,8 +36,7 @@ class RoundController:
                 self.update_player_points(player2_ID, player2_score)
 
         sorted_players = sorted(self.player_points.items(), key=lambda x: x[1], reverse=True)
-
-        print("Classement Final du Tournoi :\n")
+        print(f"{Style.BRIGHT}\nClassement Final du Tournoi :\n{Style.RESET_ALL}", end='', flush=True)
         for player_ID, points in sorted_players:
             player = Player.get_player_ID(player_ID)
             if player:
@@ -53,14 +53,14 @@ class RoundController:
         tournament_ID = selected_tournament.tournament_ID
         number_of_rounds = selected_tournament.number_of_round
         tournament_name = selected_tournament.name
-        print("\nBienvenue sur le tournoi: ", tournament_name, "\n")
+        print(f"{Style.BRIGHT}\nBienvenue sur le tournoi: {tournament_name}\n", end='', flush=True)
         print("\nLe tournoi a", number_of_rounds, "rounds\n")
 
         for round_number in range(1, number_of_rounds + 1):
             round_name = f"Round {round_number}"
             new_round = RoundModel(round_name)
             new_round.start_round_model()
-            print(f"\nDébut du round : {round_number}\n")
+            print(f"{Style.BRIGHT}nDébut du round : {round_number}\n", end='', flush=True)
 
             if round_number == 1:
                 list_pairs_one = new_round.create_pairs_round_one(list_player_ID)
@@ -73,7 +73,8 @@ class RoundController:
                     player2 = Player.get_player_ID(player2_ID)
                     print(f"{player1.get('Surname')} {player1.get('Name')} contre {player2.get('Surname')}"
                           f" {player2.get('Name')}")
-                print("\nAttention, il est impératif de remplir les scores de l'ensemble des matchs du round :\n")
+                    print(f"{Style.BRIGHT}\nAttention, il est impératif de remplir les scores de l'ensemble des "
+                          f"matchs du round :\n", end='', flush=True)
                 print("\nLe score d'un joueur peut être 0, 1 ou 0.5")
                 # Joue les matchs pour le Round en cours
 
@@ -113,7 +114,7 @@ class RoundController:
         next_round_number = max_round_number + 1
 
         tournament_name = selected_tournament.name
-        print("Bienvenue sur le tournoi: ", tournament_name)
+        print(f"{Style.BRIGHT}\nBienvenue sur le tournoi: {tournament_name}\n", end='', flush=True)
         round_number = next_round_number
         if (round_number <= number_of_rounds and
             f"Round {round_number}" not in [round_data.get('Nom')
@@ -124,7 +125,8 @@ class RoundController:
 
             print(f"\nDébut du round : {round_number}\n")
 
-            print("\nAttention, il est impératif de remplir les scores de l'ensemble des matchs du round :\n")
+            print(f"{Style.BRIGHT}\nAttention, il est impératif de remplir les scores de l'ensemble des "
+                  f"matchs du round :\n", end='', flush=True)
             previous_result = self.get_previous_results(tournament_ID, round_number)
             # Remise à 0 des points des joueurs au début de chaque round
             self.player_points = {}
@@ -200,23 +202,6 @@ class RoundController:
                 previous_results.extend(round_data["Matchs"])
                 break
         return previous_results
-
-    def update_matches_in_round(self, round_number, tournament_ID, updated_matches):
-        # Charge l'instance spécifique du tournoi à partir du fichier JSON
-
-        selected_tournament = Tournament.load_tournament_by_id(tournament_ID)
-        # Récupére le round spécifique
-
-        round_to_update = selected_tournament.get_round_by_number(round_number)
-        if round_to_update:
-            # Mets à jour les matchs dans le round
-
-            round_to_update.update_matches(updated_matches)
-            # Mets à jour le tournoi avec les nouvelles valeurs
-
-            Tournament.update_tournament(
-                tournament_ID, {"List_of_round": selected_tournament.list_of_rounds}
-            )
 
     def update_player_points(self, player_ID, score):
         '''Permet de mettre à jour les point des Joueurs'''

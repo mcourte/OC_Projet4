@@ -2,6 +2,7 @@ import os
 import random
 import json
 import datetime
+from colorama import Style
 
 from views.tournament_view import TournamentView
 from controllers.round_controller import RoundController
@@ -54,7 +55,8 @@ class TournamentController:
             self.list_of_players.extend(random.sample(data_players, index))
         elif self.choose_player == "non":
             for player in data_players:
-                print(f"{player.get('Surname')},{player.get('Name')},{player.get('Player_ID')}")
+                print(f"{Style.BRIGHT}{player.get('Surname')},{player.get('Name')},"
+                      f"{player.get('Player_ID')}{Style.RESET_ALL}", end='', flush=True)
             for _ in range(int(self.number_of_player)):
                 choose_player = TournamentView.choose_players_ID(self)
                 chosen_player = next((player for player in data_players if player["Player_ID"] == choose_player), None)
@@ -80,42 +82,6 @@ class TournamentController:
         list_player_ID = [player["Player_ID"] for player in self.list_of_players]
 
         return self.tournament_data, self.number_of_player, tournament_ID, list_player_ID
-
-    def resume_tournament_menu(self):
-        """Affiche les tournois en cours et permet à l'utilisateur de choisir
-        le tournoi à reprendre.
-        """
-        tournament_inprogress = TournamentController.load_tournament_pending()
-        if not tournament_inprogress:
-            print("Aucun tournoi en cours.")
-            return
-
-        while True:
-            counter = 0
-
-            for i, tournament_dict in enumerate(tournament_inprogress, start=1):
-                if isinstance(tournament_dict, dict):
-                    tournament_name = tournament_dict.get("Nom_du_tournoi")
-                    if tournament_name is not None:
-                        counter += 1
-                        print(f"{counter}. {tournament_name}")
-
-            choice = int(input("Veuillez sélectionner le numéro du tournoi à lancer : "))
-            print(f"Choix saisi : {choice}")
-            try:
-                if 1 <= choice <= len(tournament_inprogress):
-                    tournament_index = (choice - 1)
-                    selected_tournament = tournament_inprogress[tournament_index]
-                    self.resume_selected_tournament(selected_tournament)
-                    break
-                else:
-                    print("Choix invalide: hors de la plage valide")
-
-            except ValueError as e:
-                print(f"Erreur lors de la conversion en entier : {e}")
-            except Exception as e:
-                print(f"Erreur inattendue : {e}")
-        return selected_tournament
 
     def end_tournament(self):
         '''Permet de terminer un tournoi'''
@@ -185,8 +151,7 @@ class TournamentController:
         tournaments.extend(tournament_closed)
         with open(file_path2, "w") as file:
             json.dump(tournaments, file, ensure_ascii=False, indent=4)
-
-        print("Le tournoi est clos")
+        print(f"{Style.BRIGHT}Le tournoi est clos.{Style.RESET_ALL}", end='', flush=True)
 
     def resume_selected_tournament(self, selected_tournament, last_round):
         '''Reprendre un tournoi sélectionné.'''
@@ -233,7 +198,6 @@ class TournamentController:
             print("Aucun round disponible pour ce tournoi.")
             return
 
-        # Assuming you want to work with the last round in the list_of_rounds
         last_round_data = list_of_round[-1] if last_round is None else last_round
 
         round_name = last_round_data.get("Nom_du_round")
