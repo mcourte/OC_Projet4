@@ -52,6 +52,8 @@ class RoundController:
         selected_tournament = Tournament.load_tournament_by_id(tournament_ID, file_path)
         tournament_ID = selected_tournament.tournament_ID
         number_of_rounds = selected_tournament.number_of_round
+        tournament_name = selected_tournament.name
+        print("\nBienvenue sur le tournoi: ", tournament_name, "\n")
         print("\nLe tournoi a", number_of_rounds, "rounds\n")
 
         for round_number in range(1, number_of_rounds + 1):
@@ -62,11 +64,9 @@ class RoundController:
 
             if round_number == 1:
                 list_pairs_one = new_round.create_pairs_round_one(list_player_ID)
-                print(list_player_ID)
                 selected_tournament.add_round(new_round)
                 print("\n Les matchs à venir pour le Round en cours sont les suivants :\n")
                 for pair in list_pairs_one:
-                    print(pair)
                     player1_ID = pair[0]
                     player2_ID = pair[1]
                     player1 = Player.get_player_ID(player1_ID)
@@ -112,14 +112,13 @@ class RoundController:
         # The next round number will be one more than the max round number
         next_round_number = max_round_number + 1
 
-        # Now you have the next round number
-        print(f"The next round number is: {next_round_number}")
+        tournament_name = selected_tournament.name
+        print("Bienvenue sur le tournoi: ", tournament_name)
         # Handle the error as needed, perhaps by setting a default value or asking the user for input.
         round_number = next_round_number
         if (round_number <= number_of_rounds and
             f"Round {round_number}" not in [round_data.get('Nom')
                                             for round_data in selected_tournament.list_of_round]):
-            print("Entering the loop")
             round_name = f"Round {round_number}"
             new_round = RoundModel(round_name)
             new_round.start_round_model()

@@ -20,7 +20,7 @@ class MatchController:
         # Créer un objet Match
         match = Match(player1_info, player2_info)
 
-        print("\nProchain match: ")
+        print("\nProchain match: \n")
 
         # Check if player1 and player2 have the expected attributes
         if 'Surname' not in match.player1 or 'Name' not in match.player1 or \

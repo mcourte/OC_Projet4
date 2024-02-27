@@ -124,8 +124,36 @@ class ReportController:
 
     def display_tournaments_data(self):
         '''Affiche tous les rounds et matchs d'un tournois.'''
-        report_text = []
+        list_of_round_name = []
+        list_of_match = []
         tournament_report = TournamentView.display_tournament_data(self)
-        for tournament in tournament_report:
-            report_text.append(tournament)
-        ReportController.save_report(self, report_text)
+        tournament_data = tournament_report[0]
+        tournament_data = tournament_data[0]
+        tournament_name = tournament_data.get("Nom_du_tournoi")
+        list_of_round = tournament_data.get("Liste_des_rounds")
+
+        for round in list_of_round:
+            round_name = round.get("Nom_du_round")
+            list_match = round.get("Matchs")
+            list_of_round_name.append(round_name)
+            list_of_match.append(list_match)
+
+        # Include tournament name in the title
+        title = f"{tournament_name}"
+
+        # Process each round independently
+        for round_name, matches in zip(list_of_round_name, list_of_match):
+            # Clear lists for each round
+            list_of_round_name = []
+            list_of_match = []
+
+            # Append round_name and matches for each round
+            list_of_round_name.append(round_name)
+            list_of_match.append(matches)
+
+            # Concatenate title with the table for each round
+            table = tabulate([[list_of_round_name, list_of_match]],
+                             headers=["Nom du round", "Matchs"], tablefmt="pretty")
+
+            # Print the table for each round
+            print(table)

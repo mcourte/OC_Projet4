@@ -59,10 +59,6 @@ class RoundModel:
         ]
 
         sorted_players_info = sorted(sorted_players_info, key=custom_sort)
-        for player_ID, points, player in sorted_players_info:
-            print(
-                f"{player['Surname']} {player['Name']} {player['Player_ID']}: {points} points"
-            )
 
         # Create a copy of the sorted_players_info list before shuffling
         shuffled_players = sorted_players_info.copy()
@@ -78,23 +74,19 @@ class RoundModel:
 
             # Modify the while loop to print the shuffled players
             while self.has_played_before(player1_ID, player2_ID, pairing_data):
-                print("Players have played before. Reshuffling.")
                 # Reshuffle and try again
                 random.shuffle(shuffled_players)
                 player1_ID = shuffled_players[i][0]
                 player2_ID = shuffled_players[i + 1][0]
-                print("Shuffled Players (after reshuffle):", shuffled_players)
 
                 # Check if player1 or player2 is None after reshuffle
                 if player1_ID is None or player2_ID is None:
-                    print("Error: Player object is None after reshuffle.")
                     break
 
                 player1_info = Player.get_player_ID(player1_ID)
                 player2_info = Player.get_player_ID(player2_ID)
 
                 if player1_info is None or player2_info is None:
-                    print("Error: Player information is None after reshuffle.")
                     break
 
             pairings.append({"player1": player1_ID, "player2": player2_ID})
@@ -175,8 +167,7 @@ class RoundModel:
                 if (result['player1'] == player1_ID and result['player2'] == player2_ID) or \
                    (result['player1'] == player2_ID and result['player2'] == player1_ID):
                     return True
-            except Exception as e:
-                print(f"Error: {e}")
-                print("An error occurred while checking if players have played before.")
+            except Exception:
+                pass
 
         return False

@@ -180,8 +180,11 @@ class TournamentController:
             json.dump(tournament_inprogress, file, ensure_ascii=False, indent=4)
 
         file_path2 = os.path.join("data", "tournament_closed.json")
+        with open(file_path2, "r") as file:
+            tournaments = json.load(file)
+        tournaments.extend(tournament_closed)
         with open(file_path2, "w") as file:
-            json.dump(tournament_closed, file, ensure_ascii=False, indent=4)
+            json.dump(tournaments, file, ensure_ascii=False, indent=4)
 
         print("Le tournoi est clos")
 
@@ -348,10 +351,12 @@ class TournamentController:
 
         tournoi_ids_data1 = {item.get("Tournoi_ID") for item in data1 if item.get("Tournoi_ID") is not None}
         tournoi_ids_data2 = {item.get("Tournoi_ID") for item in data2}
-        tournoi_ids_data3 = {item.get("Tournoi_ID") for item in data3}
+        tournoi_ids_data3 = {item.get("Tournoi_ID") for data_item in data3 for item in data_item}
+        # Get Tournoi_ID values unique to data1 and not in both data2 and data3
+        tournoi_ids_to_begin = tournoi_ids_data1 - tournoi_ids_data2 - tournoi_ids_data3
 
-        # Get Tournoi_ID values in data1 but not in data2 or data3
-        tournoi_ids_to_begin = tournoi_ids_data1 - (tournoi_ids_data2 | tournoi_ids_data3)
+        # Display the resulting Tournoi_ID values to begin
+
         while True:
             if not tournoi_ids_to_begin:
                 print("Il n'y a aucun tournoi à lancer.")
@@ -361,13 +366,7 @@ class TournamentController:
                 counter += 1
                 print(f"{counter}. Tournoi_ID: {tournoi_id}")
 
-            if counter == 0:
-                print("No tournaments found.")
-                break
-
-            choice = input("Veuillez sélectionner le numéro du tournoi à lancer (ou 'q' pour quitter) : ")
-            if choice.lower() == 'q':
-                break
+            choice = input("Veuillez sélectionner le numéro du tournoi à lancer: ")
             try:
                 choice = int(choice)
                 if 1 <= choice <= counter:
@@ -376,8 +375,16 @@ class TournamentController:
                     # Find the tournament with the selected Tournoi_ID in data1
                     selected_tournament = next((item for item in data1 if
                                                 item.get("Tournoi_ID") == selected_tournoi_id), None)
-                    print(selected_tournament)
+
                     if selected_tournament:
+                        # Find the index of the selected tournament in data1
+                        index_of_selected_tournament = data1.index(selected_tournament)
+
+                        # Get the next dictionary after the selected tournament
+                        if index_of_selected_tournament + 1 < len(data1):
+                            next_tournament = data1[index_of_selected_tournament + 1]
+
+                        selected_tournament.update(next_tournament)
                         list_players = selected_tournament.get("Liste_joueurs_inscrits", [])
                         for player in list_players:
                             player_ID = player.get("Player_ID")
