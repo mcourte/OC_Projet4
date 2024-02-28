@@ -303,10 +303,10 @@ class TournamentController:
                 tournament_index = choice - 1
                 selected_tournament = tournament_inprogress[tournament_index]
 
-                # Find the last round index
+                # Trouver l'index du dernier Round du tournoi choisi
                 last_round_index = len(selected_tournament.get("Liste_des_rounds", [])) - 1
 
-                # If there are rounds in the tournament, resume from the last round
+                # Si l'index du dernier Round existe & est différent de 1 on repart de ce round
                 if last_round_index >= 0:
                     last_round = selected_tournament["Liste_des_rounds"][last_round_index]
                     self.resume_selected_tournament(selected_tournament, last_round)
