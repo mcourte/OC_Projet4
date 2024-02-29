@@ -70,4 +70,4 @@ flake8 --output-file=flake8-report/flake8-output.html --exclude=env
 ```
 
 
-![Image de l'ensemble des pions d'échecs.](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.elle.fr%2FLoisirs%2FTests-et-quiz%2Ftests%2FQuelle-piece-des-echecs-etes-vous&psig=AOvVaw0jVg8EX7UT2hf4ckJgh0r7&ust=1709293104847000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCID0ypS70IQDFQAAAAAdAAAAABAE)
+![Image de l'ensemble des pions d'échecs.](image/pions.jpg)
