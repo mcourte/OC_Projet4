@@ -2,9 +2,11 @@ import os
 import random
 import json
 import datetime
+import time
 
 from views.tournament_view import TournamentView
 from controllers.round_controller import RoundController
+from models.tournament_model import Tournament
 
 
 class TournamentController:
@@ -88,6 +90,7 @@ class TournamentController:
         tournament_inprogress = TournamentController.load_tournament_pending()
         if not tournament_inprogress:
             print("Aucun tournoi en cours.")
+            time.sleep(10)
             return
 
         while True:
@@ -122,6 +125,7 @@ class TournamentController:
         tournament_inprogress = TournamentController.load_tournament_pending()
         if not tournament_inprogress:
             print("Aucun tournoi en cours.")
+            time.sleep(10)
             return
 
         while True:
@@ -231,6 +235,7 @@ class TournamentController:
 
         if not list_of_round:
             print("Aucun round disponible pour ce tournoi.")
+            time.sleep(10)
             return
 
         # Assuming you want to work with the last round in the list_of_rounds
@@ -287,6 +292,7 @@ class TournamentController:
         tournament_inprogress = TournamentController.load_tournament_pending()
         if not tournament_inprogress:
             print("Aucun tournoi en cours.")
+            time.sleep(10)
             return
 
         for i, tournament_dict in enumerate(tournament_inprogress, start=1):
@@ -351,11 +357,13 @@ class TournamentController:
         while True:
             if not tournoi_ids_to_begin:
                 print("Il n'y a aucun tournoi à lancer.")
+                time.sleep(20)
                 break
             counter = 0
             for tournoi_id in tournoi_ids_to_begin:
+                tournament = Tournament.load_tournament_by_id(tournoi_id)
                 counter += 1
-                print(f"{counter}. Tournoi_ID: {tournoi_id}")
+                print(f"{counter}.{tournament.name}")
 
             choice = input("Veuillez sélectionner le numéro du tournoi à lancer: ")
             try:

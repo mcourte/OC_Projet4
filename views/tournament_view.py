@@ -100,7 +100,6 @@ class TournamentView:
 
     def display_list_tournament(self, tournaments):
         '''Affiche la liste des tournois.'''
-        MainView.clear_screen()
         list_tournament = []
         print("\nListe des tournois:")
         for tournament in tournaments:
