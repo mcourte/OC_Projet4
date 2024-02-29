@@ -52,12 +52,14 @@ python3 main.py
 
 ## Etape 6 : Utilisation du programme
 
-Commencer par créer des joueurs.  
-Créer un tournoi.  
-Une fois le tournoi crée, vous pouvez "Lancer un tournoi".  
-Si vous souhaitez arrêter de rentrer les scores après un ou plusieurs rounds, vous pourrez reprendre ce tournoi depuis " Reprendre un tournoi"  
-Une fois le tournoi complet, pensez à Clôturer le tournoi.  
-Dans le menu rapport, vous trouverez une liste de rapport que vous pouvez afficher directement dans votre terminal et l'enregistrez en fichier text si vous le souhaitez.  
+-Commencer par créer des joueurs.  
+-Créer un tournoi.  
+-Une fois le tournoi crée, vous pouvez "Lancer un tournoi".  
+-Si vous souhaitez arrêter de rentrer les scores après un ou plusieurs rounds, vous pourrez reprendre ce tournoi depuis " Reprendre un tournoi"  
+-Une fois le tournoi complet, pensez à Clôturer le tournoi.  
+-Dans le menu rapport, vous trouverez une liste de rapport que vous pouvez afficher directement dans votre terminal et l'enregistrez en fichier text si vous le souhaitez.  
+
+**Attention** : contrairement aux réelles règles d'un tournoi d'Echecs, ce programme impose un nombre pair de joueur. Dans la réalité, dans le cas avec un nombre de joueur impair, le joueur qui ne joue pas de matchs gagne 1 point.  
 
 
 ## Etape 7 : Vérification Flake8
@@ -66,3 +68,6 @@ Dans le terminal, taper la commande suivante :
 ```
 flake8 --output-file=flake8-report/flake8-output.html --exclude=env
 ```
+
+
+![Image de l'ensemble des pions d'échecs.](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.elle.fr%2FLoisirs%2FTests-et-quiz%2Ftests%2FQuelle-piece-des-echecs-etes-vous&psig=AOvVaw0jVg8EX7UT2hf4ckJgh0r7&ust=1709293104847000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCID0ypS70IQDFQAAAAAdAAAAABAE)
