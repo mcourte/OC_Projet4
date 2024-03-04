@@ -40,7 +40,7 @@ source env/bin/activate
 
 Dans le terminal, taper la commande suivante :
 ```
-pip install -r requierements.txt
+pip install -r requirements.txt
 ```
 
 ## Etape 5 : Lancer le programme
