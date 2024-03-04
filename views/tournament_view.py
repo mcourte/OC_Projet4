@@ -54,7 +54,7 @@ class TournamentView:
                     + "le format JJ/MM/AAAA. Réessayez."
                 )
         nb_round = int(input("Combien il y aura-t-il de round? (par défaut 4) "))
-        if nb_round == "" or "4":
+        if nb_round == "" or "4" or " ":
             number_of_round = 4
         else:
             number_of_round = nb_round
