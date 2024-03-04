@@ -126,6 +126,8 @@ class ReportController:
         # Variables
         list_of_round_name = []
         list_of_match = []
+        list_of_matches = []
+        list_of_rounds = []
         tournament_report = TournamentView.display_tournament_data(self)
         tournament_data = tournament_report[0]
         tournament_data = tournament_data[0]
@@ -137,17 +139,14 @@ class ReportController:
             list_match = round.get("Matchs")
             list_of_round_name.append(round_name)
             list_of_match.append(list_match)
-
         # title = f"{tournament_name}"
 
         for round_name, matches in zip(list_of_round_name, list_of_match):
-            list_of_round_name = []
-            list_of_match = []
+            list_of_rounds.append(round_name)
+            list_of_matches.append(matches)
 
-            list_of_round_name.append(round_name)
-            list_of_match.append(matches)
         # Crée et affiche un tableau pour mettre en forme les données
-        table = tabulate([[list_of_round_name, list_of_match]],
+        table = tabulate([[list_of_rounds, list_of_matches]],
                          headers=["Nom du round", "Matchs"], tablefmt="pretty")
 
         print(table)

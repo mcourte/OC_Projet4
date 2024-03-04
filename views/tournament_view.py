@@ -127,10 +127,10 @@ class TournamentView:
             if 1 <= choice <= len(list_tournaments):
                 selected_tournament_index = choice - 1
                 selected_tournament = list_tournaments[selected_tournament_index]
-                date_of_begin = selected_tournament.get("Date_de_debut")[0:10]
+                date_of_begin = selected_tournament.get("Date_de_debut")
                 tournament_name = selected_tournament.get("Nom_du_tournoi")
                 if selected_tournament.get("Date_de_fin") is not None:
-                    date_of_end = selected_tournament.get("Date_de_fin")[0:10]
+                    date_of_end = selected_tournament.get("Date_de_fin")
                 else:
                     date_of_end = "Tournoi non terminé"
             else:

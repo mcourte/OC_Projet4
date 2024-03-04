@@ -10,11 +10,11 @@ class PlayerView:
         MainView.clear_screen()
         title = "\nMenu de Gestion des Joueurs :\n"
         MainView().slow_print(title)
-        menu = "\n 1. Ajouter un nouveau joueur \n 2. Afficher tous les joueurs \n 3. Revenir au menu principal \n"
+        menu = "\n 1. Ajouter un nouveau joueur \n 2. Revenir au menu principal \n"
         MainView().slow_print(menu)
-        choice = "Choisissez une option: "
-        MainView().slow_print(choice)
-        self.choice = input()
+        choice_prompt = "Choisissez une option:"
+        MainView().slow_print(choice_prompt)
+        self.choice = input().strip()
         return self.choice
 
     def player_name(self):

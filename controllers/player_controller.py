@@ -28,7 +28,7 @@ class PlayerController:
         surname = PlayerView.player_surname(self).capitalize()
         name = PlayerView.player_name(self).capitalize()
         date_of_birth = PlayerView.player_date_of_birth(self)
-        player_ID = PlayerView.player_ID(self)
+        player_ID = PlayerView.player_ID(self).upper()
         score_tournament = 0
         chess_ID = Player.random_ID(self)
         # Si l'utilisateur ne rentre pas l'ID d'un joueur, création d'un ID aléatoire

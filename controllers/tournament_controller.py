@@ -184,8 +184,11 @@ class TournamentController:
             json.dump(tournament_inprogress, file, ensure_ascii=False, indent=4)
 
         file_path2 = os.path.join("data", "tournament_closed.json")
-        with open(file_path2, "r") as file:
-            tournaments = json.load(file)
+        try:
+            with open(file_path2, "r") as file:
+                tournaments = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            tournaments = []
         tournaments.extend(tournament_closed)
         with open(file_path2, "w") as file:
             json.dump(tournaments, file, ensure_ascii=False, indent=4)
@@ -276,15 +279,13 @@ class TournamentController:
         file_path = "data/tournament_pending.json"
 
         try:
-            with open(file_path, 'r') as file:
-                data = file.read()
-                if data:
-                    return json.loads(data)
-                else:
-                    return []
+            with open(file_path, "r") as file:
+                data = json.load(file)
+        except (FileNotFoundError, json.JSONDecodeError):
+            data = []
         except Exception as e:
             print(f"Erreur lors du chargement des données du tournoi : {e}")
-            return []
+            return data
 
     def resume_tournament_pending_menu(self):
         '''Affiche les tournois en cours et permet à l'utilisateur de choisir
