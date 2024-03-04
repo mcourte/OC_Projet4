@@ -351,9 +351,8 @@ class TournamentController:
         # Cherche les valeurs de Tournoi_ID qui ne sont pas dansa tournament_pending.json ni dans
         # tournament_closed.json
         tournoi_ids_to_begin = tournoi_ids_data1 - tournoi_ids_data2 - tournoi_ids_data3
-
         # Affiche les valeurs de Tournoi ID que l'ont peut commencer
-
+        file_path = os.path.join("data", "tournament_data.json")
         while True:
             if not tournoi_ids_to_begin:
                 print("Il n'y a aucun tournoi à lancer.")
@@ -361,7 +360,7 @@ class TournamentController:
                 break
             counter = 0
             for tournoi_id in tournoi_ids_to_begin:
-                tournament = Tournament.load_tournament_by_id(tournoi_id)
+                tournament = Tournament.load_tournament_by_id(tournoi_id, file_path)
                 counter += 1
                 print(f"{counter}.{tournament.name}")
 

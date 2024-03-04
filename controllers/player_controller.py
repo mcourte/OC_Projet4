@@ -14,9 +14,11 @@ class PlayerController:
         '''Permet de lancer les fonctions suivant les choix de l'utilisateur'''
         while True:
             choice = PlayerView().display_player_menu()
+            print(f"User choice: {choice}")
             if choice == "1":
                 self.create_player()
             elif choice == "2":
+                print("Selected option 2")
                 self.display_players()
             elif choice == "3":
                 break
@@ -26,8 +28,8 @@ class PlayerController:
     def create_player(self):
         '''Permet de créer un nouveau joueur'''
         # Récuperer les informations fournies par l'utilisateur
-        surname = PlayerView.player_surname(self)
-        name = PlayerView.player_name(self)
+        surname = PlayerView.player_surname(self).capitalize()
+        name = PlayerView.player_name(self).capitalize()
         date_of_birth = PlayerView.player_date_of_birth(self)
         player_ID = PlayerView.player_ID(self)
         score_tournament = 0
@@ -55,6 +57,7 @@ class PlayerController:
     def display_players(self):
         '''Permet de trier les joueurs par ordre alphabétique'''
         # Variables
+        print("test")
         list_dict_player = []
         dict_player = {}
         sorted_player = []
@@ -65,6 +68,7 @@ class PlayerController:
                 data = json.load(file)
         except (FileNotFoundError, json.JSONDecodeError):
             data = []
+        print(data)
         # Crée la liste des joueurs à trier
         for i in range(len(data)):
             player = data[i]
@@ -76,4 +80,7 @@ class PlayerController:
             sorted_player.append(a)
         # Trie la liste des joueurs par Surname x[0] et Name x[1]
         sorted_name = sorted(sorted_player, key=lambda x: (x[0], x[1]))
+        print(sorted_name)
+        for player in sorted_name:
+            print(player)
         return sorted_name
