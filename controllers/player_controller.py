@@ -18,9 +18,6 @@ class PlayerController:
             if choice == "1":
                 self.create_player()
             elif choice == "2":
-                print("Selected option 2")
-                self.display_players()
-            elif choice == "3":
                 break
             else:
                 print("Option invalide. Veuillez choisir une option valide.")
@@ -56,31 +53,26 @@ class PlayerController:
 
     def display_players(self):
         '''Permet de trier les joueurs par ordre alphabétique'''
-        # Variables
+
         print("test")
-        list_dict_player = []
-        dict_player = {}
-        sorted_player = []
+
         file_path = os.path.join("data", "players_data.json")
+
         # Charge les données des joueurs
         try:
             with open(file_path, "r") as file:
                 data = json.load(file)
         except (FileNotFoundError, json.JSONDecodeError):
             data = []
-        print(data)
-        # Crée la liste des joueurs à trier
-        for i in range(len(data)):
-            player = data[i]
-            list_dict_player.append(player)
 
-        for i in list_dict_player:
-            dict_player.update(i)
-            a = list(dict_player.items())
-            sorted_player.append(a)
+        print(data)
+        sorted_player = [list(player.items()) for player in data]
+
         # Trie la liste des joueurs par Surname x[0] et Name x[1]
         sorted_name = sorted(sorted_player, key=lambda x: (x[0], x[1]))
+
         print(sorted_name)
         for player in sorted_name:
             print(player)
+
         return sorted_name
