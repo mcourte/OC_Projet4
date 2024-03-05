@@ -54,8 +54,6 @@ class PlayerController:
     def display_players(self):
         '''Permet de trier les joueurs par ordre alphabétique'''
 
-        print("test")
-
         file_path = os.path.join("data", "players_data.json")
 
         # Charge les données des joueurs
@@ -65,14 +63,9 @@ class PlayerController:
         except (FileNotFoundError, json.JSONDecodeError):
             data = []
 
-        print(data)
         sorted_player = [list(player.items()) for player in data]
 
         # Trie la liste des joueurs par Surname x[0] et Name x[1]
         sorted_name = sorted(sorted_player, key=lambda x: (x[0], x[1]))
-
-        print(sorted_name)
-        for player in sorted_name:
-            print(player)
 
         return sorted_name

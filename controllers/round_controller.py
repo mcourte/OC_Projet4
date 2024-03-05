@@ -35,16 +35,17 @@ class RoundController:
                 self.update_player_points(player2_ID, player2_score)
 
         sorted_players = sorted(self.player_points.items(), key=lambda x: x[1], reverse=True)
-
+        classement = ["Classement Final du Tournoi: \n"]
         print("Classement Final du Tournoi :\n")
         for player_ID, points in sorted_players:
             player = Player.get_player_ID(player_ID)
             if player:
                 print(f"{player.get('Name')} {player.get('Surname')}: {points} points")
+                classement.append(f"{player.get('Name')} {player.get('Surname')}: {points} points")
             else:
                 print(f"Player with ID {player_ID} not found.")
 
-        return sorted_players
+        return sorted_players, classement
 
     def start_round(self, list_player_ID, tournament_ID, number_of_rounds, list_of_round):
         '''Permet de lancer le premier round d'un tournoi'''
@@ -103,6 +104,7 @@ class RoundController:
 
     def resume_rounds(self, list_player_ID, tournament_ID, round_number,
                       number_of_rounds, list_of_round, list_pairs_one):
+        from controllers.tournament_controller import TournamentController
         '''Reprendre l'entrée des résultats pour les rounds d'un tournoi.'''
         file_path = os.path.join("data", "tournament_pending.json")
         selected_tournament = Tournament.load_tournament_by_id(tournament_ID, file_path)
@@ -153,8 +155,10 @@ class RoundController:
                                        list_of_round, list_pairs)
             else:
                 self.calculate_points_for_tournament_final(tournament_ID)
+                TournamentController.end_tournament(tournament_ID)
         else:
             self.calculate_points_for_tournament_final(tournament_ID)
+            TournamentController.end_tournament(tournament_ID)
             return
         return selected_tournament, list_pairs
 
@@ -199,23 +203,6 @@ class RoundController:
                 previous_results.extend(round_data["Matchs"])
                 break
         return previous_results
-
-    def update_matches_in_round(self, round_number, tournament_ID, updated_matches):
-        # Charge l'instance spécifique du tournoi à partir du fichier JSON
-
-        selected_tournament = Tournament.load_tournament_by_id(tournament_ID)
-        # Récupére le round spécifique
-
-        round_to_update = selected_tournament.get_round_by_number(round_number)
-        if round_to_update:
-            # Mets à jour les matchs dans le round
-
-            round_to_update.update_matches(updated_matches)
-            # Mets à jour le tournoi avec les nouvelles valeurs
-
-            Tournament.update_tournament(
-                tournament_ID, {"List_of_round": selected_tournament.list_of_rounds}
-            )
 
     def update_player_points(self, player_ID, score):
         '''Permet de mettre à jour les point des Joueurs'''

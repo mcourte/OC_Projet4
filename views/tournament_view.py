@@ -12,11 +12,10 @@ class TournamentView:
 
     def display_tournament_menu(self):
         '''Affiche le menu de création des Tournois'''
-        MainView.clear_screen()
         title = "\nMenu de Gestion des Tournois :\n"
         MainView().slow_print(title)
         menu = ("\n 1. Créer un nouveau tournoi \n 2. Lancer un tournoi \n 3. Reprendre un tournoi en cours \n"
-                " 4. Clôturer un tournoi\n 0. Revenir au menu principal\n")
+                " 0. Revenir au menu principal\n")
         MainView().slow_print(menu)
         choice = "Choisissez une option: "
         MainView().slow_print(choice)
@@ -53,17 +52,15 @@ class TournamentView:
                     "Format de date invalide. Assurez-vous d'utiliser "
                     + "le format JJ/MM/AAAA. Réessayez."
                 )
-        while True:
+        nb_round_input = input("Combien il y aura-t-il de round? (par défaut 4) ")
+
+        if nb_round_input.strip() == "" or nb_round_input.strip() == "4":
+            number_of_round = 4
+        else:
             try:
-                nb_round = int(input("Combien il y aura-t-il de round? (par défaut 4) "))
-                if nb_round == "" or "4" or " ":
-                    number_of_round = 4
-                else:
-                    number_of_round = nb_round
-                break
+                number_of_round = int(nb_round_input)
             except ValueError:
-                print("Le nombre de tours du  tournoi doit etre un entier. Réessayez.")
-        nb_round = int(input("Combien il y aura-t-il de round? (par défaut 4) "))
+                print("Erreur : Veuillez entrer un nombre entier pour le nombre de rounds.")
         nb_numbers = 6
         numbers = ''.join((random.choice(string.digits))
                           for x in range(nb_numbers))
@@ -215,26 +212,23 @@ class TournamentView:
         for tournament in tournaments:
             list_tournaments.append(tournament)
         for i, tournament in enumerate(list_tournaments, start=1):
-            for l_tournament in tournament:
-                tournament_name = l_tournament.get("Nom_du_tournoi")
-                if tournament_name is not None:
-                    counter += 1
-                    print(f"{counter}. {tournament_name}")
+            tournament_name = tournament.get("Nom_du_tournoi")
+            if tournament_name is not None:
+                counter += 1
+                print(f"{counter}. {tournament_name}")
         choice = int(input("Veuillez sélectionner le numéro du tournoi : "))
 
         if 1 <= choice <= len(list_tournaments):
             selected_tournament_index = choice - 1
             selected_tournament = list_tournaments[selected_tournament_index:selected_tournament_index + 2]
-        selected_tournament = selected_tournament[0]
         target_tournoi_name = selected_tournament[0].get("Nom_du_tournoi")
         target_tournoi_index = None
 
         # Cherche l'index du tournoi cible dans la liste des tournois
         for i, tournament in enumerate(tournaments):
-            for l_tournament in tournament:
-                if l_tournament.get("Nom_du_tournoi") == target_tournoi_name:
-                    target_tournoi_index = i
-                    break
+            if tournament.get("Nom_du_tournoi") == target_tournoi_name:
+                target_tournoi_index = i
+                break
 
         # Si l'index existe, l'index du tournoi suivant est "None"
         if target_tournoi_index is not None:
@@ -243,7 +237,8 @@ class TournamentView:
 
             # Cherche la prochaine occurence de "Nom_du_tournoi" qui vient après le tournoi cible
             # Récupère l'information du "Nom_du_tournoi" - Calcule son index
-            for j, tournament in enumerate(tournaments[target_tournoi_index + 1:], start=target_tournoi_index + 1):
+            for j, tournament in enumerate(tournaments[target_tournoi_index + 2:], start=target_tournoi_index + 1):
+                print(tournament)
                 if tournament[0].get("Nom_du_tournoi"):
                     next_tournoi_name = tournament[0].get("Nom_du_tournoi")
                     next_tournoi_index = j

@@ -5,7 +5,6 @@ class ReportView:
 
     def display_report_menu(self):
         '''Affiche le menu de création des Rapports'''
-        MainView.clear_screen()
         title = "\nMenu de Rapports :\n"
         MainView().slow_print(title)
         menu = ("\n 1. Liste de tous les joueurs par ordre alphabétique \n 2. Liste de tous les tournois \n" +

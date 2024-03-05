@@ -2,7 +2,6 @@ import os
 import random
 import json
 import datetime
-import time
 
 from views.tournament_view import TournamentView
 from controllers.round_controller import RoundController
@@ -81,6 +80,8 @@ class TournamentController:
 
         list_player_ID = [player["Player_ID"] for player in self.list_of_players]
 
+        print("Le tournoi a été crée.")
+
         return self.tournament_data, self.number_of_player, tournament_ID, list_player_ID
 
     def resume_tournament_menu(self):
@@ -90,7 +91,6 @@ class TournamentController:
         tournament_inprogress = TournamentController.load_tournament_pending()
         if not tournament_inprogress:
             print("Aucun tournoi en cours.")
-            time.sleep(10)
             return
 
         while True:
@@ -120,80 +120,55 @@ class TournamentController:
                 print(f"Erreur inattendue : {e}")
         return selected_tournament
 
-    def end_tournament(self):
+    def end_tournament(tournament_ID):
         '''Permet de terminer un tournoi'''
-        tournament_inprogress = TournamentController.load_tournament_pending()
-        if not tournament_inprogress:
-            print("Aucun tournoi en cours.")
-            time.sleep(10)
+
+        file_path = "data/tournament_pending.json"
+        selected_tournament = Tournament.load_tournament_by_id(tournament_ID, file_path)
+
+        if not selected_tournament:
+            print("Le tournoi spécifié n'existe pas.")
             return
 
-        while True:
-            print("Tournois en cours :")
-            counter = 0
+        tournament_inprogress = TournamentController.load_tournament_pending()
 
-            for i, tournament_dict in enumerate(tournament_inprogress, start=1):
-                if isinstance(tournament_dict, dict):
-                    tournament_name = tournament_dict.get("Nom_du_tournoi")
-                    if tournament_name is not None:
-                        counter += 1
-                        print(f"{counter}. {tournament_name}")
-
-            choice = int(input("Veuillez sélectionner le numéro du tournoi à clôre : "))
-            print(f"Choix saisi : {choice}")
-            try:
-                if 1 <= choice <= len(tournament_inprogress):
-                    tournament_index = (choice - 1)
-                    selected_tournament = tournament_inprogress[tournament_index]
-
-                    break  # Permet de sortir de la boucle si un choix correct à été fait
-                else:
-                    print("Choix invalide: hors de la plage valide")
-
-            except ValueError:
-                print("Choix invalide")
-        target_tournoi_name = selected_tournament.get("Nom_du_tournoi")
-        target_tournoi_index = None
-
-        # Cherche l'index du tournoi cible dans la liste des tournois
+        target_tournament_index = None
         for i, tournament in enumerate(tournament_inprogress):
-            if tournament.get("Nom_du_tournoi") == target_tournoi_name:
-                target_tournoi_index = i
+            if tournament.get("Nom_du_tournoi") == selected_tournament.name:
+                target_tournament_index = i
                 break
 
-        # Si l'index existe, l'index du tournoi suivant est "None"
-        if target_tournoi_index is not None:
-            next_tournoi_index = None
+        if target_tournament_index is not None:
+            next_tournament_index = None
 
-            # Cherche la prochaine occurence de "Nom_du_tournoi" qui vient après le tournoi cible
-            # Calcul son index
-            for j, tournament in enumerate(tournament_inprogress[target_tournoi_index + 1:],
-                                           start=target_tournoi_index + 1):
+            for j, tournament in enumerate(tournament_inprogress[target_tournament_index + 1:],
+                                           start=target_tournament_index + 1):
                 if tournament.get("Nom_du_tournoi"):
-                    next_tournoi_index = j
+                    next_tournament_index = j
                     break
 
-        tournament = tournament_inprogress[target_tournoi_index:next_tournoi_index]
-        date_of_end = datetime.date.today()
-        tournament_end = {"Date_de_fin": str(date_of_end)}
-        tournament.append(tournament_end)
-        tournament_closed = [tournament]
-        del tournament_inprogress[target_tournoi_index:next_tournoi_index]
-        file_path = "data/tournament_pending.json"
-        with open(file_path, "w") as file:
-            json.dump(tournament_inprogress, file, ensure_ascii=False, indent=4)
+            tournament_to_close = tournament_inprogress[target_tournament_index:next_tournament_index]
+            date_of_end = datetime.date.today()
+            tournament_end = {"Date_de_fin": str(date_of_end)}
+            tournament_to_close.append(tournament_end)
 
-        file_path2 = os.path.join("data", "tournament_closed.json")
-        try:
-            with open(file_path2, "r") as file:
-                tournaments = json.load(file)
-        except (FileNotFoundError, json.JSONDecodeError):
-            tournaments = []
-        tournaments.extend(tournament_closed)
-        with open(file_path2, "w") as file:
-            json.dump(tournaments, file, ensure_ascii=False, indent=4)
+            # Update the list of tournaments in progress
+            del tournament_inprogress[target_tournament_index:next_tournament_index]
+            with open(file_path, "w") as file:
+                json.dump(tournament_inprogress, file, ensure_ascii=False, indent=4)
 
-        print("Le tournoi est clos")
+            # Save the closed tournament to the closed tournaments file
+            file_path_closed = os.path.join("data", "tournament_closed.json")
+            try:
+                with open(file_path_closed, "r") as file:
+                    closed_tournaments = json.load(file)
+            except (FileNotFoundError, json.JSONDecodeError):
+                closed_tournaments = []
+            closed_tournaments.extend(tournament_to_close)
+            with open(file_path_closed, "w") as file:
+                json.dump(closed_tournaments, file, ensure_ascii=False, indent=4)
+
+            print("Le tournoi est clos")
 
     def resume_selected_tournament(self, selected_tournament, last_round):
         '''Reprendre un tournoi sélectionné.'''
@@ -238,10 +213,8 @@ class TournamentController:
 
         if not list_of_round:
             print("Aucun round disponible pour ce tournoi.")
-            time.sleep(10)
             return
 
-        # Assuming you want to work with the last round in the list_of_rounds
         last_round_data = list_of_round[-1] if last_round is None else last_round
 
         round_name = last_round_data.get("Nom_du_round")
@@ -267,8 +240,6 @@ class TournamentController:
                 TournamentController().begin_tournament_menu()
             elif choice == "3":
                 TournamentController().resume_tournament_pending_menu()
-            elif choice == "4":
-                TournamentController().end_tournament()
             elif choice == "0":
                 break
             else:
@@ -287,7 +258,6 @@ class TournamentController:
         tournament_inprogress = TournamentController.load_tournament_pending()
         if not tournament_inprogress:
             print("Aucun tournoi en cours.")
-            time.sleep(5)
             return
 
         for i, tournament_dict in enumerate(tournament_inprogress, start=1):
@@ -347,8 +317,17 @@ class TournamentController:
         data3 = load_json(json3_path)
 
         tournoi_ids_data1 = {item.get("Tournoi_ID") for item in data1 if item.get("Tournoi_ID") is not None}
-        tournoi_ids_data2 = {item.get("Tournoi_ID") for item in data2}
-        tournoi_ids_data3 = {item.get("Tournoi_ID") for data_item in data3 for item in data_item}
+        tournoi_ids_data2 = set()
+        if data2 != []:
+            tournoi_ids_data2 = {item.get("Tournoi_ID") for item in data2}
+        else:
+            data2 = []
+
+        if data3 != []:
+            tournoi_ids_data3 = {item.get("Tournoi_ID") for item in data3 if isinstance(item, dict)
+                                 and item.get("Tournoi_ID") is not None}
+        else:
+            data3 = []
         # Cherche les valeurs de Tournoi_ID qui ne sont pas dansa tournament_pending.json ni dans
         # tournament_closed.json
         tournoi_ids_to_begin = tournoi_ids_data1 - tournoi_ids_data2 - tournoi_ids_data3
@@ -357,7 +336,6 @@ class TournamentController:
         while True:
             if not tournoi_ids_to_begin:
                 print("Il n'y a aucun tournoi à lancer.")
-                time.sleep(20)
                 break
             counter = 0
             for tournoi_id in tournoi_ids_to_begin:

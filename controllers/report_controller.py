@@ -3,6 +3,7 @@ import json
 from tabulate import tabulate
 
 from controllers.player_controller import PlayerController
+from controllers.round_controller import RoundController
 from views.report_view import ReportView
 from views.tournament_view import TournamentView
 from views.main_view import MainView
@@ -112,8 +113,8 @@ class ReportController:
         # Variables
         tournament_report = TournamentView.display_tournament_data(self)
         tournament_data = tournament_report[0]
-        tournament_data = tournament_data[0]
         tournament_name = tournament_data.get("Nom_du_tournoi")
+        tournament_ID = tournament_data.get("Tournoi_ID")
         list_of_round = tournament_data.get("Liste_des_rounds")
 
         list_of_rounds = []
