@@ -53,11 +53,17 @@ class TournamentView:
                     "Format de date invalide. Assurez-vous d'utiliser "
                     + "le format JJ/MM/AAAA. Réessayez."
                 )
+        while True:
+            try:
+                nb_round = int(input("Combien il y aura-t-il de round? (par défaut 4) "))
+                if nb_round == "" or "4" or " ":
+                    number_of_round = 4
+                else:
+                    number_of_round = nb_round
+                break
+            except ValueError:
+                print("Le nombre de tours du  tournoi doit etre un entier. Réessayez.")
         nb_round = int(input("Combien il y aura-t-il de round? (par défaut 4) "))
-        if nb_round == "" or "4" or " ":
-            number_of_round = 4
-        else:
-            number_of_round = nb_round
         nb_numbers = 6
         numbers = ''.join((random.choice(string.digits))
                           for x in range(nb_numbers))
