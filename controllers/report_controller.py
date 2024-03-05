@@ -107,47 +107,31 @@ class ReportController:
             print("No tournament data available.")
         ReportController.save_report(self, table)
 
-    def display_tournaments_detail(self):
-        '''Affiche les détails d'un tournoi.'''
-        # Variables
-        file_path = os.path.join("data", "tournament_data.json")
-
-        with open(file_path, "r") as file:
-            tournaments = json.load(file)
-        tournament_name, date_of_begin, date_of_end = TournamentView.display_tournament_details(self, tournaments)
-        tournament_data = [[tournament_name, date_of_begin, date_of_end]]
-        table = tabulate(tournament_data, headers=["Nom du tournoi", "Date de début", "Date de fin"],
-                         tablefmt="pretty")
-        print(table)
-        ReportController.save_report(self, table)
-
     def display_tournaments_data(self):
         '''Affiche tous les rounds et matchs d'un tournois.'''
         # Variables
-        list_of_round_name = []
-        list_of_match = []
-        list_of_matches = []
-        list_of_rounds = []
         tournament_report = TournamentView.display_tournament_data(self)
         tournament_data = tournament_report[0]
         tournament_data = tournament_data[0]
-        # tournament_name = tournament_data.get("Nom_du_tournoi")
+        tournament_name = tournament_data.get("Nom_du_tournoi")
         list_of_round = tournament_data.get("Liste_des_rounds")
 
-        for round in list_of_round:
-            round_name = round.get("Nom_du_round")
-            list_match = round.get("Matchs")
-            list_of_round_name.append(round_name)
-            list_of_match.append(list_match)
-        # title = f"{tournament_name}"
+        list_of_rounds = []
+        list_of_matches = []
 
-        for round_name, matches in zip(list_of_round_name, list_of_match):
+        for round_data in list_of_round:
+            round_name = round_data.get("Nom_du_round")
+            list_match = round_data.get("Matchs")
+
             list_of_rounds.append(round_name)
-            list_of_matches.append(matches)
+            list_of_matches.append(list_match)
 
         # Crée et affiche un tableau pour mettre en forme les données
-        table = tabulate([[list_of_rounds, list_of_matches]],
+        table = tabulate(list(zip(list_of_rounds, list_of_matches)),
                          headers=["Nom du round", "Matchs"], tablefmt="pretty")
+
+        # Add a row for the tournament name at the beginning of the table
+        table = f"Tournament: {tournament_name}\n\n{table}"
 
         print(table)
         ReportController.save_report(self, table)
