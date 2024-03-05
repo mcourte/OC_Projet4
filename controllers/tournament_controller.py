@@ -269,7 +269,7 @@ class TournamentController:
                 TournamentController().resume_tournament_pending_menu()
             elif choice == "4":
                 TournamentController().end_tournament()
-            elif choice == "5":
+            elif choice == "0":
                 break
             else:
                 print("Option invalide. Veuillez choisir une option valide.")
@@ -277,15 +277,9 @@ class TournamentController:
     def load_tournament_pending():
         ''' Permet de télécharger les tournois en cours'''
         file_path = "data/tournament_pending.json"
-
-        try:
-            with open(file_path, "r") as file:
-                data = json.load(file)
-        except (FileNotFoundError, json.JSONDecodeError):
-            data = []
-        except Exception as e:
-            print(f"Erreur lors du chargement des données du tournoi : {e}")
-            return data
+        with open(file_path, "r") as file:
+            data = json.load(file)
+        return data
 
     def resume_tournament_pending_menu(self):
         '''Affiche les tournois en cours et permet à l'utilisateur de choisir
@@ -293,7 +287,7 @@ class TournamentController:
         tournament_inprogress = TournamentController.load_tournament_pending()
         if not tournament_inprogress:
             print("Aucun tournoi en cours.")
-            time.sleep(10)
+            time.sleep(5)
             return
 
         for i, tournament_dict in enumerate(tournament_inprogress, start=1):
@@ -335,8 +329,14 @@ class TournamentController:
 
         def load_json(file_path):
             '''Fonction qui permet de charger les Json, évite les répétitions'''
-            with open(file_path, 'r') as file:
-                return json.load(file)
+            try:
+                with open(file_path, "r") as file:
+                    data = json.load(file)
+            except FileNotFoundError:
+                data = []
+            except json.JSONDecodeError:
+                data = []
+            return data
 
         json1_path = os.path.join("data", "tournament_data.json")
         json2_path = os.path.join("data", "tournament_pending.json")

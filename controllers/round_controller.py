@@ -145,7 +145,6 @@ class RoundController:
             selected_tournament.list_of_round.append(new_round_dict)
             Tournament.update_tournament(tournament_ID, {'Liste_des_rounds': selected_tournament.list_of_round})
             list_pairs_one = list_pairs
-
             if round_number < number_of_rounds:
                 user_choice = input("\nContinuez a entrer les resultats Oui/Non : ")
                 if user_choice.lower() == "oui":

@@ -16,7 +16,7 @@ class TournamentView:
         title = "\nMenu de Gestion des Tournois :\n"
         MainView().slow_print(title)
         menu = ("\n 1. Créer un nouveau tournoi \n 2. Lancer un tournoi \n 3. Reprendre un tournoi en cours \n"
-                " 4. Clôturer un tournoi\n 5. Revenir au menu principal\n")
+                " 4. Clôturer un tournoi\n 0. Revenir au menu principal\n")
         MainView().slow_print(menu)
         choice = "Choisissez une option: "
         MainView().slow_print(choice)

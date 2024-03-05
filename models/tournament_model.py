@@ -60,7 +60,6 @@ class Tournament:
 
         # Ajoute le nouveau tournoi à la liste existante
         existing_data.append(tournament.to_dict())
-
         with open(file_path, "w") as file:
             json.dump(existing_data, file, default=tournament_serializer, ensure_ascii=False, indent=4)
 

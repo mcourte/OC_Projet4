@@ -135,3 +135,17 @@ class ReportController:
 
         print(table)
         ReportController.save_report(self, table)
+
+    def display_tournaments_detail(self):
+        '''Affiche les détails d'un tournoi.'''
+        # Variables
+        file_path = os.path.join("data", "tournament_data.json")
+
+        with open(file_path, "r") as file:
+            tournaments = json.load(file)
+        tournament_name, date_of_begin, date_of_end = TournamentView.display_tournament_details(self, tournaments)
+        tournament_dict = {"Nom du tournoi ": tournament_name, "Date de début ": date_of_begin,
+                           "Date de fin": date_of_end}
+        table = tabulate(tournament_dict.items(), headers=[], tablefmt="pretty")
+        print(table)
+        ReportController.save_report(self, table)

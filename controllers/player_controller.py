@@ -17,7 +17,7 @@ class PlayerController:
             print(f"User choice: {choice}")
             if choice == "1":
                 self.create_player()
-            elif choice == "2":
+            elif choice == "0":
                 break
             else:
                 print("Option invalide. Veuillez choisir une option valide.")

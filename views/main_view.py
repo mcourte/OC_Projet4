@@ -14,7 +14,7 @@ class MainView:
         self.slow_print(title)
         title_menu = "\n Menu :"
         self.slow_print(title_menu)
-        menu = "\n 1. Gestion des joueurs \n 2. Gestion des tournois \n 3. Rapports \n 4. Quitter\n"
+        menu = "\n 1. Gestion des joueurs \n 2. Gestion des tournois \n 3. Rapports \n 0. Quitter\n"
         self.slow_print(menu)
 
         self.slow_print("Choisissez une option: ")
