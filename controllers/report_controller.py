@@ -29,7 +29,7 @@ class ReportController:
                 ReportController().display_tournament_players_alphabetically()
             elif choice == "5":
                 ReportController().display_tournaments_data()
-            elif choice == "6":
+            elif choice == "0":
                 break
             else:
                 error_message = "Option invalide. Veuillez choisir une option valide."
