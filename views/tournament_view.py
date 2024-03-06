@@ -238,7 +238,6 @@ class TournamentView:
             # Cherche la prochaine occurence de "Nom_du_tournoi" qui vient après le tournoi cible
             # Récupère l'information du "Nom_du_tournoi" - Calcule son index
             for j, tournament in enumerate(tournaments[target_tournoi_index + 2:], start=target_tournoi_index + 1):
-                print(tournament)
                 if tournament[0].get("Nom_du_tournoi"):
                     next_tournoi_name = tournament[0].get("Nom_du_tournoi")
                     next_tournoi_index = j
