@@ -114,12 +114,12 @@ class RoundController:
         # Le round suivant sera égal au max_round_number + 1
         next_round_number = max_round_number + 1
 
-        tournament_name = selected_tournament.name
-        print("Bienvenue sur le tournoi: ", tournament_name)
         round_number = next_round_number
+        list_pairs = []  # Initialize list_pairs before the if statement
+
         if (round_number <= number_of_rounds and
-            f"Round {round_number}" not in [round_data.get('Nom')
-                                            for round_data in selected_tournament.list_of_round]):
+                f"Round {round_number}" not in [round_data.get('Nom')
+                                                for round_data in selected_tournament.list_of_round]):
             round_name = f"Round {round_number}"
             new_round = RoundModel(round_name)
             new_round.start_round_model()
@@ -147,19 +147,20 @@ class RoundController:
             selected_tournament.list_of_round.append(new_round_dict)
             Tournament.update_tournament(tournament_ID, {'Liste_des_rounds': selected_tournament.list_of_round})
             list_pairs_one = list_pairs
-            if round_number < number_of_rounds:
-                user_choice = input("\nContinuez a entrer les resultats Oui/Non : ")
-                if user_choice.lower() == "oui":
-                    self.resume_rounds(list_player_ID, tournament_ID,
-                                       round_number, number_of_rounds,
-                                       list_of_round, list_pairs)
+
+            user_choice = input("\nContinuez à entrer les résultats (Oui/Non) : ")
+            if user_choice.lower() == "oui":
+                return self.resume_rounds(list_player_ID, tournament_ID,
+                                          round_number, number_of_rounds,
+                                          list_of_round, list_pairs)
             else:
+                return selected_tournament, list_pairs
+        else:
+            if round_number > max_round_number:
+                # Print the final standings only if it's the first round or the user chooses not to continue
                 self.calculate_points_for_tournament_final(tournament_ID)
                 TournamentController.end_tournament(tournament_ID)
-        else:
-            self.calculate_points_for_tournament_final(tournament_ID)
-            TournamentController.end_tournament(tournament_ID)
-            return
+
         return selected_tournament, list_pairs
 
     def calculate_points_for_tournament(self, tournament_ID):

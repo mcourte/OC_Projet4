@@ -248,8 +248,13 @@ class TournamentController:
     def load_tournament_pending():
         ''' Permet de télécharger les tournois en cours'''
         file_path = "data/tournament_pending.json"
-        with open(file_path, "r") as file:
-            data = json.load(file)
+        try:
+            with open(file_path, "r") as file:
+                data = json.load(file)
+        except FileNotFoundError:
+            data = []
+        except json.JSONDecodeError:
+            data = []
         return data
 
     def resume_tournament_pending_menu(self):
@@ -322,7 +327,7 @@ class TournamentController:
             tournoi_ids_data2 = {item.get("Tournoi_ID") for item in data2}
         else:
             data2 = []
-
+        tournoi_ids_data3 = set()
         if data3 != []:
             tournoi_ids_data3 = {item.get("Tournoi_ID") for item in data3 if isinstance(item, dict)
                                  and item.get("Tournoi_ID") is not None}

@@ -115,11 +115,8 @@ class ReportController:
         tournament_data = tournament_report[0]
         tournament_name = tournament_data.get("Nom_du_tournoi")
         list_of_round = tournament_data.get("Liste_des_rounds")
-        tournament_ID = tournament_data.get("Tournoi_ID")
-        classement = RoundController().calculate_points_for_tournament_final(tournament_ID)
         list_of_rounds = []
         list_of_matches = []
-        print(classement)
         for round_data in list_of_round:
             round_name = round_data.get("Nom_du_round")
             list_match = round_data.get("Matchs")
