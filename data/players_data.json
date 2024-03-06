@@ -68,5 +68,12 @@
         "Date_of_birth": "1999-01-24",
         "Player_ID": "KN67565",
         "Score_tournament": 0
+    },
+    {
+        "Surname": "Cano",
+        "Name": "Franck",
+        "Date_of_birth": "1971-05-23",
+        "Player_ID": "YL97819",
+        "Score_tournament": 0
     }
 ]
