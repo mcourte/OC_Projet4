@@ -45,14 +45,14 @@ class TournamentView:
 
                 datetime.strptime(tournament_date_of_begin, "%d/%m/%Y")
                 # La conversion a réussi, la date est valide
-                break  # Sortir de la boucle si la date est conforme
+                break
             except ValueError:
                 # La conversion a échoué, la date n'est pas valide
                 print(
                     "Format de date invalide. Assurez-vous d'utiliser "
                     + "le format JJ/MM/AAAA. Réessayez."
                 )
-        nb_round_input = input("Combien il y aura-t-il de round? (par défaut 4) ")
+        nb_round_input = input("Combien il y aura-t-il de round? (par défaut 4) : ")
 
         if nb_round_input.strip() == "" or nb_round_input.strip() == "4":
             number_of_round = 4
@@ -83,9 +83,9 @@ class TournamentView:
 
     def number_of_player(self):
         '''Permet à l'utilisateur de choisir le nombre de joueur qu'il veut dans le tournoi'''
-        self.number_of_players = input("Combien y aura-t-il de joueurs dans le tournoi ?" +
+        self.number_of_players = input("Combien y aura-t-il de joueurs dans le tournoi ?\n" +
                                        "Le nombre de joueur doit être un nombre pair " +
-                                       "au moins 1 joueur de plus que le nombre de round): ")
+                                       "au moins 1 joueur de plus que le nombre de round):\n ")
         while int(self.number_of_players) % 2 != 0:
             print("Le nombre de joueurs doit être pair.")
 
@@ -210,6 +210,9 @@ class TournamentView:
         with open(file_path, "r") as file:
             tournaments = json.load(file)
         for tournament in tournaments:
+            tournament.pop("Date_de_fin", None)
+        cleaned_tournaments = [tournament for tournament in tournaments if tournament]
+        for tournament in cleaned_tournaments:
             list_tournaments.append(tournament)
         for i, tournament in enumerate(list_tournaments, start=1):
             tournament_name = tournament.get("Nom_du_tournoi")
@@ -237,15 +240,21 @@ class TournamentView:
 
             # Cherche la prochaine occurence de "Nom_du_tournoi" qui vient après le tournoi cible
             # Récupère l'information du "Nom_du_tournoi" - Calcule son index
-            for j, tournament in enumerate(tournaments[target_tournoi_index + 2:], start=target_tournoi_index + 1):
-                if tournament[0].get("Nom_du_tournoi"):
-                    next_tournoi_name = tournament[0].get("Nom_du_tournoi")
+            for j, tournament in enumerate(tournaments[target_tournoi_index + 1:], start=target_tournoi_index + 1):
+                if tournament.get("Nom_du_tournoi"):
+                    next_tournoi_name = tournament.get("Nom_du_tournoi")
                     next_tournoi_index = j
                     break
-
             if next_tournoi_name is not None:
+                next_tournoi_index = next((index for index, tournament in enumerate(tournaments)
+                                          if tournament.get('Nom_du_tournoi') == next_tournoi_name), None)
                 tournament_data_list = tournaments[target_tournoi_index:next_tournoi_index]
+                if tournament_data_list and tournament_data_list[0].get("Date_de_fin"):
+                    del tournament_data_list[0]
+                else:
+                    tournament_data_list = tournaments[target_tournoi_index:next_tournoi_index]
             else:
-                tournament_data_list = tournaments
+                next_tournoi_index = len(tournaments)
+                tournament_data_list = tournaments[target_tournoi_index:next_tournoi_index]
 
         return tournament_data_list
