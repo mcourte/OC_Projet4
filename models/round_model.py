@@ -48,6 +48,7 @@ class RoundModel:
         result = [(player_ID, score) for pair in paired_data for player_ID, score in pair]
 
         def custom_sort(player_info):
+            '''Permet de trier les joueurs par score'''
             _, score, player = player_info
             return (-score, player["Surname"], player["Name"])
 
@@ -114,10 +115,8 @@ class RoundModel:
         }
 
     def has_played_before(self, player1_ID, player2_ID, previous_results):
+        '''Permet de vérifier si les joueurs ont déjà joué l'un contre l'autre avant'''
         for result in previous_results:
-            # Ajouter des commentaires de débogage
-
-            # Utiliser les parenthèses pour accéder aux éléments du tuple
             try:
                 if (result['player1'] == player1_ID and result['player2'] == player2_ID) or \
                    (result['player1'] == player2_ID and result['player2'] == player1_ID):
