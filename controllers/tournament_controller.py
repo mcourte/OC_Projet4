@@ -19,6 +19,7 @@ class TournamentController:
 
     def create_tournament(self):
         '''Permet de créer un tournoi'''
+        print("Création d'un nouveau tournois en cours...")
         self.tournament_data_view = TournamentView.start_tournament_view(self)
         file_path = os.path.join("data", "tournament_data.json")
 
@@ -80,7 +81,7 @@ class TournamentController:
 
         list_player_ID = [player["Player_ID"] for player in self.list_of_players]
 
-        print("Le tournoi a été crée.")
+        print("\nLe tournoi a été crée.")
 
         return self.tournament_data, self.number_of_player, tournament_ID, list_player_ID
 
@@ -152,12 +153,12 @@ class TournamentController:
             tournament_end = {"Date_de_fin": str(date_of_end)}
             tournament_to_close.append(tournament_end)
 
-            # Update the list of tournaments in progress
+            # Met à jour la liste tournament_inprogress
             del tournament_inprogress[target_tournament_index:next_tournament_index]
             with open(file_path, "w") as file:
                 json.dump(tournament_inprogress, file, ensure_ascii=False, indent=4)
 
-            # Save the closed tournament to the closed tournaments file
+            # Ajout du tournoi clos dans tournament_closed.json
             file_path_closed = os.path.join("data", "tournament_closed.json")
             try:
                 with open(file_path_closed, "r") as file:
