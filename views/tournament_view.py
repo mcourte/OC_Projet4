@@ -135,7 +135,7 @@ class TournamentView:
                 if selected_tournament.get("Date_de_fin") is not None:
                     date_of_end = selected_tournament.get("Date_de_fin")
                 else:
-                    date_of_end = "Tournoi non terminé"
+                    date_of_end = "Tournoi non terminé."
             else:
                 print("Votre numéro de choix est invalide")
         except ValueError:
@@ -159,12 +159,14 @@ class TournamentView:
                 counter += 1
                 print(f"{counter}. {tournament_name}")
         choice = int(input("Veuillez sélectionner le numéro du tournoi : "))
-
+        print(list_tournaments)
         if 1 <= choice <= len(list_tournaments):
             selected_tournament_index = choice - 1
-            selected_tournament = list_tournaments[selected_tournament_index:selected_tournament_index + 2]
-
+            print(selected_tournament_index)
+            selected_tournament = list_tournaments[selected_tournament_index:selected_tournament_index + 3]
+        print("selected_tournament:", selected_tournament)
         target_tournoi_name = selected_tournament[0].get("Nom_du_tournoi")
+        print("Targer_tournoi_name", target_tournoi_name)
         target_tournoi_index = None
 
         # Cherche l'index du tournoi cible dans la liste des tournois
@@ -183,14 +185,16 @@ class TournamentView:
             for j, tournament in enumerate(tournaments[target_tournoi_index + 1:], start=target_tournoi_index + 1):
                 if tournament.get("Nom_du_tournoi"):
                     next_tournoi_name = tournament.get("Nom_du_tournoi")
+                    print("next_tournoi_name", next_tournoi_name)
                     next_tournoi_index = j
+                    print("next_tournoi_index", next_tournoi_index)
                     break
 
             if next_tournoi_name is not None:
                 tournament_data_list = tournaments[target_tournoi_index:next_tournoi_index]
             else:
                 tournament_data_list = tournaments
-
+            print("tournament_data_list", tournament_data_list)
             list_player = tournament_data_list[1].get("Liste_joueurs_inscrits")
             for player in list_player:
                 dict_player.update(player)
@@ -220,7 +224,7 @@ class TournamentView:
                 counter += 1
                 print(f"{counter}. {tournament_name}")
         choice = int(input("Veuillez sélectionner le numéro du tournoi : "))
-
+        print(list_tournaments)
         if 1 <= choice <= len(list_tournaments):
             selected_tournament_index = choice - 1
             selected_tournament = list_tournaments[selected_tournament_index:selected_tournament_index + 2]

@@ -128,7 +128,7 @@ class ReportController:
                          headers=["Nom du round", "Matchs"], tablefmt="pretty")
 
         # Add a row for the tournament name at the beginning of the table
-        table = f"Tournament: {tournament_name}\n\n{table}"
+        table = f"\n\nTournament: {tournament_name}\n\n{table}"
 
         print(table)
         ReportController.save_report(self, table)

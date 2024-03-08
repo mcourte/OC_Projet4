@@ -2,6 +2,7 @@ import os
 import random
 import json
 import datetime
+from colorama import Style
 
 from views.tournament_view import TournamentView
 from controllers.round_controller import RoundController
@@ -80,8 +81,7 @@ class TournamentController:
         tournament_ID = tournament.get("Tournoi_ID")
 
         list_player_ID = [player["Player_ID"] for player in self.list_of_players]
-
-        print("\nLe tournoi a été crée.")
+        print(f"{Style.BRIGHT}\nLe tournoi a été crée.\n{Style.RESET_ALL}")
 
         return self.tournament_data, self.number_of_player, tournament_ID, list_player_ID
 
@@ -169,7 +169,7 @@ class TournamentController:
             with open(file_path_closed, "w") as file:
                 json.dump(closed_tournaments, file, ensure_ascii=False, indent=4)
 
-            print("Le tournoi est clos")
+            print(f"{Style.BRIGHT}\nLe tournoi est clos.\n{Style.RESET_ALL}")
 
     def resume_selected_tournament(self, selected_tournament, last_round):
         '''Reprendre un tournoi sélectionné.'''

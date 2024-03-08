@@ -1,4 +1,5 @@
 import os
+from colorama import Style
 
 from models.round_model import RoundModel
 from models.player_model import Player
@@ -36,7 +37,7 @@ class RoundController:
 
         sorted_players = sorted(self.player_points.items(), key=lambda x: x[1], reverse=True)
         classement = ["Classement Final du Tournoi: \n"]
-        print("Classement Final du Tournoi :\n")
+        print(f"{Style.BRIGHT}\nClassement Final du Tournoi :\n{Style.RESET_ALL}")
         for player_ID, points in sorted_players:
             player = Player.get_player_ID(player_ID)
             if player:
@@ -54,7 +55,7 @@ class RoundController:
         tournament_ID = selected_tournament.tournament_ID
         number_of_rounds = selected_tournament.number_of_round
         tournament_name = selected_tournament.name
-        print("\nBienvenue sur le tournoi: ", tournament_name, "\n")
+        print(f"{Style.BRIGHT}\nBienvenue sur le tournoi :{tournament_name}\n{Style.RESET_ALL}")
         print("\nLe tournoi a", number_of_rounds, "rounds\n")
 
         for round_number in range(1, number_of_rounds + 1):
@@ -63,10 +64,11 @@ class RoundController:
             new_round.start_round_model()
 
             if round_number == 1:
-                print(f"\nDébut du round : {round_number}\n")
+                print(f"{Style.BRIGHT}\nDébut du round : {round_number}\n{Style.RESET_ALL}")
                 list_pairs_one = new_round.create_pairs_round_one(list_player_ID)
                 selected_tournament.add_round(new_round)
-                print("\n Les matchs à venir pour le Round en cours sont les suivants :\n")
+                print(f"{Style.BRIGHT}\nLes matchs à venir pour le Round en cours"
+                      f"sont les suivants :\n{Style.RESET_ALL}")
                 for pair in list_pairs_one:
                     player1_ID = pair[0]
                     player2_ID = pair[1]
@@ -74,8 +76,9 @@ class RoundController:
                     player2 = Player.get_player_ID(player2_ID)
                     print(f"{player1.get('Surname')} {player1.get('Name')} contre {player2.get('Surname')}"
                           f" {player2.get('Name')}")
-                print("\nAttention, il est impératif de remplir les scores de l'ensemble des matchs du round :\n")
-                print("\nLe score d'un joueur peut être 0, 1 ou 0.5")
+                print(f"{Style.BRIGHT}\nAttention, il est impératif de remplir les scores de"
+                      f"l'ensemble des matchs du round :\n{Style.RESET_ALL}")
+                print(f"{Style.BRIGHT}\nLe score d'un joueur peut être 0, 1 ou 0.5\n{Style.RESET_ALL}")
                 # Joue les matchs pour le Round en cours
 
                 for pair in list_pairs_one:
@@ -123,10 +126,9 @@ class RoundController:
             round_name = f"Round {round_number}"
             new_round = RoundModel(round_name)
             new_round.start_round_model()
-
-            print(f"\nDébut du round : {round_number}\n")
-
-            print("\nAttention, il est impératif de remplir les scores de l'ensemble des matchs du round :\n")
+            print(f"{Style.BRIGHT}\nDébut du round : {round_number}\n{Style.RESET_ALL}")
+            print(f"{Style.BRIGHT}\nAttention, il est impératif de remplir les scores de"
+                  f"l'ensemble des matchs du round :\n{Style.RESET_ALL}")
             previous_result = self.get_previous_results(tournament_ID, round_number)
             # Remise à 0 des points des joueurs au début de chaque round
             self.player_points = {}
