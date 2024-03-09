@@ -127,84 +127,93 @@ class TournamentView:
                 print(f"{counter}. {tournament_name}")
         try:
             choice = int(input("Veuillez sélectionner le numéro du tournoi: "))
+
             if 1 <= choice <= len(list_tournaments):
-                selected_tournament_index = choice - 1
-                selected_tournament = list_tournaments[selected_tournament_index]
-                date_of_begin = selected_tournament.get("Date_de_debut")
-                tournament_name = selected_tournament.get("Nom_du_tournoi")
-                if selected_tournament.get("Date_de_fin") is not None:
-                    date_of_end = selected_tournament.get("Date_de_fin")
+                # Déterminez le décalage en fonction de la valeur de choice
+                offset = (choice - 1) // 2 * 2
+
+                selected_tournament_index = choice - 1 + offset
+                if selected_tournament_index < len(list_tournaments):
+                    if "Nombre_joueurs_inscrits" in list_tournaments[selected_tournament_index]:
+                        selected_tournament_index += 1
+
+                    selected_tournament = list_tournaments[selected_tournament_index]
+                    date_of_begin = selected_tournament.get("Date_de_debut")
+                    tournament_name = selected_tournament.get("Nom_du_tournoi")
                 else:
-                    date_of_end = "Tournoi non terminé."
+                    print("Erreur : Indice de tournoi sélectionné hors des limites.")
             else:
-                print("Votre numéro de choix est invalide")
+                print("Erreur : Choix de tournoi invalide.")
         except ValueError:
             print("Votre numéro de choix est invalide")
-        return tournament_name, date_of_begin, date_of_end
+
+        return tournament_name, date_of_begin
 
     def display_tournament_alphabetically(self):
         '''Permet de ranger la liste des joueurs du tournoi par ordre alphabétique'''
         counter = 0
-        sorted_player = []
-        dict_player = {}
+        list_players_data = []
         list_tournaments = []
+        tournament_data_list = []
         file_path = os.path.join("data", "tournament_data.json")
+
         with open(file_path, "r") as file:
             tournaments = json.load(file)
+
         for tournament in tournaments:
             list_tournaments.append(tournament)
+
         for i, tournament in enumerate(list_tournaments, start=1):
             tournament_name = tournament.get("Nom_du_tournoi")
             if tournament_name is not None:
                 counter += 1
                 print(f"{counter}. {tournament_name}")
-        choice = int(input("Veuillez sélectionner le numéro du tournoi : "))
-        print(list_tournaments)
-        if 1 <= choice <= len(list_tournaments):
-            selected_tournament_index = choice - 1
-            print(selected_tournament_index)
-            selected_tournament = list_tournaments[selected_tournament_index:selected_tournament_index + 3]
-        print("selected_tournament:", selected_tournament)
-        target_tournoi_name = selected_tournament[0].get("Nom_du_tournoi")
-        print("Targer_tournoi_name", target_tournoi_name)
-        target_tournoi_index = None
 
-        # Cherche l'index du tournoi cible dans la liste des tournois
-        for i, tournament in enumerate(tournaments):
-            if tournament.get("Nom_du_tournoi") == target_tournoi_name:
-                target_tournoi_index = i
-                break
+        try:
+            choice = int(input("Veuillez sélectionner le numéro du tournoi : "))
 
-        # Si l'index existe, l'index du tournoi suivant est "None"
-        if target_tournoi_index is not None:
-            next_tournoi_name = None
-            next_tournoi_index = None
+            if 1 <= choice <= len(list_tournaments):
+                # Déterminez le décalage en fonction de la valeur de choice
+                offset = (choice - 1) // 2 * 2
 
-            # Cherche la prochaine occurence de "Nom_du_tournoi" qui vient après le tournoi cible
-            # Récupère l'information du "Nom_du_tournoi" - Calcule son index
-            for j, tournament in enumerate(tournaments[target_tournoi_index + 1:], start=target_tournoi_index + 1):
-                if tournament.get("Nom_du_tournoi"):
-                    next_tournoi_name = tournament.get("Nom_du_tournoi")
-                    print("next_tournoi_name", next_tournoi_name)
-                    next_tournoi_index = j
-                    print("next_tournoi_index", next_tournoi_index)
-                    break
+                selected_tournament_index = choice - 1 + offset
+                if selected_tournament_index < len(list_tournaments):
+                    if "Nombre_joueurs_inscrits" in list_tournaments[selected_tournament_index]:
+                        selected_tournament_index += 1
 
-            if next_tournoi_name is not None:
-                tournament_data_list = tournaments[target_tournoi_index:next_tournoi_index]
+                    tournament_i = list_tournaments[selected_tournament_index]
+                    tournament_i_1 = list_tournaments[selected_tournament_index + 1]
+
+                    # Utilisez ces variables comme nécessaire
+                else:
+                    print("Erreur : Indice de tournoi sélectionné hors des limites.")
+                    return
             else:
-                tournament_data_list = tournaments
-            print("tournament_data_list", tournament_data_list)
+                print("Erreur : Choix de tournoi invalide.")
+                return
+
+            tournament_data_list.append(tournament_i)
+            tournament_data_list.append(tournament_i_1)
+            target_tournoi_name = tournament_data_list[0].get("Nom_du_tournoi")
             list_player = tournament_data_list[1].get("Liste_joueurs_inscrits")
+
             for player in list_player:
-                dict_player.update(player)
-                a = list(dict_player.items())
-                sorted_player.append(a)
-            sorted_name = sorted(sorted_player, key=lambda x: (x[0], x[1]))
-            sorted_name.append(sorted_name)
-            sorted_name.pop()
-            data = {"Nom du tournoi": target_tournoi_name, "Liste_joueurs_triées": sorted_name}
-        return data
+                player_data = []
+                for key, value in player.items():
+                    if key not in ['Score_tournament']:
+                        player_data.append(value)
+
+                list_players_data.append(player_data)
+
+            # Tri alphabétique par le nom du joueur
+            sorted_players_data = sorted(list_players_data, key=lambda x: x[0])
+
+            data = {"Nom du tournoi": target_tournoi_name, "Liste_joueurs_triées": sorted_players_data}
+            return data
+
+        except ValueError:
+            print("Votre numéro de choix est invalide")
+            return
 
     def display_tournament_data(self):
         '''Permet d'afficher les détails d'un tournoi'''
@@ -224,7 +233,6 @@ class TournamentView:
                 counter += 1
                 print(f"{counter}. {tournament_name}")
         choice = int(input("Veuillez sélectionner le numéro du tournoi : "))
-        print(list_tournaments)
         if 1 <= choice <= len(list_tournaments):
             selected_tournament_index = choice - 1
             selected_tournament = list_tournaments[selected_tournament_index:selected_tournament_index + 2]

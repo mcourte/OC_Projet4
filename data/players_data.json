@@ -75,5 +75,33 @@
         "Date_of_birth": "1971-05-23",
         "Player_ID": "YL97819",
         "Score_tournament": 0
+    },
+    {
+        "Surname": "Courté",
+        "Name": "Jean-pierre",
+        "Date_of_birth": "1952-01-14",
+        "Player_ID": "ZN84335",
+        "Score_tournament": 0
+    },
+    {
+        "Surname": "Lagadec",
+        "Name": "Quentin",
+        "Date_of_birth": "1994-02-16",
+        "Player_ID": "RJ02936",
+        "Score_tournament": 0
+    },
+    {
+        "Surname": "Courté",
+        "Name": "Christine",
+        "Date_of_birth": "1960-07-25",
+        "Player_ID": "OT68599",
+        "Score_tournament": 0
+    },
+    {
+        "Surname": "Larvor",
+        "Name": "Aurélie",
+        "Date_of_birth": "1992-06-24",
+        "Player_ID": "AA46889",
+        "Score_tournament": 0
     }
 ]

@@ -95,8 +95,7 @@ class ReportController:
             table_data = []
 
             for player_info in tournament_players:
-                player_data = [val for _, val in player_info]
-                table_data.append(player_data)
+                table_data.append(player_info)
 
             title = f"{tournament_name} - List of Players"
 
@@ -140,9 +139,8 @@ class ReportController:
 
         with open(file_path, "r") as file:
             tournaments = json.load(file)
-        tournament_name, date_of_begin, date_of_end = TournamentView.display_tournament_details(self, tournaments)
-        tournament_dict = {"Nom du tournoi ": tournament_name, "Date de début ": date_of_begin,
-                           "Date de fin": date_of_end}
+        tournament_name, date_of_begin = TournamentView.display_tournament_details(self, tournaments)
+        tournament_dict = {"Nom du tournoi ": tournament_name, "Date de début ": date_of_begin}
         table = tabulate(tournament_dict.items(), headers=[], tablefmt="pretty")
         print(table)
         ReportController.save_report(self, table)

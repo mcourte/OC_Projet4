@@ -14,7 +14,6 @@ class PlayerController:
         '''Permet de lancer les fonctions suivant les choix de l'utilisateur'''
         while True:
             choice = PlayerView().display_player_menu()
-            print(f"User choice: {choice}")
             if choice == "1":
                 self.create_player()
             elif choice == "0":
@@ -42,14 +41,13 @@ class PlayerController:
             "Player_ID": player_ID,
             "Score_tournament": score_tournament,
         }]
-
+        print("Le joueur a bien été ajouté.")
         # Enregistrement des informations dans un fichier JSON :
         file_path = os.path.join("data", "players_data.json")
         data = Player.load_data(self)
         data.extend(player_information)
         with open(file_path, "w") as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-        print("Le joueur a bien été ajouté")
 
     def display_players(self):
         '''Permet de trier les joueurs par ordre alphabétique'''
