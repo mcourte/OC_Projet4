@@ -52,5 +52,6 @@ class PlayerView:
 
     def player_ID(self):
         '''Permet à l'utilisateur de rentrer l'ID du Joueur'''
+        print("Si vous souhaitez créer un ID aléatoire, appuyer sur entrée")
         self.player_ID = input("Quel est l'ID du joueur?")
         return self.player_ID
