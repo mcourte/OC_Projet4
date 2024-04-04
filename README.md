@@ -1,5 +1,11 @@
 # Application pour gérer les tournois d'Echecs 
 
+***Compétences acquises lors de la réalisation de ce projet:***  
+  
+*1. Écrire un code Python robuste en utilisant la PEP 8*  
+*2. Structurer le code d'un programme Python en utilisant le design pattern Model Controller View*  
+*3. Utiliser la programmation orientée objet pour développer un programme Python*  
+  
 ## Etape 1 : Télécharger le code
 
 Cliquer sur le bouton vert "<> Code" puis sur Download ZIP.  
