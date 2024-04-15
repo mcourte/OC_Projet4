@@ -5,6 +5,11 @@
 *1. Écrire un code Python robuste en utilisant la PEP 8*  
 *2. Structurer le code d'un programme Python en utilisant le design pattern Model Controller View*  
 *3. Utiliser la programmation orientée objet pour développer un programme Python*  
+
+## But du projet :  
+
+Création d'une application fonctionnement hors-ligne permettant la gestion de tournois d'échecs.  
+Création de nouveaux joueurs, de tournois, création de rapports en fin de tournois ... 
   
 ## Etape 1 : Télécharger le code
 
